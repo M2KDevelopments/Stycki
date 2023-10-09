@@ -1,0 +1,183 @@
+{
+  "name": "Get Game",
+  "short_name": "Get Game",
+  "version": "1.001",
+  "description": "Instant AI-powered social media responses and 300+ hook lines to level up your interactions",
+  "manifest_version": 3,
+  "minimum_chrome_version": "88",
+  "homepage_url": "https://m2kdevelopments.com/getgame",
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Get Game",
+    "default_icon": {
+      "16": "logo192.png",
+      "32": "logo192.png",
+      "48": "logo192.png",
+      "128": "logo192.png",
+      "192": "logo192.png",
+      "512": "logo192.png"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "declarativeNetRequest",
+    "identity",
+    "gcm",
+    "notifications",
+    "storage",
+    "tabs",
+    "tts"
+  ],
+  "host_permissions": [
+    "https://*.googleapis.com/*",
+    "https://*.facebook.com/*",
+    "https://www.facebook.com/messages/t/*",
+    "https://www.messenger.com/*",
+    "https://m.facebook.com/*",
+    "https://mbasic.facebook.com/*"
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "enabled": true,
+        "id": "ruleset_1",
+        "path": "rules.json"
+      }
+    ]
+  },
+  "icons": {
+    "16": "logo192.png",
+    "32": "logo192.png",
+    "48": "logo192.png",
+    "128": "logo192.png",
+    "512": "logo192.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://getgame.render.com/api/google/*",
+        "https://getgame.render.com/api/linkedin/*"
+      ],
+      "js": [
+        "./content/oauth.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "./libs/toastr.js",
+        "./libs/toastify.js",
+        "./libs/sweetalert.js",
+        "./libs/jquery-3.7.0.min.js",
+        "./functions/texttospeech.js",
+        "./functions/download.js",
+        "./content.js"
+      ],
+      "css": [
+        "./libs/toastify.css",
+        "./libs/toastr.css",
+        "./libs/bootstrap.css",
+        "./styles.css"
+      ],
+      "run_at": "document_end",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "https://*.facebook.com/messages/*",
+        "https://*.messenger.com/t/*"
+      ],
+      "js": [
+        "./content/facebook.messenger.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "https://*.facebook.com/",
+        "https://*.facebook.com/*",
+        "https://*.facebook.com/groups/*"
+      ],
+      "css": [
+        "./css/facebook.css"
+      ],
+      "js": [
+        "./content/facebook.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "https://*.twitter.com/home",
+        "https://*.twitter.com/home/"
+      ],
+      "js": [
+        "./content/twitter.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "https://www.linkedin.com/feed",
+        "https://www.linkedin.com/feed/"
+      ],
+      "css": [
+        "./css/linkedin.css"
+      ],
+      "js": [
+        "./content/linkedin.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "https://*.linkedin.com/messaging/thread/*"
+      ],
+      "js": [
+        "./content/linkedin.messenger.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "https://www.youtube.com/watch*",
+        "https://youtu.be/*",
+        "https://youtuube.com/"
+      ],
+      "css": [
+        "./css/youtube.css"
+      ],
+      "js": [
+        "./content/youtube.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "/icons/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

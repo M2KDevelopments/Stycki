@@ -1,0 +1,151 @@
+[
+    {
+        "id": 1,
+        "priority": 1,
+        "action": {
+            "type": "modifyHeaders",
+            "requestHeaders": [
+                {
+                    "header": "origin",
+                    "operation": "set",
+                    "value": "https://www.facebook.com"
+                },
+                {
+                    "header": "referer",
+                    "operation": "set",
+                    "value": "https://www.facebook.com"
+                },
+                {
+                    "header": "origin",
+                    "operation": "set",
+                    "value": "https://web.facebook.com"
+                },
+                {
+                    "header": "referer",
+                    "operation": "set",
+                    "value": "https://web.facebook.com"
+                }
+            ]
+        },
+        "condition": {
+            "urlFilter": "facebook.com",
+            "resourceTypes": [
+                "main_frame",
+                "sub_frame",
+                "stylesheet",
+                "script",
+                "image",
+                "font",
+                "object",
+                "xmlhttprequest",
+                "ping",
+                "csp_report",
+                "media",
+                "websocket",
+                "webtransport",
+                "webbundle",
+                "other"
+            ]
+        }
+    },
+    {
+        "id": 2,
+        "priority": 1,
+        "action": {
+            "type": "modifyHeaders",
+            "requestHeaders": [
+                {
+                    "header": "origin",
+                    "operation": "set",
+                    "value": "https://www.facebook.com"
+                },
+                {
+                    "header": "referer",
+                    "operation": "set",
+                    "value": "https://www.facebook.com"
+                },
+                {
+                    "header": "origin",
+                    "operation": "set",
+                    "value": "https://web.facebook.com"
+                },
+                {
+                    "header": "referer",
+                    "operation": "set",
+                    "value": "https://web.facebook.com"
+                }
+            ]
+        },
+        "condition": {
+            "urlFilter": "edge-chat.facebook.com",
+            "resourceTypes": [
+                "main_frame",
+                "sub_frame",
+                "stylesheet",
+                "script",
+                "image",
+                "font",
+                "object",
+                "xmlhttprequest",
+                "ping",
+                "csp_report",
+                "media",
+                "websocket",
+                "webtransport",
+                "webbundle",
+                "other"
+            ]
+        }
+    },
+    {
+        "id": 3,
+        "priority": 1,
+        "action": {
+            "type": "modifyHeaders",
+            "requestHeaders": [
+                {
+                    "header": "origin",
+                    "operation": "set",
+                    "value": "https://www.facebook.com"
+                },
+                {
+                    "header": "referer",
+                    "operation": "set",
+                    "value": "https://www.facebook.com"
+                },
+                {
+                    "header": "origin",
+                    "operation": "set",
+                    "value": "https://web.facebook.com"
+                },
+                {
+                    "header": "referer",
+                    "operation": "set",
+                    "value": "https://web.facebook.com"
+                }
+            ]
+        },
+        "condition": {
+            "domains": [
+                "chrome-extension://lekldeochkeeioonhghjlekgiffkcfhc"
+            ],
+            "resourceTypes": [
+                "main_frame",
+                "sub_frame",
+                "stylesheet",
+                "script",
+                "image",
+                "font",
+                "object",
+                "xmlhttprequest",
+                "ping",
+                "csp_report",
+                "media",
+                "websocket",
+                "webtransport",
+                "webbundle",
+                "other"
+            ]
+        }
+    }
+]
