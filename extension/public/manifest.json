@@ -1,14 +1,14 @@
 {
-  "name": "Get Game",
-  "short_name": "Get Game",
+  "name": "Sticky Notes Pro",
+  "short_name": "Sticky Notes Pro",
   "version": "1.001",
-  "description": "Instant AI-powered social media responses and 300+ hook lines to level up your interactions",
+  "description": "Effortlessly create, manage, and organize sticky notes on any webpage, ensuring that you never miss important information or tasks while surfing the internet.",
   "manifest_version": 3,
   "minimum_chrome_version": "88",
-  "homepage_url": "https://m2kdevelopments.com/getgame",
+  "homepage_url": "https://m2kdevelopments.com/apps/stickynotepro",
   "action": {
     "default_popup": "index.html",
-    "default_title": "Get Game",
+    "default_title": "Sticky Notes Pro",
     "default_icon": {
       "16": "logo192.png",
       "32": "logo192.png",
@@ -62,8 +62,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://getgame.render.com/api/google/*",
-        "https://getgame.render.com/api/linkedin/*"
+        "https://www.stickynotespro.com/api/google/*",
+        "https://www.stickynotespro.com/api/linkedin/*"
       ],
       "js": [
         "./content/oauth.js"
@@ -80,8 +80,6 @@
         "./libs/toastify.js",
         "./libs/sweetalert.js",
         "./libs/jquery-3.7.0.min.js",
-        "./functions/texttospeech.js",
-        "./functions/download.js",
         "./content.js"
       ],
       "css": [
@@ -91,83 +89,7 @@
         "./styles.css"
       ],
       "run_at": "document_end",
-      "all_frames": true
-    },
-    {
-      "matches": [
-        "https://*.facebook.com/messages/*",
-        "https://*.messenger.com/t/*"
-      ],
-      "js": [
-        "./content/facebook.messenger.js"
-      ],
-      "run_at": "document_end",
-      "all_frames": true
-    },
-    {
-      "matches": [
-        "https://*.facebook.com/",
-        "https://*.facebook.com/*",
-        "https://*.facebook.com/groups/*"
-      ],
-      "css": [
-        "./css/facebook.css"
-      ],
-      "js": [
-        "./content/facebook.js"
-      ],
-      "run_at": "document_end",
-      "all_frames": true
-    },
-    {
-      "matches": [
-        "https://*.twitter.com/home",
-        "https://*.twitter.com/home/"
-      ],
-      "js": [
-        "./content/twitter.js"
-      ],
-      "run_at": "document_end",
-      "all_frames": true
-    },
-    {
-      "matches": [
-        "https://www.linkedin.com/feed",
-        "https://www.linkedin.com/feed/"
-      ],
-      "css": [
-        "./css/linkedin.css"
-      ],
-      "js": [
-        "./content/linkedin.js"
-      ],
-      "run_at": "document_end",
-      "all_frames": true
-    },
-    {
-      "matches": [
-        "https://*.linkedin.com/messaging/thread/*"
-      ],
-      "js": [
-        "./content/linkedin.messenger.js"
-      ],
-      "run_at": "document_end",
-      "all_frames": true
-    },
-    {
-      "matches": [
-        "https://www.youtube.com/watch*",
-        "https://youtu.be/*",
-        "https://youtuube.com/"
-      ],
-      "css": [
-        "./css/youtube.css"
-      ],
-      "js": [
-        "./content/youtube.js"
-      ],
-      "run_at": "document_end",
-      "all_frames": true
+      "all_frames": false
     }
   ],
   "web_accessible_resources": [

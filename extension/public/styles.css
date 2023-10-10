@@ -1,126 +1,215 @@
-.getgame-hide {
-    display: none;
-}
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
 
-.getgame-button {
-    position: fixed;
-    z-index: 100;
-    top: 3px;
-    right: 165px;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border-style: none;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    background: ghostwhite;
-    transition: all 0.6s;
-    cursor: pointer;
-}
-
-.getgame-button img {
-    width: 30px;
-}
-
-.getgame-button:hover {
-    background: #d7d6d6;
-}
-
-.getgame-message-campaign-button {
-    width: 35px;
-    height: 35px;
-    display: flex;
-    border-radius: 50%;
-    align-items: center;
-    background: #fcfbfb;
-    cursor: pointer;
-    transition: all 0.5s;
-}
-
-.getgame-message-campaign-button img {
-    width: 25px;
-    height: 25px;
-    margin: auto;
-}
-
-.getgame-message-campaign-button:hover {
-    background: #ececec;
-}
-
-.getgame-message-campaign-popup {
-    position: fixed;
-    bottom: 55px;
-    left: 30%;
-    width: 210px;
-    height: 300px;
-    background: linear-gradient(109.6deg, rgb(159 132 1 / 40%) 11.2%, rgba(244, 253, 0, 0.49) 100.2%);
-    border-radius: 7px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-    padding: 10px;
-    font-family: monospace !important;
-    z-index: 1;
-}
-
-.getgame-message-campaign-popup h1 {
-    font-size: 1.1rem;
-    color: ghostwhite;
-    font-family: monospace !important;
-}
-
-.getgame-message-campaign-popup section {
-    min-height: 260px;
-    max-height: 260px;
-    /* overflow-y: scroll; */
-}
-
-.getgame-message-campaign-popup button {
-    width: 95%;
-    font-family: monospace !important;
-    cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    font-size: 1.2rem;
-    text-align: left;
-    color: cornflowerblue;
-    font-weight: 900;
+.stickynotespro {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    width: 80px;
+    height: 80px;
+    padding: 13px;
     border: none;
-    border-radius: 4px;
-}
-
-.getgame-tags {
     display: flex;
-}
-
-.getgame-tags button {
-    min-height: 9px;
-    min-width: 30px;
-    border-radius: 10px;
+    justify-content: center;
+    justify-items: center;
+    border-radius: 50%;
     cursor: pointer;
-    transition: all 0.5s;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
-
-/* Audio on Posts */
-.getgame-post-audio {
-    position: absolute;
+    position: fixed;
     right: 80px;
-    top: 5px;
+    bottom: 80px;
+    transition: 0.6s all;
+    background: white;
 }
 
-.getgame-post-audio button img {
-    width: 30px;
-    height: 30px;
-}
-
-.getgame-post-audio button {
-    background: none;
+.stickynotespro-minimize-all {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    width: 15px;
+    height: 15px;
     border: none;
-    transition: 0.4s all;
-    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
     border-radius: 50%;
-    padding: 7px;
-    margin-left: 10px;
+    cursor: pointer;
+    position: fixed;
+    right: 65px;
+    bottom: 145px;
+    transition: 0.6s all;
+    background: radial-gradient(circle at center, #ffff34, #f4f409);
 }
 
-.getgame-post-audio button:hover {
-    background: #ebebeb;
+.stickynotespro-minimize-all:hover {
+    background: radial-gradient(circle at center, #a3a321, #898906);
+}
+
+.stickynotespro-close-all {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    width: 15px;
+    height: 15px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    position: fixed;
+    right: 52px;
+    bottom: 120px;
+    transition: 0.6s all;
+    background: radial-gradient(circle at center, #ff2c2c, #ff3838);
+}
+
+.stickynotespro-close-all:hover{
+    background: radial-gradient(circle at center, #8c1919, #851d1d);
+}
+
+.stickynotespro:hover {
+    background: #e2e2e2;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+
+.stickynotespro img {
+    text-align: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+}
+
+
+/*
+    Styles for the Notes on the page
+*/
+.stickynotespro-paper {
+    position: absolute;
+    z-index: 99999;
+}
+
+.stickynotespro-paper section {
+    width: 250px;
+    height: 300px;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    opacity: 0.8;
+    transition: 0.7s all;
+}
+
+.stickynotespro-paper section:hover {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    opacity: 1;
+}
+
+.stickynotespro-paper section:active {
+    opacity: 1;
+}
+
+
+.stickynotespro-paper .appbar {
+    display: flex;
+    width: 100%;
+    height: 20%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    cursor: grab;
+    height: 10%;
+    padding-top: 5px;
+}
+
+.stickynotespro-paper p {
+    max-width: 58%;
+    width: 58%;
+    height: 26px;
+    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-align: left;
+    padding: 0px;
+    padding-left: 11px;
+    margin: 0px;
+    color: #5c5c5c;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.stickynotespro-paper article {
+    width: 245px;
+    height: 90%;
+}
+
+.stickynotespro-paper textarea {
+    width: 100%;
+    height: 100%;
+    margin-left: 3px;
+    max-height: 250px;
+    padding: 6px;
+    font-size: 1.0rem;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 4px;
+    background: inherit;
+    color: #383838 !important;
+}
+
+.stickynotespro-paper textarea::-webkit-scrollbar {
+    width: 20px;
+}
+
+.stickynotespro-paper textarea ::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.stickynotespro-paper textarea::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+
+.stickynotespro-paper textarea::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
+}
+
+
+.stickynotespro-paper nav {
+    display: flex;
+    justify-items: center;
+}
+
+.stickynotespro-paper button {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    transition: 0.6s all;
+    border: none;
+    border-radius: 50%;
+    margin: 3px 3px;
+}
+
+.stickynotespro-paper input[type=color] {
+    height: 20px;
+    padding: 0px;
+    margin-right: 4px;
+    width: 35px;
+}
+
+.stickynotespro-paper button[title="Close"] {
+    background: radial-gradient(circle at center, #ff2c2c, #cf3131);
+}
+
+.stickynotespro-paper button[title="Close"]:hover {
+    background: #770000;
+}
+
+.stickynotespro-paper button[title="Minimize"] {
+    background: radial-gradient(circle at center, #ffff34, #c0c002);
+}
+
+.stickynotespro-paper button[title="Minimize"]:hover {
+    background: #797900;
+}
+
+.stickynotespro-paper button[title="Maximize"] {
+    background: radial-gradient(circle at center, #40ff40, green);
+}
+
+.stickynotespro-paper button[title="Maximize"]:hover {
+    background: #014601;
 }

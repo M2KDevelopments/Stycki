@@ -34,7 +34,6 @@ function App({ fullScreen }) {
         const token = await API.getAccessToken();
         if(token){
           const res = await API.GetAPI(`/api/user`);
-          console.log(user);
           if(res.result) setUser(res.user);
         }
       } catch (e) {
