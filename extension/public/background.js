@@ -8,7 +8,7 @@ const headers = {
   'Content-Type': 'application/json; charset=utf-8',
 };
 
-const FIREBASE_SENDER_ID = "297012997658";
+const FIREBASE_SENDER_ID = "780886334097";
  
 chrome.runtime.onInstalled.addListener(async function (details) {
 

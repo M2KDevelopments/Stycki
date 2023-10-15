@@ -7,15 +7,12 @@ import serviceAccount from './utils/firebase.json';
 
 if (!admin.apps.length) admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://swearguard-default-rtdb.firebaseio.com"
 });
 connectToDatabase();
 
 export default async function handler(req, res) {
     try {
         if (req.method.toUpperCase() === 'GET') await get(req, res);
-        else if (req.method.toUpperCase() === 'POST') await post(req, res);
-        else if (req.method.toUpperCase() === 'PATCH') await patch(req, res);
         else if (req.method.toUpperCase() === 'DELETE') await remove(req, res);
         else return res.status(404).json({ result: false, message: "Not Found" });
     } catch (e) {

@@ -4,7 +4,7 @@ export async function connectToDatabase() {
 
     if (mongoose.connection.readyState !== 1 && mongoose.connection.readyState !== 2) {
         // Mongooes Setup
-        const databasename = 'SwearGuard';
+        const databasename = 'StickyNotesPro';
         const user = process.env.MONGO_DB_USER;
         const password = process.env.MONOG_DB_PASS;
         const options = { useNewUrlParser: true, useUnifiedTopology: true };

@@ -16,10 +16,10 @@ export default async function handler(req, res) {
     if (exists) {
         exists.count++;
         await exists.save();
-        return res.status(200).redirect("https://www.swearguard.com/extension/uninstall");
+        return res.status(200).redirect("https://stickynotespro.m2kdevelopments.com/extension/uninstall");
     }
 
     const uninstall = new Uninstall({ email: tokenuser ? tokenuser.email : email, chromeID: id });
     await uninstall.save();
-    return res.status(200).redirect("https://www.swearguard.com/extension/uninstall");
+    return res.status(200).redirect("https://stickynotespro.m2kdevelopments.com/extension/uninstall");
 }

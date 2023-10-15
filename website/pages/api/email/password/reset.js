@@ -19,28 +19,28 @@ export default async function passwordReset(req, res) {
 
         if (!uid) {
             console.log('No user ID', useremail);
-            return res.status(200).redirect(dev ? `http://localhost:3000/password/failed` : `http://www.swearguard.com/password/failed`)
+            return res.status(200).redirect(dev ? `http://localhost:3000/password/failed` : `http://stickynotespro.m2kdevelopments.com/password/failed`)
         }
 
         if (!newPassword || !confirmPassword) {
             console.log('Missing required fields',useremail);
-            return res.status(200).redirect(dev ? `http://localhost:3000/password/failed` : `http://www.swearguard.com/password/failed`)
+            return res.status(200).redirect(dev ? `http://localhost:3000/password/failed` : `http://stickynotespro.m2kdevelopments.com/password/failed`)
         }
 
         if (newPassword !== confirmPassword) {
             console.log('New password and confirm password do not match', useremail);
-            return res.status(200).redirect(dev ? `http://localhost:3000/password/failed` : `http://www.swearguard.com/password/failed`)
+            return res.status(200).redirect(dev ? `http://localhost:3000/password/failed` : `http://stickynotespro.m2kdevelopments.com/password/failed`)
         }
 
         const user = await User.findById(uid).select("email password");
         if (!user) {
             console.log('No user found', useremail);
-            return res.status(200).redirect(dev ? `http://localhost:3000/password/failed` : `http://www.swearguard.com/password/failed`)
+            return res.status(200).redirect(dev ? `http://localhost:3000/password/failed` : `http://stickynotespro.m2kdevelopments.com/password/failed`)
         }
 
         if (Date.now() > new Date(expires).getTime()) {
             console.log('Expired Time to change password', useremail);
-            return res.status(200).redirect(dev ? `http://localhost:3000/password/failed` : `http://www.swearguard.com/password/failed`)
+            return res.status(200).redirect(dev ? `http://localhost:3000/password/failed` : `http://stickynotespro.m2kdevelopments.com/password/failed`)
         }
 
 
@@ -56,9 +56,9 @@ export default async function passwordReset(req, res) {
         await user.save();
 
         console.log(`Updated Password For`, user.email);
-        return res.status(200).redirect(dev ? `http://localhost:3000/password/success` : `http://www.swearguard.com/password/success`)
+        return res.status(200).redirect(dev ? `http://localhost:3000/password/success` : `http://stickynotespro.m2kdevelopments.com/password/success`)
     } catch (e) {
         console.log(e.message);
-        return res.status(200).redirect(dev ? `http://localhost:3000/password/failed` : `http://www.swearguard.com/password/failed`)
+        return res.status(200).redirect(dev ? `http://localhost:3000/password/failed` : `http://stickynotespro.m2kdevelopments.com/password/failed`)
     }
 }

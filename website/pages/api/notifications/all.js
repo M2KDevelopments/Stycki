@@ -5,7 +5,7 @@ import serviceAccount from '../utils/firebase.json';
 
 if (!admin.apps.length) admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://swearguard-default-rtdb.firebaseio.com"
+    
 });
 
 connectToDatabase();
@@ -23,13 +23,13 @@ export default async function handler(req, res) {
             mutable_content: true,
             content_available: true,
             priority: "high",
-            notification: { title: title, body: message, image: image ? image : "https://www.swearguard.com/icon.png" },
+            notification: { title: title, body: message, image: image ? image : "https://stickynotespro.m2kdevelopments.com/icon.png" },
             tokens: gcms,
             data: {
                 content: JSON.stringify({
                     id: parseInt(Math.random() * 100000000).toString(),
                     payload: {
-                        from: from ? from : "Swear Guard",
+                        from: from ? from : "Sticky Notes Pro",
                         url,
                         button1,
                         button2,

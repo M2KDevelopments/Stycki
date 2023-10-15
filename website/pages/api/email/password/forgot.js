@@ -34,7 +34,7 @@ export default async function forgotPassword(req, res) {
         <div style="width:100vw;background:rgb(255, 255, 255);border: 0px solid #959da533;border-radius:20px;box-shadow: #959da533 0px 8px 24px;">
         
             <div style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;color:rgb(67, 96, 121);text-align:center;padding:20px;margin:auto 0;width:500px;height:400px;background:rgb(255, 255, 255);border: 0px solid #959da533;border-radius:20px;box-shadow: #959da533 0px 8px 24px;">
-                <img src="https://www.swearguard.com/logo.png" alt="Swear Guard" width="250px"/>
+                <img src="https://stickynotespro.m2kdevelopments.com/logo.png" alt="Sticky Notes Pro" width="250px"/>
                 <br/>
                 <h2 style="color:#203444;">
                     Hey there, ${user.name}, if you want to reset your password click the button or the link below.
@@ -42,7 +42,7 @@ export default async function forgotPassword(req, res) {
                 <h3>
                     <a 
                         style="color: #e4e4e4;text-decoration: none; margin: auto 0; text-align:center;font-weight:900; font-size: 2rem;width:90%; padding:10px 20px; background:linear-gradient(30deg, rgb(161, 62, 247), rgb(4, 62, 130));border: 0px solid #959da533;border-radius:60px;box-shadow: #959da533 0px 8px 24px;"
-                        href="${dev ? `http://localhost:3000/password?user=${userToken}` : `https://www.swearguard.com/password?user=${userToken}`}">Reset Password</a>
+                        href="${dev ? `http://localhost:3000/password?user=${userToken}` : `https://stickynotespro.m2kdevelopments.com/password?user=${userToken}`}">Reset Password</a>
                 <h3/>
             </div>
 

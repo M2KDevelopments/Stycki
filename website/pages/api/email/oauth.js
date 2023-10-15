@@ -51,13 +51,13 @@ export default async function oauth(req, res) {
             user.verified = true;
             const html = `
             <div style="width:100vw;background:rgb(255, 255, 255);border: 0px solid #959da533;border-radius:20px;box-shadow: #959da533 0px 8px 24px;">
-                <img src="https://www.swearguard.com/logo.png" alt="Swear Guard" width="250px"/>
+                <img src="https://stickynotespro.m2kdevelopments.com/logo.png" alt="Sticky Notes Pro" width="250px"/>
                 <br/>
                 <div style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;color:rgb(67, 96, 121);text-align:center;padding:20px;margin:auto 0;width:500px;height:400px;background:rgb(255, 255, 255);border: 0px solid #959da533;border-radius:20px;box-shadow: #959da533 0px 8px 24px;">
                     <h2 style="color:#203444;">
-                        Hey there, ${user.name}, this must be your first time signing up for <a href="https://www.swearguard.com"><strong>Swear Guard</strong></a>.
+                        Hey there, ${user.name}, this must be your first time signing up for <a href="https://stickynotespro.m2kdevelopments.com"><strong>Sticky Notes Pro</strong></a>.
                     </h2>
-                    <h2>Welcome to Swear Guard</h2>
+                    <h2>Welcome to Sticky Notes Pro</h2>
                     <br/><br/><br/>
                 </div>
     

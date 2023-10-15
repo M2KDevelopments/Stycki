@@ -47,7 +47,7 @@ export default async function signUp(req, res) {
                 // email user account
                 try {
                     console.log('Waiting for verification 1')
-                    await send([exists.email], 'Verification Email', `Welcome back ${exists.name} (${exists.email}) to Swear Guard`);
+                    await send([exists.email], 'Verification Email', `Welcome back ${exists.name} (${exists.email}) to Sticky Notes Pro`);
                 } catch (err) {
                     console.log(err.message);
                 }
@@ -55,7 +55,7 @@ export default async function signUp(req, res) {
                 // email user account
                 try {
                     console.log('Waiting for verification 2')
-                    await send([exists.email], 'Verification Email', `Welcome back ${exists.name} (${exists.email}) to Swear Guard`);
+                    await send([exists.email], 'Verification Email', `Welcome back ${exists.name} (${exists.email}) to Sticky Notes Pro`);
                 } catch (err) {
                     console.log(err.message);
                 }
@@ -117,10 +117,10 @@ export default async function signUp(req, res) {
         <div style="width:100vw;background:rgb(255, 255, 255);border: 0px solid #959da533;border-radius:20px;box-shadow: #959da533 0px 8px 24px;">
         
         <div style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;color:rgb(67, 96, 121);text-align:center;padding:20px;margin:auto 0;width:500px;height:700px;background:rgb(255, 255, 255);border: 0px solid #959da533;border-radius:20px;box-shadow: #959da533 0px 8px 24px;">
-            <img src="https://www.swearguard.com/logo.png" alt="Swear Guard" width="250px"/>
+            <img src="https://stickynotespro.m2kdevelopments.com/logo.png" alt="Sticky Notes Pro" width="250px"/>
             <br/>
             <h2 style="color:#203444;">
-                Welcome to <i>${user.name} (${user.email})</i> <b>Swear Guard</b>. You're Awesome for Registering with us.
+                Welcome to <i>${user.name} (${user.email})</i> <b>Sticky Notes Pro</b>. You're Awesome for Registering with us.
             </h2>
             <br/><br/><br/>
             <h1>YOUR PASSWORD</h1>
@@ -129,7 +129,7 @@ export default async function signUp(req, res) {
             </div>
             <br/><br/>
             <h2>
-                <a href="https://www.swearguard.com">Go To <strong>Swear Guard</strong> Website</a>
+                <a href="https://stickynotespro.m2kdevelopments.com">Go To <strong>Sticky Notes Pro</strong> Website</a>
             </h2>
         </div>
 
@@ -142,7 +142,7 @@ export default async function signUp(req, res) {
             console.log(err.message);
         }
 
-        return res.status(201).json({ result: true, message: `Thank you for signing up to Swear Guard. Your Awesome!` })
+        return res.status(201).json({ result: true, message: `Thank you for signing up to Sticky Notes Pro. Your Awesome!` })
     } catch (e) {
         console.log(e.message);
         return res.status(500).json({ result: false, message: e.message });
