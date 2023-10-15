@@ -50,7 +50,7 @@ export default function Home() {
           </div>
 
           <div className='flex justify-end text-right'>
-            <Link className='px-2 hover:text-cyan-700' href="https://m2kdevelopments.com">About Us</Link>
+            <Link className='px-2 hover:text-cyan-700' href="https://youtube.com">Tutorials</Link>
             <Link className='px-2 hover:text-purple-700' href="https://support.m2kdevelopments.com">Help Desk</Link>
             <Link className='px-2 hover:text-pink-600' href="/support">Support</Link>
             <Link className='px-2 text-blue-900 font-bold hover:text-pink-600' href="https://chrome.google.com/webstore/detail/gnpgjlgmdekplbmfpokppoajajdkdkdp">Get Extension</Link>
@@ -202,7 +202,7 @@ export default function Home() {
               ]}
             />
             <PriceCard
-              title=""
+              title="Basic Plan"
               description=""
               url="https://stickynotespro.m2kdevelopments.com/api/buy?id=1"
               price={8}
@@ -215,7 +215,7 @@ export default function Home() {
               ]}
             />
             <PriceCard
-              title="Premium"
+              title="Premium Plan"
               description=""
               url="https://stickynotespro.m2kdevelopments.com/api/buy?id=2"
               price={15}

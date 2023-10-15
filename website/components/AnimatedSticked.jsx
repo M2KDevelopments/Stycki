@@ -11,7 +11,7 @@ function AnimatedSticked() {
         for (let i = 0; i < count; i++) {
             const left = parseInt(100 * Math.random()) > 50 ? true : false;
             const x = left ? parseInt(Math.random() * width * 0.2) : ((width * 0.7) + parseInt(Math.random() * width * 0.2));
-            const y = parseInt(Math.random() * document.documentElement.clientHeight * 2.8);
+            const y = parseInt(Math.random() * document.documentElement.clientHeight * 2.5);
             const colors = ["red", "orange", "yellow", "yellow", "green", "cyan", "blue", "violet", "magenta", "pink", "purple", "slate", "black"]
             const color = colors[parseInt(Math.random() * colors.length)];
             const rotation = parseInt(Math.random() * 70);
