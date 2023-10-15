@@ -14,8 +14,8 @@ function Footer() {
           <Link className='text-white mobile:text-2xl tablet:text-lg w-full block transition-all duration-300 hover:text-slate-300' href="/support#faq">FAQ</Link>
           <Link className='text-white mobile:text-2xl tablet:text-lg w-full block transition-all duration-300 hover:text-slate-300' href="/developers">Developers</Link>
           <Link className='text-white mobile:text-2xl tablet:text-lg w-full block transition-all duration-300 hover:text-slate-300' href="/suggestion">Suggestion Box</Link>
-          <Link className='text-white mobile:text-2xl tablet:text-lg w-full block transition-all duration-300 hover:text-slate-300' href="/privacypolicy">Privacy Policy</Link>
-          <Link className='text-white mobile:text-2xl tablet:text-lg w-full block transition-all duration-300 hover:text-slate-300' href="/terms">Terms</Link>
+          <Link className='text-white mobile:text-2xl tablet:text-lg w-full block transition-all duration-300 hover:text-slate-300' href="https://m2kdevelopments.com/privacypolicy">Privacy Policy</Link>
+          <Link className='text-white mobile:text-2xl tablet:text-lg w-full block transition-all duration-300 hover:text-slate-300' href="https://m2kdevelopments.com/terms">Terms</Link>
           <p className='text-slate-300'>We value your privacy. We do not collect or store your browsing history or personal data.</p>
         </div>
         
