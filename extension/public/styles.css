@@ -57,7 +57,7 @@
     background: radial-gradient(circle at center, #ff2c2c, #ff3838);
 }
 
-.stickynotespro-close-all:hover{
+.stickynotespro-close-all:hover {
     background: radial-gradient(circle at center, #8c1919, #851d1d);
 }
 
@@ -144,6 +144,7 @@
     font-family: 'Poppins', sans-serif;
     border-radius: 4px;
     background: inherit;
+    border-color: lightgrey;
     color: #383838 !important;
 }
 
@@ -212,4 +213,41 @@
 
 .stickynotespro-paper button[title="Maximize"]:hover {
     background: #014601;
+}
+
+
+/*Collapsable Side Bar*/
+.stickynotespro-sidebar-dialog{
+    padding: 0;
+    margin: 0px;
+    min-width: 100vw;
+    min-height: 100vh;
+    border: none;
+    background: #0000005e;
+}
+
+.stickynotespro-sidebar {
+    position: fixed;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    width: 315px;
+    height: 70%;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    right: 0px;
+    top: 10%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background: #f2f2f2aa;
+    overflow-y: scroll;
+    align-items: center;
+    padding: 20px;
+    max-height: 60%;
+}
+
+.stickynotespro-sidebar input[type="search"]{
+    width: 94%;
+    margin: 6px;
+    border-radius: 20px;
+    padding: 0px 10px;
 }

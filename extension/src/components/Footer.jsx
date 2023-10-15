@@ -17,7 +17,7 @@ function Footer() {
 
     const onToggle = () => chrome.storage.local.set({ active: !active }, () => setActive(!active));
  
-    const onWebsite = (route, type = "panel") => chrome.windows.create({ url: `https://m2kdevelopments.com/getgame${route}?utm_source=chrome&utm_medium=extension&utm_campaign=promo`, type });
+    const onWebsite = (route, type = "panel") => chrome.windows.create({ url: `https://stickynotespro.com/${route}?utm_source=chrome&utm_medium=extension&utm_campaign=promo`, type });
 
     return (
         <div className='footer'>
@@ -35,7 +35,7 @@ function Footer() {
                 }}
             />
             <div className='footer-actions'>
-                <ToolTip text="Share Get Game">
+                <ToolTip text="Share Sticky Notes Pro">
                     <Link to="/share">
                         <FaShareAlt size={20} className="svg" />
                     </Link>

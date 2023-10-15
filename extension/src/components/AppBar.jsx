@@ -7,8 +7,8 @@ import Navigation from './Navigation'
 function AppBar({ children, nologo }) {
     return (
         <div>
-            <Navigation />
             {nologo ? null : <Logo />}
+            <Navigation />
             <Container>
                 {children}
             </Container>

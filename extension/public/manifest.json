@@ -2,10 +2,10 @@
   "name": "Sticky Notes Pro",
   "short_name": "Sticky Notes Pro",
   "version": "1.001",
-  "description": "Effortlessly create, manage, and organize sticky notes on any webpage, ensuring that you never miss important information or tasks while surfing the internet.",
+  "description": "📒Effortlessly create, manage, and organize sticky notes📝, ensuring that you never miss important information",
   "manifest_version": 3,
   "minimum_chrome_version": "88",
-  "homepage_url": "https://m2kdevelopments.com/apps/stickynotepro",
+  "homepage_url": "https://stickynotespro.m2kdevelopments.com",
   "action": {
     "default_popup": "index.html",
     "default_title": "Sticky Notes Pro",
@@ -20,32 +20,12 @@
   },
   "permissions": [
     "activeTab",
-    "contextMenus",
-    "declarativeNetRequest",
     "identity",
     "gcm",
     "notifications",
     "storage",
-    "tabs",
-    "tts"
+    "tabs"
   ],
-  "host_permissions": [
-    "https://*.googleapis.com/*",
-    "https://*.facebook.com/*",
-    "https://www.facebook.com/messages/t/*",
-    "https://www.messenger.com/*",
-    "https://m.facebook.com/*",
-    "https://mbasic.facebook.com/*"
-  ],
-  "declarative_net_request": {
-    "rule_resources": [
-      {
-        "enabled": true,
-        "id": "ruleset_1",
-        "path": "rules.json"
-      }
-    ]
-  },
   "icons": {
     "16": "logo192.png",
     "32": "logo192.png",
@@ -62,8 +42,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.stickynotespro.com/api/google/*",
-        "https://www.stickynotespro.com/api/linkedin/*"
+        "https://www.stickynotespro.com/api/google/*"
       ],
       "js": [
         "./content/oauth.js"

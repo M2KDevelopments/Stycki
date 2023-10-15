@@ -1,19 +1,21 @@
 /*global chrome*/
-import React, { useContext, useEffect, useState } from 'react'
-import { FaPowerOff, FaUserCircle } from 'react-icons/fa'
+import React, { useContext, useEffect, useState } from 'react';
+import { FaPowerOff, FaUserCircle } from 'react-icons/fa';
 import { MdNotificationsActive } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import ToolTip from './ToolTip';
 import { Badge } from 'react-bootstrap';
-import {  ContextUser } from '../App';
+import { ContextUser } from '../App';
+import { Button } from '@mui/material';
+import { AiFillDollarCircle } from 'react-icons/ai';
+
+
 
 function Navigation() {
 
   const user = useContext(ContextUser)
   const [notifications, setNotifications] = useState(0);
 
-  
-  
   useEffect(() => {
     async function countNotifications() {
 
@@ -27,7 +29,7 @@ function Navigation() {
   }, []);
 
 
-  
+
   return (
     <div className='navigation'>
       {
@@ -35,20 +37,21 @@ function Navigation() {
       }
       <ToolTip text="Notifications">
         <Link to="/notifications">
-          <MdNotificationsActive color="#2b9ef0" size={20} class="svg" />
+          <MdNotificationsActive color="#5f92ff" size={20} class="svg" />
         </Link>
       </ToolTip>
       <ToolTip text={user ? "Logout" : "Login"}>
         {
           user ?
             <Link to="/account" title={user.email}>
-              <FaUserCircle color="#2b9ef0" size={16} class="svg" />
+              <FaUserCircle color="#5f92ff" size={16} class="svg" />
             </Link> :
             <Link to="/login">
-              <FaPowerOff color="#2b9ef0" size={16} class="svg" />
+              <FaPowerOff color="#5f92ff" size={16} class="svg" />
             </Link>
         }
       </ToolTip>
+      <Button size='small' color='info' variant='contained' style={{ fontSize: "0.6rem", borderRadius: 24, marginRight: 10, zIndex: 1, position: "fixed", left: 10 }} onClick={() => chrome.tabs.create({ url: 'https://stickynotespro.com/priceplans' })}><AiFillDollarCircle size={20}/>{" "}Buy More Notes</Button>
     </div>
   )
 }

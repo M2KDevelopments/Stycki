@@ -1,0 +1,26 @@
+[
+  {
+      "question": "What is the purpose of your product?",
+      "answer": "Our product is designed to simplify task management and improve productivity for individuals and teams."
+  },
+  {
+      "question": "How do I get started with your service?",
+      "answer": "Getting started is easy. Simply sign up for an account, log in, and you'll be guided through the setup process. You can also watch our tutorial videos for a step-by-step guide."
+  },
+  {
+      "question": "Is there a free trial available?",
+      "answer": "Yes, we offer a free 30-day trial for all new users. You can explore all the features and see how our product can benefit you."
+  },
+  {
+      "question": "What platforms does your product support?",
+      "answer": "Our product is available as a web application, and we have mobile apps for both Android and iOS platforms. You can access it from your browser or mobile devices."
+  },
+  {
+      "question": "Is my data secure with your service?",
+      "answer": "Yes, we take data security seriously. We use state-of-the-art encryption and follow industry best practices to protect your data. Your information is safe with us."
+  },
+  {
+      "question": "How can I contact your support team?",
+      "answer": "You can reach our support team via email at support@example.com or through our live chat feature on our website. We're here to help with any questions or issues you may have."
+  }
+]

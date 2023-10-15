@@ -17,7 +17,7 @@ import { AiOutlineMail } from 'react-icons/ai'
 
 
 const url = 'https://chrome.google.com/webstore/detail/hogkcoijhcfikefcdmongnhlhooggfio';
-const description = `Just stumbled upon Get Game, this awesome Chrome extension that keeps your browsing clean and free from profanity and adult content. You've got to check it out!`;
+const description = `Just stumbled upon Sticky Notes Pro, this awesome Chrome extension that keeps your browsing clean and free from profanity and adult content. You've got to check it out!`;
 
 function PageShare() {
 
@@ -48,7 +48,7 @@ function PageShare() {
                         </WhatsappShareButton>
                     </Col>
                     <Col>
-                        <LinkedinShareButton title="Get Game" summary={description} source="Get Game Chrome Extension" url={url}>
+                        <LinkedinShareButton title="Sticky Notes Pro" summary={description} source="Sticky Notes Pro Chrome Extension" url={url}>
                             <Button variant="contained" color="primary" style={{ borderRadius: 20, width: 200, margin: 10 }}>
                                 <FaLinkedin /> Linkedin
                             </Button>
@@ -56,7 +56,7 @@ function PageShare() {
                     </Col>
 
                     <Col>
-                        <PinterestShareButton title="Get Game" description={description} media='https://getgame.onrender.com/banner.png' url={url}>
+                        <PinterestShareButton title="Sticky Notes Pro" description={description} media='https://getgame.onrender.com/banner.png' url={url}>
                             <Button variant="contained" color="error" style={{ borderRadius: 20, width: 200, margin: 10 }}>
                                 <FaPinterest /> Pinterest
                             </Button>
@@ -65,7 +65,7 @@ function PageShare() {
 
 
                     <Col>
-                        <TwitterShareButton title="Get Game" hashtags={["getgame", 'coollines', 'chrome']} url={url}>
+                        <TwitterShareButton title="Sticky Notes Pro" hashtags={["getgame", 'coollines', 'chrome']} url={url}>
                             <Button variant="contained" color="primary" style={{ borderRadius: 20, width: 200, margin: 10 }}>
                                 <FaTwitter /> Twitter
                             </Button>
@@ -73,7 +73,7 @@ function PageShare() {
                     </Col>
 
                     <Col>
-                        <TumblrShareButton title="Get Game" url={url} tags={['getgame', 'coollines']} caption={description}>
+                        <TumblrShareButton title="Sticky Notes Pro" url={url} tags={['getgame', 'coollines']} caption={description}>
                             <Button variant="contained" color="info" style={{ borderRadius: 20, width: 200, margin: 10 }}>
                                 <FaTumblr /> Tumblr
                             </Button>
@@ -81,7 +81,7 @@ function PageShare() {
                     </Col>
 
                     <Col>
-                        <EmailShareButton url={url} subject='Get Game' body={description}>
+                        <EmailShareButton url={url} subject='Sticky Notes Pro' body={description}>
                             <Button variant="contained" color="warning" style={{ borderRadius: 20, width: 200, margin: 10 }}>
                                 <AiOutlineMail /> Email
                             </Button>
