@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
 import axios from "axios";
 const instance = axios.create();
-const authUrl = 'https://getgame.onrender.com'; //Get Urls for APIs
+const authUrl = 'https://stickynotespro.m2kdevelopments.com'; //Get Urls for APIs
 
-export const URL = 'https://getgame.onrender.com';
+export const URL = 'https://stickynotespro.m2kdevelopments.com';
 export const GetAPI = (route, auth = true) => Get(`${authUrl}${route}`, auth);
 export const PostAPI = (route, body = {}, auth = true) => Post(`${authUrl}${route}`, body, auth);
 export const PatchAPI = (route, body = {}, auth = true) => Patch(`${authUrl}${route}`, body, auth);

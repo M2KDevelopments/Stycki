@@ -10,7 +10,10 @@ import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, Ac
 import 'react-accessible-accordion/dist/fancy-example.css';
 import FAQ from '../utils/faq.json';
 import AnimatedSticked from '../components/AnimatedSticked';
-import { AnimationGoogleSheets, AnimationIntegration } from '../components/Lotties';
+import { AnimationIntegration } from '../components/Lotties';
+import FEATURES from '../utils/features.json';
+import PriceCard from '../components/PriceCard';
+
 
 export default function Home() {
   return (
@@ -132,7 +135,7 @@ export default function Home() {
           <div>
             <h2 className='text-6xl my-4'>Features</h2>
             {/* Styles in the css file */}
-            <ol>
+            <ol className='tick'>
               <li>Responsive Design</li>
               <li>Intuitive User Interface</li>
               <li>Customizable Themes</li>
@@ -164,7 +167,7 @@ export default function Home() {
           <div>
             <h2 className='text-6xl my-4'>Integrations</h2>
             {/* Styles in the css file */}
-            <ol>
+            <ol className='tick'>
               <li>Google Drive</li>
               <li>Google Sheets</li>
               <li>Evernote</li>
@@ -178,6 +181,54 @@ export default function Home() {
             </ol>
           </div>
           <AnimationIntegration />
+        </section>
+
+
+        {/* Pricing */}
+        <section>
+          <h2>Pricing</h2>
+          <div className='mx-auto my-10 grid mobile:grid-cols-1 tablet:grid-cols-2'>
+            <PriceCard
+              title="Free Forever"
+              description=""
+              url="https://chrome.google.com/webstore/detail/gnpgjlgmdekplbmfpokppoajajdkdkdp"
+              price={0}
+              discount={0}
+              features={[...FEATURES,
+              { title: "40 Free Notes", enabled: true },
+              { title: "API Integrations", enabled: false },
+              { title: "Sync with Mobile App", enabled: false },
+              { title: "Export as AI Voice", enabled: false }
+              ]}
+            />
+            <PriceCard
+              title=""
+              description=""
+              url="https://stickynotespro.m2kdevelopments.com/api/buy?id=1"
+              price={8}
+              discount={25}
+              features={[...FEATURES,
+              { title: "400 More Notes", enabled: true },
+              { title: "API Integrations", enabled: true },
+              { title: "Sync with Mobile App", enabled: true },
+              { title: "Export as AI Voice", enabled: false }
+              ]}
+            />
+            <PriceCard
+              title="Premium"
+              description=""
+              url="https://stickynotespro.m2kdevelopments.com/api/buy?id=2"
+              price={15}
+              discount={25}
+              features={[...FEATURES,
+              { title: "2000 More Notes", enabled: true },
+              { title: "API Integrations", enabled: true },
+              { title: "Sync with Mobile App", enabled: true },
+              { title: "Export as AI Voice", enabled: true }
+              ]}
+            />
+          </div>
+
         </section>
 
 

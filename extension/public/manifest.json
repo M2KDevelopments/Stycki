@@ -42,7 +42,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.stickynotespro.com/api/google/*"
+        "https://stickynotespro.m2kdevelopments.com/api/google/*"
       ],
       "js": [
         "./content/oauth.js"

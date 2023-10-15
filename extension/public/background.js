@@ -3,10 +3,6 @@
  * author: Martin Kululanga
  * github: https://github.com/m2kdevelopments
  */
-const headers = {
-  'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
-  'Content-Type': 'application/json; charset=utf-8',
-};
 
 const FIREBASE_SENDER_ID = "780886334097";
  
@@ -14,13 +10,13 @@ chrome.runtime.onInstalled.addListener(async function (details) {
 
   const INSTALL = "install", UPDATE = "update", CHROME_UPDATE = "chrome_update", SHARED_UPDATE = "shared_module_update";
 
-  if (details.reason === INSTALL) chrome.tabs.create({ url: "https://www.stickynotespro.com/installed" })
+  if (details.reason === INSTALL) chrome.tabs.create({ url: "https://stickynotespro.m2kdevelopments.com/installed" })
 
   if (details.reason === INSTALL || details.reason === UPDATE || details.reason === CHROME_UPDATE || details.reason === SHARED_UPDATE) {
     // Initialize Firebase Notifications
-    initFirebaseNotifications('www.stickynotespro.com');
+    initFirebaseNotifications('https://stickynotespro.m2kdevelopments.com');
     countNotifications();
-    chrome.runtime.setUninstallURL(`https://www.stickynotespro.com/uninstalled`);
+    chrome.runtime.setUninstallURL(`https://stickynotespro.m2kdevelopments.com/uninstalled`);
   }
 
 });

@@ -43,7 +43,7 @@ function Navigation() {
       <ToolTip text={user ? "Logout" : "Login"}>
         {
           user ?
-            <Link to="/account" title={user.email}>
+            <Link to="/account" title={user.name}>
               <FaUserCircle color="#5f92ff" size={16} class="svg" />
             </Link> :
             <Link to="/login">

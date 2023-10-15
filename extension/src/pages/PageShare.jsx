@@ -56,7 +56,7 @@ function PageShare() {
                     </Col>
 
                     <Col>
-                        <PinterestShareButton title="Sticky Notes Pro" description={description} media='https://getgame.onrender.com/banner.png' url={url}>
+                        <PinterestShareButton title="Sticky Notes Pro" description={description} media='https://stickynotespro.m2kdevelopments.com/banner.png' url={url}>
                             <Button variant="contained" color="error" style={{ borderRadius: 20, width: 200, margin: 10 }}>
                                 <FaPinterest /> Pinterest
                             </Button>

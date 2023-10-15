@@ -68,11 +68,11 @@ main {
   background-color: #a8bbbf;
 }
 
-li::before {
+ol.tick li::before {
   content: url("https://img.icons8.com/3d-fluency/20/checkmark.png");
   margin-right: 10px;
 }
 
-li {
+ol.tick li {
   font-size: 2rem;
 }

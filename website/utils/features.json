@@ -1,0 +1,22 @@
+[
+    {
+        "title": "Sticky Notes Everywhere",
+        "enabled": true
+    },
+    {
+        "title": "Organise Sticky Notes in Folders",
+        "enabled": true
+    },
+    {
+        "title": "Sync sticky notes with chrome account",
+        "enabled": true
+    },
+    {
+        "title": "Export CSV",
+        "enabled": true
+    },
+    {
+        "title": "Support Calls",
+        "enabled": true
+    }
+]

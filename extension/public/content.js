@@ -172,7 +172,7 @@ async function createNote(id, defaultNote = null) {
             </nav>
         </div>
         <article>
-            <textarea value="${text}"></textarea>
+            <textarea>${text}</textarea>
         </article>
     </section>
     `
@@ -290,7 +290,7 @@ async function showNotesOnSideBar() {
                 </nav>
             </div>
             <article>
-                <textarea value="${text}"></textarea>
+                <textarea>${text}</textarea>
             </article>
         </section>
         `

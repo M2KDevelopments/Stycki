@@ -37,10 +37,10 @@ function App({ fullScreen }) {
       try {
         const token = await API.getAccessToken();
         if (token) {
-          const res = await API.GetAPI(`/api/user`);
-          if (res.result) {
-            setUser(res.user);
-            chrome.storage.local.set({ count: res.user?.count || NOTE_LIMIT }, () => setCount(NOTE_LIMIT))
+          const user = await API.GetAPI(`/api/user`);
+          if (!user.result) {
+            setUser(user);
+            chrome.storage.local.set({ count: user?.count || NOTE_LIMIT }, () => setCount(NOTE_LIMIT))
           } else setCount(40)
         } else chrome.storage.local.set({ count: NOTE_LIMIT }, () => setCount(NOTE_LIMIT))
       } catch (e) {

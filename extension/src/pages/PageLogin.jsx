@@ -2,13 +2,9 @@
 import React, { useContext, useState } from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap'
 import AppBar from '../components/AppBar'
-// import ButtonFacebook from '../components/ButtonFacebook';
 import ButtonGoogle from '../components/ButtonGoogle';
-import ButtonLinkedin from '../components/ButtonLinkedin';
 import * as API from "../utils/api";
 import * as Google from "../utils/google";
-// import * as Facebook from "../utils/facebook";
-import * as Linkedin from "../utils/linkedin";
 import swal from 'sweetalert';
 import { Link, useNavigate } from 'react-router-dom';
 import { ContextSetUser } from '../App';
@@ -78,21 +74,7 @@ function PageLogin() {
     navigation('/');
   }
 
-  // const onFacebook = async () => {
-  //   const response = await Facebook.login();
-  //   if (response.result) swal('Login Successful')
-  //   const user = await API.GetAPI(`/api/user`);
-  //   setUser(user);
-  //   navigation('/');
-  // }
-
-  const onLinkedin = async () => {
-    const response = await Linkedin.login();
-    if (response.result) swal('Login Successful');
-    const user = await API.GetAPI(`/api/user`);
-    setUser(user);
-    navigation('/');
-  }
+  
 
   return (
     <AppBar>
@@ -134,10 +116,7 @@ function PageLogin() {
 
 
         <ButtonGoogle onClick={onGoogle} />
-        <br />
-        <ButtonLinkedin onClick={onLinkedin} />
-
-
+        
       </Form>
     </AppBar>
   )
