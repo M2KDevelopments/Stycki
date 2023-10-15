@@ -15,7 +15,7 @@ const schema = mongoose.Schema({
   gcmAndroid: { type: String, default: '' },
   gcmChrome: { type: String, default: '' },
   refreshToken: { type: String, default: '' },
-  count:  { type: Number, default: 40 }
+  count:  { type: Number, default: 60 }
 });
 
 export default mongoose.models.User || mongoose.model('User', schema);
