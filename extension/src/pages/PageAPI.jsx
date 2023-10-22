@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import swal from 'sweetalert';
 import { useNavigate } from 'react-router-dom';
-import { ExportToCsv } from 'export-to-csv';
+import { mkConfig, generateCsv, download } from "export-to-csv";
 
 function PageAPI() {
 
@@ -72,8 +72,15 @@ function PageAPI() {
             // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
         };
 
-        const csvExporter = new ExportToCsv(options);
-        csvExporter.generateCsv(notes.sort((a, b) => a.webname - b.webname));
+        // mkConfig merges your options with the defaults
+        // and returns WithDefaults<ConfigOptions>
+        const csvExporter = mkConfig(options);
+
+        // Converts your Array<Object> to a CsvOutput string based on the configs
+        const csv = generateCsv(csvExporter)(notes.sort((a, b) => a.webname - b.webname));
+
+
+        download(csvExporter)(csv)
         swal('Export CSV', 'CSV download successfully. Check your download folder', 'success');
     }
 
