@@ -4821,6 +4821,11 @@ expect@^29.0.0:
     jest-message-util "^29.7.0"
     jest-util "^29.7.0"
 
+export-to-csv@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/export-to-csv/-/export-to-csv-1.2.0.tgz#2ccb7fb81a5ff98651a9e1ed687504dcd321401a"
+  integrity sha512-BKmwBHvE3rP4uA/wqwPMhWqzoX0CwrR67XJ9vBAcTpBd5SQN9/3IZY5z7ZzG8T8bHnJAGfFYWwJ7AHCOGUcKOA==
+
 express@^4.17.3:
   version "4.18.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.18.2.tgz#3fabe08296e930c796c19e3c516979386ba9fd59"

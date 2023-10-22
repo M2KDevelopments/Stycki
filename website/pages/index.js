@@ -13,6 +13,7 @@ import AnimatedSticked from '../components/AnimatedSticked';
 import { AnimationIntegration } from '../components/Lotties';
 import FEATURES from '../utils/features.json';
 import PriceCard from '../components/PriceCard';
+import Nagivaton from '../components/Nagivaton';
 
 
 export default function Home() {
@@ -40,23 +41,7 @@ export default function Home() {
       </Head>
 
       {/* Navigation */}
-      <nav className='w-full drop-shadow px-10 bg-white sticky top-0 z-10 py-3 bg-opacity-95'>
-        <div className='flex text-center text-xl '>
-
-          <div className='w-[70%]'>
-            <Link href="/">
-              <Image src="/logo512.png" alt="Sticky Notes Pro" width={40} height={40} />
-            </Link>
-          </div>
-
-          <div className='flex justify-end text-right'>
-            <Link className='px-2 hover:text-cyan-700' href="https://youtube.com">Tutorials</Link>
-            <Link className='px-2 hover:text-purple-700' href="https://support.m2kdevelopments.com">Help Desk</Link>
-            <Link className='px-2 hover:text-pink-600' href="/support">Support</Link>
-            <Link className='px-2 text-blue-900 font-bold hover:text-pink-600' href="https://chrome.google.com/webstore/detail/gnpgjlgmdekplbmfpokppoajajdkdkdp">Get Extension</Link>
-          </div>
-        </div>
-      </nav>
+      <Nagivaton />
 
       <main className='max-w-6xl justify-end self-center mx-auto px-6'>
 
@@ -69,7 +54,7 @@ export default function Home() {
           <p className='text-xl'>Welcome to Sticky Notes Pro, your ultimate solution for enhancing your web browsing experience. Our innovative Chrome extension empowers you to create, customize, and manage sticky notes directly on any webpage. Whether you want to jot down ideas, set reminders, or annotate web content, Sticky Notes Pro has you covered. Elevate your productivity and organization while exploring the internet, all with the help of Sticky Notes Pro.</p>
           <Slide>
             <div className='mx-auto w-[80%] my-14'>
-              <Link className='flex justify-center p-6 mobile:text-2xl tablet:text-5xl drop-shadow bg-cyan-700 text-white hover:bg-slate-400 rounded-sm' href="https://chrome.google.com/webstore/detail/gnpgjlgmdekplbmfpokppoajajdkdkdp" target='_blank'>
+              <Link id="stickynotespro-extension" className='flex justify-center p-6 mobile:text-2xl tablet:text-5xl drop-shadow bg-cyan-700 text-white hover:bg-slate-400 rounded-sm' href="https://chrome.google.com/webstore/detail/gnpgjlgmdekplbmfpokppoajajdkdkdp" target='_blank'>
                 <Image src="/chrome.png" alt="Sticky Notes Pro" width={60} height={30} />
                 <span className='px-3'>Try Our Extension</span>
               </Link>

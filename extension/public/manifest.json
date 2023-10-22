@@ -52,6 +52,28 @@
     },
     {
       "matches": [
+        "https://stickynotespro.m2kdevelopments.com/api/integrations/*",
+        "https://stickynotespro.m2kdevelopments.com/integrations/*"
+      ],
+      "js": [
+        "./content/integrations.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "https://stickynotespro.m2kdevelopments.com",
+        "https://stickynotespro.com"
+      ],
+      "js": [
+        "./content/website.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": true
+    },
+    {
+      "matches": [
         "<all_urls>"
       ],
       "js": [

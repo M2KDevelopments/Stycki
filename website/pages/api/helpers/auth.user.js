@@ -13,3 +13,12 @@ export function authenticateUser(req, res, skip = false) {
     }
     return decode;
 }
+
+export function authenticateUserByToken(token) {
+    const decode = jwt.decode(token, key);
+    if (!decode) {
+        if (skip) return null;
+        else return res.status(403).send('Forbidden');
+    }
+    return decode;
+}

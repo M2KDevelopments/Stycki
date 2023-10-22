@@ -17,6 +17,27 @@ const schema = mongoose.Schema({
   refreshToken: { type: String, default: '' },
   count:  { type: Number, default: 60 },
   integrations: { type: Boolean, default: false },
+
+  // Integrations
+  trelloAccessToken: { type: String, default: '' },
+  trelloRefreshToken: { type: String, default: '' },
+
+  notionAccessToken: { type: String, default: '' },
+  notionRefreshToken: { type: String, default: '' },
+
+  onenoteAccessToken: { type: String, default: '' },
+  onenoteRefreshToken: { type: String, default: '' },
+
+  evernoteAccessToken: { type: String, default: '' },
+  evernoteRefreshToken: { type: String, default: '' },
+ 
+  googleSheetsAccessToken: { type: String, default: '' },
+  googleSheetsRefreshToken: { type: String, default: '' },
+  
+  googleDriveAccessToken: { type: String, default: '' },
+  googleDriveRefreshToken: { type: String, default: '' },
+
+  
 });
 
 export default mongoose.models.User || mongoose.model('User', schema);

@@ -28,7 +28,7 @@ async function get(req, res) {
 
     // Get User
     const notification_id = req.headers.chromenotificationid
-    const user = await User.findById(tokenuser.uid).select('name image email words gcmChrome gcmWeb gcmAndroid aiTokens referredBy');
+    const user = await User.findById(tokenuser.uid).select('name image email words gcmChrome gcmWeb gcmAndroid count referredBy trelloAccessToken notionAccessToken onenoteAccessToken evernoteAccessToken googleSheetsAccessToken googleDriveAccessToken');
     if (user.gcmChrome !== notification_id && notification_id) {
         console.log("Update", user.name, 'Notification ID');
         user.gcmChrome = notification_id;
