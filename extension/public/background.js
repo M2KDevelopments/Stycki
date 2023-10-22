@@ -120,8 +120,8 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     const userid = sender.tab.url.replace(/.*#share=/gmi, '');
     const link = sender.tab.url.replace(/#share=.*/gmi, '');
     const res = await fetch(`${url}/api/notes/share/${userid}?url=${link}`, { method: 'get', headers: headers});
-    const json = await res.json();
-    chrome.tabs.sendMessage(sender.tab.id, { cid: "shared-notes", notes: json.notes })
+    const notes = await res.json();
+    chrome.tabs.sendMessage(sender.tab.id, { cid: "shared-notes", notes })
   } else if (message.cid === "delete-note") {
     const res = await fetch(`${url}/api/notes/${message.note.id}`, { method: 'delete', headers: headers });
     const json = await res.json();

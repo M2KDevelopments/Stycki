@@ -118,7 +118,7 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
             onClick: function () { } // Callback after click
         }).showToast();
     } else if (message.cid === "shared-notes") {
-        for (const note of notes) createNote(note.id, note, true)
+        for (const note of message.notes) createNote(note.id, note, true)
     }
     sendResponse(true);
     return true;
