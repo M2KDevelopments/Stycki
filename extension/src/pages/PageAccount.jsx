@@ -1,4 +1,4 @@
-/*global chrome*/
+/* global chrome */
 import React from 'react'
 import AppBar from '../components/AppBar'
 import swal from 'sweetalert';
@@ -11,7 +11,7 @@ import { AiOutlinePoweroff } from 'react-icons/ai';
 
 function PageAccount() {
 
-  const user = useContext(ContextUser)
+  const user = useContext(ContextUser);
   const setUser = useContext(ContextSetUser);
   const navigation = useNavigate();
 
@@ -39,7 +39,6 @@ function PageAccount() {
         
         <h5>{user.name}</h5>
         <h6>{user.email}</h6>
-        <h6><i>{user?.priceplan_name || ""}</i></h6>
         
         <br /><br /><br />
 

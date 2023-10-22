@@ -7,6 +7,7 @@ export const URL = 'https://stickynotespro.m2kdevelopments.com';
 export const GetAPI = (route, auth = true) => Get(`${authUrl}${route}`, auth);
 export const PostAPI = (route, body = {}, auth = true) => Post(`${authUrl}${route}`, body, auth);
 export const PatchAPI = (route, body = {}, auth = true) => Patch(`${authUrl}${route}`, body, auth);
+export const PutAPI = (route, body = {}, auth = true) => Put(`${authUrl}${route}`, body, auth);
 export const DeleteAPI = (route, auth = true) => Delete(`${authUrl}${route}`, auth);
 
 export function Get(url, auth = true) {
@@ -15,14 +16,12 @@ export function Get(url, auth = true) {
         const chromeNotificationID = await getNotifacitonID();
 
         if (auth) {
-            //refresh user if necessary
+            // Refresh user if necessary
             const token = await getAccessToken();
 
             const headers = {
                 'Authorization': 'Bearer ' + token,
-
                 'chromeNotificationID': chromeNotificationID,
-
             };
 
             try {
@@ -73,7 +72,6 @@ export function Post(url, body = {}, auth = true) {
 
             const headers = {
                 'Authorization': 'Bearer ' + token,
-
                 'chromeNotificationID': chromeNotificationID,
 
             };

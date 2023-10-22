@@ -11,6 +11,26 @@ let offsetX = 0, offsetY = 0, isDragging = false, movableDiv = null;
 chrome.storage.local.get('active', data => {
     if (!data.active) return;
 
+    // Show shared notes instead
+    if (window.location.href.match(/#share=/gmi)) {
+
+        Toastify({
+            text: "Loading shared notes",
+            duration: 3000,
+            destination: "https://stickynotespro.m2kdevelopments.com",
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "left", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+            onClick: function () { } // Callback after click
+        }).showToast();
+        return chrome.runtime.sendMessage({ cid: "shared-notes" })
+    }
+
 
     // Create start button
     const buttonStart = document.createElement("button");
@@ -97,6 +117,8 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
             },
             onClick: function () { } // Callback after click
         }).showToast();
+    } else if (message.cid === "shared-notes") {
+        for (const note of notes) createNote(note.id, note, true)
     }
     sendResponse(true);
     return true;
@@ -140,7 +162,7 @@ document.onmousemove = function (e) {
     movableDiv.style.top = y + 'px';
 };
 
-async function createNote(id, defaultNote = null) {
+async function createNote(id, defaultNote = null, disabled = false) {
     let { notes } = await chrome.storage.local.get('notes');
     if (!notes) notes = [];
 
@@ -183,7 +205,23 @@ async function createNote(id, defaultNote = null) {
     const color = defaultNote ? defaultNote.color : colors[parseInt(Math.random() * colors.length)]
     const title = defaultNote ? defaultNote.name : "New Note"
 
-    div.innerHTML = `
+    div.innerHTML = disabled ? `
+    <section style="background:${color}">
+        <div class="appbar">
+            <p id="name-${id}" title="${title}">${title}</p>
+            <nav>
+                <input disabled type="color" value="${color}" title="Sticky Note Color"/>
+                <button disabled title="Minimize"></button>
+                <button disabled title="Maximize"></button>
+                <button disabled title="Close"></button>
+            </nav>
+        </div>
+        <article>
+            <textarea disabled>${text}</textarea>
+        </article>
+    </section>
+    `
+        : `
     <section style="background:${color}">
         <div class="appbar">
             <p id="name-${id}" title="Double click to rename note">${title}</p>
@@ -222,74 +260,78 @@ async function createNote(id, defaultNote = null) {
     // Add to DOM
     document.body.appendChild(div);
 
-    div.querySelector('textarea').onchange = async (e) => {
-        const { notes } = await chrome.storage.local.get('notes');
-        const index = notes.findIndex(n => id === n.id);
-        notes[index].text = e.target.value;
-        await chrome.storage.local.set({ notes: notes });
-        await showNotesOnSideBar();
-        await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
-    }
-
-    // Button functions
-    div.querySelector('button[title="Minimize"]').onclick = async () => {
-        const { notes } = await chrome.storage.local.get('notes');
-        const index = notes.findIndex(n => id === n.id);
-        notes[index].minimized = true;
-        await chrome.storage.local.set({ notes: notes });
-        div.remove();
-        await showNotesOnSideBar();
-        await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
-    }
-
-    div.querySelector('button[title="Maximize"]').onclick = () => {
-
-    }
+    if (!disabled) {
 
 
-    div.querySelector('button[title="Close"]').onclick = async () => {
-        const result = window.confirm('Are you sure you want to delete this note?')
-        if (result) {
+        div.querySelector('textarea').onchange = async (e) => {
             const { notes } = await chrome.storage.local.get('notes');
-            const remainingNotes = notes.filter(n => id !== n.id);
-            await chrome.storage.local.set({ notes: remainingNotes });
-            div.remove();
-
             const index = notes.findIndex(n => id === n.id);
-            await chrome.runtime.sendMessage({ cid: "delete-note", note: notes[index] });
+            notes[index].text = e.target.value;
+            await chrome.storage.local.set({ notes: notes });
+            await showNotesOnSideBar();
+            await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
         }
-    }
 
-    // Function to start dragging
-    div.querySelector('.appbar').onmousedown = (e) => {
-        movableDiv = div;
-        div.querySelector('.appbar').style.cursor = 'grabbing'
-        isDragging = true;
-        offsetX = e.clientX - movableDiv.getBoundingClientRect().left;
-        offsetY = e.clientY - movableDiv.getBoundingClientRect().top;
-    }
+        // Button functions
+        div.querySelector('button[title="Minimize"]').onclick = async () => {
+            const { notes } = await chrome.storage.local.get('notes');
+            const index = notes.findIndex(n => id === n.id);
+            notes[index].minimized = true;
+            await chrome.storage.local.set({ notes: notes });
+            div.remove();
+            await showNotesOnSideBar();
+            await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
+        }
 
-    // Change Color
-    div.querySelector('input[type="color"]').onchange = async (e) => {
-        div.querySelector('section').style.background = e.target.value;
-        const { notes } = await chrome.storage.local.get('notes');
-        const index = notes.findIndex(n => n.id === id);
-        notes[index].color = e.target.value;
-        chrome.storage.local.set({ notes: notes });
-        await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
-    }
+        div.querySelector('button[title="Maximize"]').onclick = () => {
 
-    // Rename Note
-    div.querySelector('p').ondblclick = async (e) => {
-        const { notes } = await chrome.storage.local.get('notes');
-        const index = notes.findIndex(n => n.id === id);
-        const name = window.prompt('Rename Note', div.querySelector('p').textContent);
-        if (name) {
-            div.querySelector('p').textContent = name;
-            div.querySelector('p').setAttribute('title', `Double click to rename note: ${name}`);
-            notes[index].name = name;
+        }
+
+
+        div.querySelector('button[title="Close"]').onclick = async () => {
+            const result = window.confirm('Are you sure you want to delete this note?')
+            if (result) {
+                const { notes } = await chrome.storage.local.get('notes');
+                const remainingNotes = notes.filter(n => id !== n.id);
+                await chrome.storage.local.set({ notes: remainingNotes });
+                div.remove();
+
+                const index = notes.findIndex(n => id === n.id);
+                await chrome.runtime.sendMessage({ cid: "delete-note", note: notes[index] });
+            }
+        }
+
+        // Function to start dragging
+        div.querySelector('.appbar').onmousedown = (e) => {
+            movableDiv = div;
+            div.querySelector('.appbar').style.cursor = 'grabbing'
+            isDragging = true;
+            offsetX = e.clientX - movableDiv.getBoundingClientRect().left;
+            offsetY = e.clientY - movableDiv.getBoundingClientRect().top;
+        }
+
+        // Change Color
+        div.querySelector('input[type="color"]').onchange = async (e) => {
+            div.querySelector('section').style.background = e.target.value;
+            const { notes } = await chrome.storage.local.get('notes');
+            const index = notes.findIndex(n => n.id === id);
+            notes[index].color = e.target.value;
             chrome.storage.local.set({ notes: notes });
             await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
+        }
+
+        // Rename Note
+        div.querySelector('p').ondblclick = async (e) => {
+            const { notes } = await chrome.storage.local.get('notes');
+            const index = notes.findIndex(n => n.id === id);
+            const name = window.prompt('Rename Note', div.querySelector('p').textContent);
+            if (name) {
+                div.querySelector('p').textContent = name;
+                div.querySelector('p').setAttribute('title', `Double click to rename note: ${name}`);
+                notes[index].name = name;
+                chrome.storage.local.set({ notes: notes });
+                await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
+            }
         }
     }
 }

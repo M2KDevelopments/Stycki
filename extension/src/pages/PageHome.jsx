@@ -5,18 +5,21 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import AppBar from '../components/AppBar';
 import { Badge, Breadcrumb, Button, Col, Form, Modal, ProgressBar, Row } from 'react-bootstrap';
-import { ContextCount } from '../App';
+import { ContextCount, ContextUser } from '../App';
 import swal from 'sweetalert';
 import { FiMoreVertical } from 'react-icons/fi';
 import { FcFolder } from 'react-icons/fc';
 import { Fade, FormControl, FormHelperText, InputLabel, Menu, MenuItem, Select } from '@mui/material';
 import { FaFolderPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import favourites from '../images/favourite.png';
+import * as API from '../utils/api';
 
 
 function PageHome() {
 
   const count = useContext(ContextCount);
+  const user = useContext(ContextUser);
   const [notes, setNotes] = useState([]);
   const [urlNoteMap, setUrlNoteMap] = useState(new Map());
   const [search, setSearch] = useState("");
@@ -68,6 +71,7 @@ function PageHome() {
 
     if (result) {
       const newNotes = notes.filter(note => note.url !== url);
+      const ids = notes.filter(note => note.url == url).map(note => note.id);
       const map = new Map();
       chrome.storage.local.set({ notes: newNotes }, () => setNotes(newNotes));
       for (const note of newNotes) {
@@ -75,6 +79,8 @@ function PageHome() {
         if (map.get(url)) map.set(url, [...map.get(url), note]);
         else map.set(url, [note]);
       }
+      const res = await API.PutAPI(`/api/notes/delete`, { ids });
+      swal(res.message);
       setUrlNoteMap(map);
     }
   }
@@ -93,9 +99,13 @@ function PageHome() {
     if (name) {
 
       // Rename List
+      const ids = [];
       for (const index in notes) {
         const note = notes[index];
-        if (note.url == url) notes[index].webname = name;
+        if (note.url == url) {
+          ids.push(note.id);
+          notes[index].webname = name;
+        }
       }
 
       const map = new Map();
@@ -105,7 +115,10 @@ function PageHome() {
         if (map.get(url)) map.set(url, [...map.get(url), note]);
         else map.set(url, [note]);
       }
+      const res = await API.PutAPI(`/api/notes/rename`, { ids, webname: name });
+      swal(res.message);
       setUrlNoteMap(map);
+
     }
   }
 
@@ -122,6 +135,8 @@ function PageHome() {
     if (!name) return;
     const folder = { id: crypto.randomUUID(), name: name };
     folders.push(folder);
+    const res = await API.PostAPI(`/api/folders`, folder);
+    swal(res.message);
     chrome.storage.local.set({ folders }, () => setFolders([...folders]));
 
   }
@@ -130,12 +145,18 @@ function PageHome() {
 
     const url = folderDialogue;
     const id = folderSelected === "-1" ? "" : folderSelected;
+    const ids = [];
+
 
     // Moving List to Folder
     for (const index in notes) {
       const note = notes[index];
-      if (note.url === url) notes[index].folder = id;
+      if (note.url === url) {
+        ids.push(note.id);
+        notes[index].folder = id;
+      }
     }
+
 
     const map = new Map();
     chrome.storage.local.set({ notes: notes }, () => setNotes([...notes]));
@@ -144,6 +165,10 @@ function PageHome() {
       if (map.get(url)) map.set(url, [...map.get(url), note]);
       else map.set(url, [note]);
     }
+
+    const res = await API.PutAPI(`/api/notes/folder`, { ids, folder: id });
+    swal(res.message);
+
     setUrlNoteMap(map);
     setFolderId(id);
   }
@@ -156,6 +181,7 @@ function PageHome() {
       if (note.text.toLowerCase().indexOf(search.toLowerCase()) !== -1) return true;
     }
   }, [search])
+
 
   const filterFolder = useCallback((folder) => {
     if (search.replace(/\s/gmi, '') === '') return true;
@@ -216,7 +242,8 @@ function PageHome() {
                   >
                     <MenuItem onClick={() => { setAnchorEl(null); setOption(null); onRename(notes[0].url) }}>Rename</MenuItem>
                     <MenuItem onClick={() => onCopy(notes[0].url)}>Copy Page Link</MenuItem>
-                    <MenuItem onClick={() => null}>Share</MenuItem>
+                    <MenuItem onClick={() => window.navigator.clipboard.writeText(`${notes[0].url}#share=${user._id}`).then(() => swal('Copied Share link'))}>Share</MenuItem>
+                    <MenuItem onClick={() => null}>Add to Favourites</MenuItem>
                     <MenuItem onClick={() => null}>Download Audio</MenuItem>
                     <MenuItem onClick={() => setFolderDialogue(notes[0].url)}>Move to Folder</MenuItem>
                     <MenuItem onClick={() => chrome.tabs.create({ url: notes[0].url })}>Go to Page</MenuItem>
@@ -260,6 +287,13 @@ function PageHome() {
                   <FaFolderPlus color="grey" size={50} />
                   <br />
                   Add
+                </Button>
+              </Col>
+              <Col>
+                <Button size="sm" onClick={() => setFolderId("favourites")} variant="light">
+                  <img src={favourites} width={50} alt="fav" />
+                  <br />
+                  Favorites
                 </Button>
               </Col>
               {
@@ -309,7 +343,8 @@ function PageHome() {
                     >
                       <MenuItem onClick={() => { setAnchorEl(null); setOption(null); onRename(notes[0].url) }}>Rename</MenuItem>
                       <MenuItem onClick={() => onCopy(notes[0].url)}>Copy Page Link</MenuItem>
-                      <MenuItem onClick={() => null}>Share</MenuItem>
+                      <MenuItem onClick={() => window.navigator.clipboard.writeText(`${notes[0].url}#share=${user._id}`).then(() => swal('Copied Share link'))}>Copy Share Link</MenuItem>
+                      <MenuItem onClick={() => null}>Add to Favourites</MenuItem>
                       <MenuItem onClick={() => null}>Download Audio</MenuItem>
                       <MenuItem onClick={() => setFolderDialogue(notes[0].url)}>Move to Folder</MenuItem>
                       <MenuItem onClick={() => chrome.tabs.create({ url: notes[0].url })}>Go to Page</MenuItem>
@@ -334,6 +369,10 @@ function PageHome() {
             <InputLabel id="folder">Folders</InputLabel>
             <Select labelId="folder" id="folder" value={folderSelected} onChange={(e) => setFolderSelected(e.target.value)} label="Folders" >
               <MenuItem value="-1"><em>NONE</em></MenuItem>
+              <MenuItem value="favourites">
+                <img src={favourites} width={18} alt="fav" style={{ marginRight: 10 }} />
+                Favorites
+              </MenuItem>
               {
                 folders.map(t =>
                   <MenuItem key={t.id} value={t.id}>

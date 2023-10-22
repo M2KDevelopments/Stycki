@@ -15,9 +15,8 @@ export default async function handler(req, res) {
     }
 }
 
-
 async function get(req, res) {
-    const { folderId } = req.query;
-    const notes = await Note.find({ folder: folderId }).lean();
+    const { userid, url } = req.query;
+    const notes = await Note.find({ user: userid, url: url }).lean();
     return res.status(200).json(notes);
 }

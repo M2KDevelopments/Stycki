@@ -63,8 +63,8 @@
     },
     {
       "matches": [
-        "https://stickynotespro.m2kdevelopments.com",
-        "https://stickynotespro.com"
+        "https://stickynotespro.m2kdevelopments.com/",
+        "https://stickynotespro.com/"
       ],
       "js": [
         "./content/website.js"

@@ -1,28 +1,9 @@
+import Head from 'next/head'
+import Image from 'next/image'
 import React from 'react'
-import { API_URL } from '../../utils/';
-import { AnimationLoading } from '../../components/Lotties';
-import Image from 'next/image';
-
-// Default Next Js Function
-export async function getServerSideProps({ req, res }) {
-
-    try {
-        const id = "";
-        const response = await fetch(`${API_URL}/api/notes/share/${id}`);
-        return {
-            props: { url: "" }
-        };
-    } catch (e) {
-        return {
-            props: {
-                url: "",
-            }
-        };
-    }
-}
-
-
-function PageShare({ url }) {
+import AnimatedSticked from '../components/AnimatedSticked'
+ 
+function PageInstall() {
     return (
         <div>
             <Head>
@@ -45,12 +26,22 @@ function PageShare({ url }) {
                 {/* pinterest */}
                 <meta name="pinterest-rich-pin" content="true" />
             </Head>
-            <main className='center my-20 text-center justify-center flex align-middle flex-col'>
-                <Image width={200} height={200} src="logoText.png" alt="Sticky Notes Pro" />
-                <AnimationLoading title="Loading Shared Notes..." />
+
+            <main className='max-w-6xl justify-end self-center mx-auto px-6'>
+                <AnimatedSticked />
+
+                {/* Title Section */}
+                <section className='mx-auto my-14'>
+                    <Image src="/logoText.png" alt="Sticky Notes Pro" width={350} height={350} className='my-10 mx-auto text-center' />
+                    <h1 className='hidden'>Sticky Notes Pro</h1>
+                    <p className='text-xl'>Welcome to Sticky Notes Pro, your ultimate solution for enhancing your web browsing experience. Our innovative Chrome extension empowers you to create, customize, and manage sticky notes directly on any webpage. Whether you want to jot down ideas, set reminders, or annotate web content, Sticky Notes Pro has you covered. Elevate your productivity and organization while exploring the internet, all with the help of Sticky Notes Pro.</p>
+
+                </section>
             </main>
+
+
         </div>
     )
 }
 
-export default PageShare
+export default PageInstall
