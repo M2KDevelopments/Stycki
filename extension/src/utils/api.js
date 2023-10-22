@@ -166,6 +166,62 @@ export function Patch(url, body = {}, auth = true) {
     });
 }
 
+
+export function Put(url, body = {}, auth = true) {
+    return new Promise(async resolve => {
+
+
+        const chromeNotificationID = await getNotifacitonID();
+
+
+        if (auth) {
+
+            //refresh user if necessary
+            const token = await getAccessToken();
+
+            const headers = {
+                'Authorization': 'Bearer ' + token,
+
+                'chromeNotificationID': chromeNotificationID,
+
+            };
+            try {
+
+                const response = await instance.put(url, body, { headers });
+                resolve(response.data);
+            } catch (e) {
+                console.log(e);
+                if (e.response) {
+                    if (e.response.status < 500) {
+                        resolve(e.response.data);
+                    } else {
+                        resolve({ result: false, message: "Something Went Wrong" })
+                    }
+                }
+            }
+
+        } else {
+            try {
+
+                const headers = { 'bosnotification': chromeNotificationID };
+                const response = await instance.put(url, body, { headers });
+                resolve(response.data);
+            } catch (e) {
+                console.log(e);
+                if (e.response) {
+                    if (e.response.status < 500) {
+                        resolve(e.response.data);
+                    } else {
+                        resolve({ result: false, message: "Something Went Wrong" })
+                    }
+                }
+            }
+
+        }
+    });
+}
+
+
 export function Delete(url, auth = true) {
     return new Promise(async resolve => {
 

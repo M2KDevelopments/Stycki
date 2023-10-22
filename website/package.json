@@ -13,6 +13,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@paypal/react-paypal-js": "^8.1.3",
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "firebase": "^9.22.0",

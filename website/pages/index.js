@@ -69,7 +69,7 @@ export default function Home() {
           <p className='text-xl'>Welcome to Sticky Notes Pro, your ultimate solution for enhancing your web browsing experience. Our innovative Chrome extension empowers you to create, customize, and manage sticky notes directly on any webpage. Whether you want to jot down ideas, set reminders, or annotate web content, Sticky Notes Pro has you covered. Elevate your productivity and organization while exploring the internet, all with the help of Sticky Notes Pro.</p>
           <Slide>
             <div className='mx-auto w-[80%] my-14'>
-              <Link className='flex p-6 mobile:text-2xl tablet:text-5xl drop-shadow-md bg-white hover:bg-slate-400 rounded-md' href="https://chrome.google.com/webstore/detail/gnpgjlgmdekplbmfpokppoajajdkdkdp" target='_blank'>
+              <Link className='flex justify-center p-6 mobile:text-2xl tablet:text-5xl drop-shadow bg-cyan-700 text-white hover:bg-slate-400 rounded-sm' href="https://chrome.google.com/webstore/detail/gnpgjlgmdekplbmfpokppoajajdkdkdp" target='_blank'>
                 <Image src="/chrome.png" alt="Sticky Notes Pro" width={60} height={30} />
                 <span className='px-3'>Try Our Extension</span>
               </Link>
@@ -183,11 +183,10 @@ export default function Home() {
           <AnimationIntegration />
         </section>
 
-
         {/* Pricing */}
-        <section>
-          <h2>Pricing</h2>
-          <div className='mx-auto my-10 grid mobile:grid-cols-1 tablet:grid-cols-2'>
+        <section className="my-56">
+          <h2 className='text-6xl my-4'>Pricing</h2>
+          <div className='mx-auto my-10 grid mobile:grid-cols-1 tablet:grid-cols-2 tablet-xl:grid-cols-2 laptop:grid-cols-3'>
             <PriceCard
               title="Free Forever"
               description=""
@@ -204,7 +203,8 @@ export default function Home() {
             <PriceCard
               title="Basic Plan"
               description=""
-              url="https://stickynotespro.m2kdevelopments.com/api/buy?id=1"
+              popular={true}
+              url="/checkout/buy?id=0"
               price={8}
               discount={25}
               features={[...FEATURES,
@@ -217,7 +217,7 @@ export default function Home() {
             <PriceCard
               title="Premium Plan"
               description=""
-              url="https://stickynotespro.m2kdevelopments.com/api/buy?id=2"
+              url="/checkout/buy?id=1"
               price={15}
               discount={25}
               features={[...FEATURES,
@@ -230,7 +230,6 @@ export default function Home() {
           </div>
 
         </section>
-
 
         {/* FAQ */}
         <section className='my-14'>
@@ -256,6 +255,7 @@ export default function Home() {
             }
           </Accordion>
         </section>
+
 
       </main>
 

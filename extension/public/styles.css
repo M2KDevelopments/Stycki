@@ -116,7 +116,7 @@
     max-width: 58%;
     width: 58%;
     height: 26px;
-    font-size: 1.1rem;
+    font-size: 18px;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     text-align: left;
@@ -140,7 +140,7 @@
     margin-left: 3px;
     max-height: 250px;
     padding: 6px;
-    font-size: 1.0rem;
+    font-size: 17px;
     font-family: 'Poppins', sans-serif;
     border-radius: 4px;
     background: inherit;
@@ -217,7 +217,7 @@
 
 
 /*Collapsable Side Bar*/
-.stickynotespro-sidebar-dialog{
+.stickynotespro-sidebar-dialog {
     padding: 0;
     margin: 0px;
     min-width: 100vw;
@@ -245,9 +245,32 @@
     max-height: 60%;
 }
 
-.stickynotespro-sidebar input[type="search"]{
+.stickynotespro-sidebar input[type="search"] {
     width: 94%;
     margin: 6px;
     border-radius: 20px;
     padding: 0px 10px;
+}
+
+.stickynotespro-sidebar .close-button {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 1.0rem;
+    font-weight: 900;
+    color: white;
+    border: none;
+    border-radius: 17px;
+    background: linear-gradient(45deg, red, transparent);
+    cursor: pointer;
+    padding: 0px;
+    width: 30px;
+    height: 30px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    transition: all 0.6s;
+}
+
+.stickynotespro-sidebar .close-button:hover{
+    background: linear-gradient(45deg, red, darkred);
+    
 }

@@ -1,4 +1,6 @@
 /*global chrome */
+/* eslint-disable no-undef */
+
 /**
  * author: Martin Kululanga
  * github: https://github.com/m2kdevelopments
@@ -44,7 +46,7 @@ chrome.storage.local.get('active', data => {
     }
 
     buttonCloseAll.onclick = async () => {
-        const result = window.confirm('Are you want to remove all notes from this page?');
+        const result = window.confirm('Are you want to remove all notes on this page?');
         if (result) {
             const ids = [];
             for (const div of document.querySelectorAll('.stickynotespro-paper')) {
@@ -57,6 +59,7 @@ chrome.storage.local.get('active', data => {
             const remainingNotes = notes.filter(n => ids.indexOf(n.id) === -1);
             await chrome.storage.local.set({ notes: remainingNotes });
             await showNotesOnSideBar()
+            await chrome.runtime.sendMessage({ cid: "delete-many-notes", ids: ids });
         }
     }
 
@@ -77,6 +80,27 @@ chrome.storage.local.get('notes', async (data) => {
 })
 
 
+// Show message
+chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+    if (message.cid === "alert") {
+        Toastify({
+            text: message.message,
+            duration: 3000,
+            destination: "https://stickynotespro.m2kdevelopments.com",
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "left", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            },
+            onClick: function () { } // Callback after click
+        }).showToast();
+    }
+    sendResponse(true);
+    return true;
+});
 
 // Function to stop dragging
 document.onmouseup = async function () {
@@ -86,14 +110,13 @@ document.onmouseup = async function () {
         const x = parseInt(movableDiv.style.left.replace("px", ''))
         const y = parseInt(movableDiv.style.top.replace("px", ''))
 
-
         // Save to storage
         const { notes } = await chrome.storage.local.get('notes');
         const index = notes.findIndex(n => n.id === movableDiv.getAttribute('id'));
         notes[index].x = x;
         notes[index].y = y;
-        chrome.storage.local.set({ notes: notes });
-
+        await chrome.storage.local.set({ notes: notes });
+        await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
 
         movableDiv.querySelector('.appbar').style.cursor = 'grab';
         movableDiv = null;
@@ -192,6 +215,7 @@ async function createNote(id, defaultNote = null) {
         };
         notes.push(note);
         chrome.storage.local.set({ notes: notes });
+        chrome.runtime.sendMessage({ cid: "add-note", note });
     }
 
 
@@ -204,6 +228,7 @@ async function createNote(id, defaultNote = null) {
         notes[index].text = e.target.value;
         await chrome.storage.local.set({ notes: notes });
         await showNotesOnSideBar();
+        await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
     }
 
     // Button functions
@@ -214,6 +239,7 @@ async function createNote(id, defaultNote = null) {
         await chrome.storage.local.set({ notes: notes });
         div.remove();
         await showNotesOnSideBar();
+        await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
     }
 
     div.querySelector('button[title="Maximize"]').onclick = () => {
@@ -228,6 +254,9 @@ async function createNote(id, defaultNote = null) {
             const remainingNotes = notes.filter(n => id !== n.id);
             await chrome.storage.local.set({ notes: remainingNotes });
             div.remove();
+
+            const index = notes.findIndex(n => id === n.id);
+            await chrome.runtime.sendMessage({ cid: "delete-note", note: notes[index] });
         }
     }
 
@@ -247,6 +276,7 @@ async function createNote(id, defaultNote = null) {
         const index = notes.findIndex(n => n.id === id);
         notes[index].color = e.target.value;
         chrome.storage.local.set({ notes: notes });
+        await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
     }
 
     // Rename Note
@@ -259,6 +289,7 @@ async function createNote(id, defaultNote = null) {
             div.querySelector('p').setAttribute('title', `Double click to rename note: ${name}`);
             notes[index].name = name;
             chrome.storage.local.set({ notes: notes });
+            await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
         }
     }
 }
@@ -303,6 +334,7 @@ async function showNotesOnSideBar() {
             await chrome.storage.local.set({ notes: notes });
             div.remove();
             await showNotesOnSideBar();
+            await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
         }
 
         div.querySelector('button[title="Close"]').onclick = async () => {
@@ -312,6 +344,7 @@ async function showNotesOnSideBar() {
                 const remainingNotes = notes.filter(n => id !== n.id);
                 await chrome.storage.local.set({ notes: remainingNotes });
                 div.remove();
+                await chrome.runtime.sendMessage({ cid: "delete-note", note: notes[index] });
             }
         }
 
@@ -321,8 +354,15 @@ async function showNotesOnSideBar() {
             notes[index].text = e.target.value;
             await chrome.storage.local.set({ notes: notes });
             await showNotesOnSideBar();
+            await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
         }
     }
+
+    // close button
+    const closeButton = document.createElement('button');
+    closeButton.textContent = "X";
+    closeButton.classList.add('close-button');
+    closeButton.onclick = () => document.querySelector('.stickynotespro-sidebar-dialog').close();
 
     // Search Bar
     const searchTexxArea = document.createElement('input');
@@ -342,4 +382,5 @@ async function showNotesOnSideBar() {
     }
 
     sidebar.prepend(searchTexxArea);
+    sidebar.append(closeButton);
 }

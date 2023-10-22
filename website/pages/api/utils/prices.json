@@ -1,0 +1,54 @@
+[
+    {
+        "name": "Basic",
+        "price": 6,
+        "activate": {
+            "counter": 400,
+            "integrations": false
+        },
+        "features": [
+            {
+                "title": "400 Free Notes",
+                "enabled": true
+            },
+            {
+                "title": "API Integrations",
+                "enabled": false
+            },
+            {
+                "title": "Sync with Mobile App",
+                "enabled": false
+            },
+            {
+                "title": "Export as AI Voice",
+                "enabled": false
+            }
+        ]
+    },
+    {
+        "name": "Premium",
+        "price": 11,
+        "activate": {
+            "counter": 2000,
+            "integrations": true
+        },
+        "features": [
+            {
+                "title": "2000 Free Notes",
+                "enabled": true
+            },
+            {
+                "title": "API Integrations",
+                "enabled": true
+            },
+            {
+                "title": "Sync with Mobile App",
+                "enabled": true
+            },
+            {
+                "title": "Export as AI Voice",
+                "enabled": true
+            }
+        ]
+    }
+]

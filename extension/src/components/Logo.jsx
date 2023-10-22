@@ -11,7 +11,7 @@ function Logo() {
   return (
     <Container className='centralise'>
       <Ripples>
-        <img style={{ cursor: "pointer" }} onClick={() => navigation('/')} alt="Sticky Notes Pro" className="logo" src={logo} width={100} />
+        <img style={{ cursor: "pointer" }} onClick={() => navigation('/')} alt="Sticky Notes Pro" className="logo" src={logo} width={70} />
       </Ripples>
       {/* <h5 style={{ color: "grey" }}>Sticky Notes Pro</h5> */}
     </Container>

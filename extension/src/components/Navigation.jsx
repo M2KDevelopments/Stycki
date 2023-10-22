@@ -7,7 +7,7 @@ import ToolTip from './ToolTip';
 import { Badge } from 'react-bootstrap';
 import { ContextUser } from '../App';
 import { Button } from '@mui/material';
-import { AiFillDollarCircle } from 'react-icons/ai';
+import { AiFillApi, AiFillDollarCircle } from 'react-icons/ai';
 
 
 
@@ -35,23 +35,28 @@ function Navigation() {
       {
         notifications ? <Badge style={{ position: "absolute", top: 10, left: -12 }} pill bg='warning'>{notifications}</Badge> : null
       }
+      <ToolTip text="API Integration">
+        <Link to="/api">
+          <AiFillApi color="purple" size={20} class="svg" />
+        </Link>
+      </ToolTip>
       <ToolTip text="Notifications">
         <Link to="/notifications">
-          <MdNotificationsActive color="#5f92ff" size={20} class="svg" />
+          <MdNotificationsActive color="purple" size={20} class="svg" />
         </Link>
       </ToolTip>
       <ToolTip text={user ? "Logout" : "Login"}>
         {
           user ?
             <Link to="/account" title={user.name}>
-              <FaUserCircle color="#5f92ff" size={16} class="svg" />
+              <FaUserCircle color="purple" size={16} class="svg" />
             </Link> :
             <Link to="/login">
-              <FaPowerOff color="#5f92ff" size={16} class="svg" />
+              <FaPowerOff color="purple" size={16} class="svg" />
             </Link>
         }
       </ToolTip>
-      <Button size='small' color='info' variant='contained' style={{ fontSize: "0.6rem", borderRadius: 24, marginRight: 10, zIndex: 1, position: "fixed", left: 10 }} onClick={() => chrome.tabs.create({ url: 'https://stickynotespro.com/priceplans' })}><AiFillDollarCircle size={20}/>{" "}Buy More Notes</Button>
+      <Button size='small' color='info' variant='contained' style={{ fontSize: "0.6rem", borderRadius: 24, marginRight: 10, zIndex: 1, position: "fixed", left: 10 }} onClick={() => chrome.tabs.create({ url: 'https://stickynotespro.m2kdevelopments.com#priceplans' })}><AiFillDollarCircle size={20}/>{" "}Buy More Notes</Button>
     </div>
   )
 }

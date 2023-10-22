@@ -5,7 +5,7 @@
  */
 
 const FIREBASE_SENDER_ID = "780886334097";
- 
+
 chrome.runtime.onInstalled.addListener(async function (details) {
 
   const INSTALL = "install", UPDATE = "update", CHROME_UPDATE = "chrome_update", SHARED_UPDATE = "shared_module_update";
@@ -99,9 +99,31 @@ chrome.gcm.onMessage.addListener((message) => {
 
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 
-  // New Model - https://dev.to/luckey/how-to-upgrade-text-davinci-003-to-gpt-35-turbo-2b6e#:~:text=Conclusion,to%20use%20the%20new%20model.
-  if (message.cid === "make-note") {
- 
+  const token = await getAccessToken();
+  const url = 'https://stickynotespro.m2kdevelopments.com';
+  const headers = {
+    'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+    'Content-Type': 'application/json; charset=utf-8',
+    'Authorization': `Bearer ${token}`,
+    'authorization': `Bearer ${token}`
+  }
+  if (message.cid === "add-note") {
+    const res = await fetch(`${url}/api/notes`, { method: 'post', headers: headers, body: JSON.stringify(message.note) });
+    const json = await res.json();
+    chrome.tabs.sendMessage(sender.tab.id, { cid: "alert", ...json })
+  } else if (message.cid === "update-note") {
+    const res = await fetch(`${url}/api/notes${message.note.id}`, { method: 'patch', headers: headers, body: JSON.stringify(message.note) });
+    const json = await res.json();
+    console.log(json);
+    //chrome.tabs.sendMessage(sender.tab.id, { cid: "alert", ...json })
+  } else if (message.cid === "delete-note") {
+    const res = await fetch(`${url}/api/notes/${message.note.id}`, { method: 'delete', headers: headers });
+    const json = await res.json();
+    chrome.tabs.sendMessage(sender.tab.id, { cid: "alert", ...json })
+  }else if (message.cid === "delete-many-notes") {
+    const res = await fetch(`${url}/api/notes/delete`, { method: 'put', headers: headers, body: JSON.stringify(message.ids)});
+    const json = await res.json();
+    chrome.tabs.sendMessage(sender.tab.id, { cid: "alert", ...json })
   }
   sendResponse(true);
   return true;
@@ -168,4 +190,8 @@ async function countNotifications() {
     chrome.action.setBadgeText({ text: `${unread}` });
     chrome.action.setBadgeBackgroundColor({ color: "#FFD700" });
   }
+}
+
+function getAccessToken() {
+  return new Promise(resolve => chrome.storage.local.get('user', (data) => resolve(data?.user || "")));
 }
