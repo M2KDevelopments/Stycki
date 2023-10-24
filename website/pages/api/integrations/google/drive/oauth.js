@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         const oAuth2Client = new OAuth2Client(
             process.env.GOOGLE_CLIENT_ID,
             process.env.GOOGLE_CLIENT_SECRET,
-            'https://stickynotespro.m2kdevelopments.com/api/integration/google/drive/callback'
+            'https://stickynotespro.m2kdevelopments.com/api/integrations/google/drive/callback'
         );
 
         // Generate the url that will be used for the consent dialog.
