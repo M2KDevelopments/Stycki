@@ -8,11 +8,7 @@ import url from 'url';
 */
 const requestURL = "https://trello.com/1/OAuthGetRequestToken";
 const accessURL = "https://trello.com/1/OAuthGetAccessToken";
-const authorizeURL = "https://trello.com/1/OAuthAuthorizeToken";
-const appName = "Sticky Notes Pro";
-const scope = 'read';
-const expiration = '1hour';
-
+ 
 // Be sure to include your key and secret in 🗝.env ↖️ over there.
 // You can get your key and secret from Trello at: https://trello.com/app-key
 const key = process.env.TRELLO_KEY;
