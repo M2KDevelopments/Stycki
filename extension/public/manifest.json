@@ -24,7 +24,8 @@
     "gcm",
     "notifications",
     "storage",
-    "tabs"
+    "tabs",
+    "tts"
   ],
   "icons": {
     "16": "logo192.png",

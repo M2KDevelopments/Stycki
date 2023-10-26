@@ -15,6 +15,7 @@ import PageAPI from "./pages/PageAPI";
 export const ContextUser = React.createContext(null);
 export const ContextSetUser = React.createContext(null);
 export const ContextFullScreen = React.createContext(false);
+export const ContextAIVoices = React.createContext([]);
 export const ContextCount = React.createContext(40);
 const NOTE_LIMIT = 40;
 
@@ -23,6 +24,9 @@ function App({ fullScreen }) {
 
   const [user, setUser] = useState(null);
   const [count, setCount] = useState(NOTE_LIMIT);
+  const [aiVoices, setAIVoices] = useState([]);
+
+
 
   useEffect(() => {
     if (fullScreen === true) {
@@ -71,7 +75,7 @@ function App({ fullScreen }) {
           const res = await API.PutAPI(`/api/folders`, { folders: [...folders, { name: "Favorites", id: "favourites" }] });
           if (res.result) {
             const data = await API.GetAPI(`/api/folders`);
-            if (!data.result)  await chrome.storage.local.set({ folders: data });
+            if (!data.result) await chrome.storage.local.set({ folders: data });
           }
         }
       }
@@ -79,31 +83,38 @@ function App({ fullScreen }) {
     run();
   }, [])
 
+  // Get AI Voices
+  useEffect(() => {
+    API.GetAPI('/api/openai/voices').then(voices => setAIVoices(!voices.result ? voices : []))
+  }, []);
+
 
   return (
     <div className="main">
-      <ContextCount.Provider value={count}>
-        <ContextFullScreen.Provider value={fullScreen}>
-          <ContextUser.Provider value={user}>
-            <ContextSetUser.Provider value={setUser}>
-              <Router>
+      <ContextAIVoices.Provider value={aiVoices}>
+        <ContextCount.Provider value={count}>
+          <ContextFullScreen.Provider value={fullScreen}>
+            <ContextUser.Provider value={user}>
+              <ContextSetUser.Provider value={setUser}>
+                <Router>
 
-                <Routes>
-                  <Route path="/" element={<PageHome />} />
-                  <Route path="/login" element={<PageLogin />} />
-                  <Route path="/signup" element={<PageSignUp />} />
-                  <Route path="/account" element={<PageAccount />} />
-                  <Route path="/verify" element={<PageVerifyAccount />} />
-                  <Route path="/notifications" element={<PageNotifications />} />
-                  <Route path="/share" element={<PageShare />} />
-                  <Route path="/api" element={<PageAPI />} />
-                </Routes>
+                  <Routes>
+                    <Route path="/" element={<PageHome />} />
+                    <Route path="/login" element={<PageLogin />} />
+                    <Route path="/signup" element={<PageSignUp />} />
+                    <Route path="/account" element={<PageAccount />} />
+                    <Route path="/verify" element={<PageVerifyAccount />} />
+                    <Route path="/notifications" element={<PageNotifications />} />
+                    <Route path="/share" element={<PageShare />} />
+                    <Route path="/api" element={<PageAPI />} />
+                  </Routes>
 
-              </Router>
-            </ContextSetUser.Provider>
-          </ContextUser.Provider>
-        </ContextFullScreen.Provider>
-      </ContextCount.Provider>
+                </Router>
+              </ContextSetUser.Provider>
+            </ContextUser.Provider>
+          </ContextFullScreen.Provider>
+        </ContextCount.Provider>
+      </ContextAIVoices.Provider>
     </div>
 
   );

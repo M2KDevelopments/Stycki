@@ -17,6 +17,7 @@
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "cookies-next": "^4.0.0",
+    "elevenlabs-m2k": "^1.0.7",
     "firebase": "^9.22.0",
     "firebase-admin": "^11.8.0",
     "generate-password": "^1.7.0",

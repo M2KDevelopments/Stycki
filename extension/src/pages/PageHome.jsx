@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import AppBar from '../components/AppBar';
 import { Badge, Breadcrumb, Button, Col, Form, Modal, ProgressBar, Row } from 'react-bootstrap';
-import { ContextCount, ContextUser } from '../App';
+import { ContextAIVoices, ContextCount, ContextUser } from '../App';
 import swal from 'sweetalert';
 import { FiMoreVertical } from 'react-icons/fi';
 import { FcFolder } from 'react-icons/fc';
@@ -30,8 +30,9 @@ function PageHome() {
   const [folderId, setFolderId] = useState("");
   const [folderDialogue, setFolderDialogue] = useState(null);
   const [folderSelected, setFolderSelected] = useState("-1");
-
-
+  const [voiceDialogue, setVoiceDialogue] = useState(false);
+  const aiVoices = useContext(ContextAIVoices);
+  const [voiceSelected, setVoiceSelected] = useState("-1");
 
   // Get chrome voices
   useEffect(() => {
@@ -53,7 +54,6 @@ function PageHome() {
     });
 
   }, []);
-
 
   const onCopy = (note) => window.navigator.clipboard.writeText(note).then(() => swal('Copied Page Link'));
 
@@ -173,6 +173,24 @@ function PageHome() {
     setFolderId(id);
   }
 
+  const onDownloadAudio = async () => {
+    if (voiceSelected === "-1") return swal('Please select an AI Voice');
+    const text = notes
+      .filter(note => note.url === voiceDialogue)
+      .map(note => `${note.title} says ${note.text}`)
+      .join("\n");
+
+    const voice_id = voiceSelected;
+    try {
+      const payload = { voice_id, text };
+      console.log(payload);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setVoiceDialogue(null)
+    }
+  }
+
   const filter = useCallback((notes) => {
     if (search.replace(/\s/gmi, '') === '') return true;
     if (notes[0].webname.toLowerCase().indexOf(search.toLowerCase()) !== -1) return true;
@@ -190,8 +208,6 @@ function PageHome() {
 
 
   if (folderId) {
-
-
     return (
       <AppBar nologo={true}>
         <br /><br />
@@ -243,8 +259,7 @@ function PageHome() {
                     <MenuItem onClick={() => { setAnchorEl(null); setOption(null); onRename(notes[0].url) }}>Rename</MenuItem>
                     <MenuItem onClick={() => onCopy(notes[0].url)}>Copy Page Link</MenuItem>
                     <MenuItem onClick={() => window.navigator.clipboard.writeText(`${notes[0].url}#share=${user._id}`).then(() => swal('Copied Share link'))}>Share</MenuItem>
-                    <MenuItem onClick={() => null}>Add to Favourites</MenuItem>
-                    <MenuItem onClick={() => null}>Download Audio</MenuItem>
+                    <MenuItem onClick={() => setVoiceDialogue(notes[0].url)}>Download Audio</MenuItem>
                     <MenuItem onClick={() => setFolderDialogue(notes[0].url)}>Move to Folder</MenuItem>
                     <MenuItem onClick={() => chrome.tabs.create({ url: notes[0].url })}>Go to Page</MenuItem>
                     <MenuItem onClick={() => onDel(notes[0].url)}>Remove Notes</MenuItem>
@@ -259,9 +274,9 @@ function PageHome() {
     )
   }
 
-
   return (
-    <AppBar>
+    <AppBar nologo={true}>
+      <br /><br />
       <h6 style={{ marginTop: 10 }}>{notes.length} out of {count} Notes 📝</h6>
 
       <ProgressBar variant='primary' animated striped now={notes.length} min={0} max={count} style={{ height: 7 }} />
@@ -270,27 +285,27 @@ function PageHome() {
 
       <Row xs={2}>
         <Col>
-          <Button size="sm" onClick={() => setFolderView(false)} variant={folderView ? 'light' : 'primary'}>📝 List View</Button>
+          <Button style={{ width: "100%" }} size="sm" onClick={() => setFolderView(false)} variant={folderView ? 'light' : 'primary'}>📝 List View</Button>
         </Col>
         <Col>
-          <Button size="sm" onClick={() => setFolderView(true)} variant={folderView ? 'primary' : 'light'}><FcFolder /> Folder View</Button>
+          <Button style={{ width: "100%" }} size="sm" onClick={() => setFolderView(true)} variant={folderView ? 'primary' : 'light'}><FcFolder /> Folder View</Button>
         </Col>
       </Row>
       <div style={{ marginTop: 8 }} />
       {
         folderView ?
 
-          <div style={{ width: "100%", height: 220, overflowY: "scroll" }}>
+          <div style={{ width: "100%", height: 250, overflowY: "scroll" }}>
             <Row xs={3}>
               <Col>
-                <Button size="sm" onClick={onAddFolder} variant="light">
+                <Button style={{ width: "100%", fontSize: "0.8rem" }} size="sm" onClick={onAddFolder} variant="light">
                   <FaFolderPlus color="grey" size={50} />
                   <br />
                   Add
                 </Button>
               </Col>
               <Col>
-                <Button size="sm" onClick={() => setFolderId("favourites")} variant="light">
+                <Button style={{ width: "100%", fontSize: "0.8rem" }} size="sm" onClick={() => setFolderId("favourites")} variant="light">
                   <img src={favourites} width={50} alt="fav" />
                   <br />
                   Favorites
@@ -299,7 +314,7 @@ function PageHome() {
               {
                 folders.sort((a, b) => a.name.localeCompare(b.name)).filter(filterFolder).map(folder =>
                   <Col key={folder.id}>
-                    <Button size="sm" onClick={() => setFolderId(folder.id)} variant="light">
+                    <Button style={{ width: "100%", fontSize: "0.8rem" }} size="sm" onClick={() => setFolderId(folder.id)} variant="light">
                       <FcFolder size={50} />
                       <br />
                       {folder.name}
@@ -311,7 +326,7 @@ function PageHome() {
 
           :
 
-          <div style={{ width: "100%", height: 220, overflowY: "scroll" }}>
+          <div style={{ width: "100%", height: 255, overflowY: "scroll" }}>
             {
               Array.from(urlNoteMap.values()).sort((a, b) => a[0].webname.localeCompare(b[0].webname)).filter(filter).map(notes =>
                 <div style={{ display: "flex", padding: "5px 4px", justifyContent: "center", background: "#f1eef2", borderRadius: 5 }}>
@@ -344,8 +359,8 @@ function PageHome() {
                       <MenuItem onClick={() => { setAnchorEl(null); setOption(null); onRename(notes[0].url) }}>Rename</MenuItem>
                       <MenuItem onClick={() => onCopy(notes[0].url)}>Copy Page Link</MenuItem>
                       <MenuItem onClick={() => window.navigator.clipboard.writeText(`${notes[0].url}#share=${user._id}`).then(() => swal('Copied Share link'))}>Copy Share Link</MenuItem>
-                      <MenuItem onClick={() => null}>Add to Favourites</MenuItem>
-                      <MenuItem onClick={() => null}>Download Audio</MenuItem>
+
+                      <MenuItem onClick={() => setVoiceDialogue(notes[0].url)}>Download Audio</MenuItem>
                       <MenuItem onClick={() => setFolderDialogue(notes[0].url)}>Move to Folder</MenuItem>
                       <MenuItem onClick={() => chrome.tabs.create({ url: notes[0].url })}>Go to Page</MenuItem>
                       <MenuItem onClick={() => onDel(notes[0].url)}>Remove Notes</MenuItem>
@@ -365,7 +380,7 @@ function PageHome() {
         </Modal.Header>
 
         <Modal.Body className="centralise" style={{ padding: 10 }}>
-          <FormControl sx={{ m: 1, minWidth: 400 }}>
+          <FormControl sx={{ m: 1, minWidth: 300, maxWidth: 300 }}>
             <InputLabel id="folder">Folders</InputLabel>
             <Select labelId="folder" id="folder" value={folderSelected} onChange={(e) => setFolderSelected(e.target.value)} label="Folders" >
               <MenuItem value="-1"><em>NONE</em></MenuItem>
@@ -374,7 +389,7 @@ function PageHome() {
                 Favorites
               </MenuItem>
               {
-                folders.map(t =>
+                folders.sort((a, b) => a.name.localeCompare(b.name)).map(t =>
                   <MenuItem key={t.id} value={t.id}>
                     {t.name.length > 15 ? t.name.substring(0, 12) + "..." : t.name}
                   </MenuItem>
@@ -389,11 +404,42 @@ function PageHome() {
             Cancel
           </Button>
           <Button variant="primary" onClick={onMoveToFolder} >
-            Add
+            Move to Folder
           </Button>
         </Modal.Footer>
       </Modal>
 
+
+      <Modal size="sm" show={voiceDialogue} onHide={() => setVoiceDialogue(null)} aria-labelledby="modal-title">
+        <Modal.Header closeButton>
+          <Modal.Title id="modal-title">Move to Folder</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body className="centralise" style={{ padding: 10 }}>
+          <FormControl sx={{ m: 1, minWidth: 300, maxWidth: 300 }}>
+            <InputLabel id="voices">AI Voices</InputLabel>
+            <Select labelId="voices" id="voices" value={voiceSelected} onChange={(e) => setVoiceSelected(e.target.value)} label="AI Voice" >
+              <MenuItem value="-1"><em>NONE</em></MenuItem>
+              {
+                aiVoices.sort((a, b) => a.name.localeCompare(b.name)).map(t =>
+                  <MenuItem key={t.id} value={t.voice_id}>
+                    {t.name.length > 15 ? t.name.substring(0, 12) + "..." : t.name}
+                  </MenuItem>
+                )
+              }
+            </Select>
+            <FormHelperText>Choose an AI Voice</FormHelperText>
+          </FormControl>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setVoiceDialogue(null)} >
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={onDownloadAudio} >
+            Download Audio
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </AppBar >
   )
 }

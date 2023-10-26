@@ -7,7 +7,8 @@ import ToolTip from './ToolTip';
 import { Badge } from 'react-bootstrap';
 import { ContextUser } from '../App';
 import { Button } from '@mui/material';
-import { AiFillApi, AiFillDollarCircle } from 'react-icons/ai';
+import logo from "../images/logo.png";
+import { AiFillDollarCircle, AiTwotoneSetting } from 'react-icons/ai';
 
 
 
@@ -15,6 +16,7 @@ function Navigation() {
 
   const user = useContext(ContextUser)
   const [notifications, setNotifications] = useState(0);
+
 
   useEffect(() => {
     async function countNotifications() {
@@ -32,12 +34,13 @@ function Navigation() {
 
   return (
     <div className='navigation'>
+      {/* Top Right Section */}
       {
         notifications ? <Badge style={{ position: "absolute", top: 10, left: -12 }} pill bg='warning'>{notifications}</Badge> : null
       }
-      <ToolTip text="API Integration">
+      <ToolTip text="Settings">
         <Link to="/api">
-          <AiFillApi color="purple" size={20} class="svg" />
+          <AiTwotoneSetting color="purple" size={20} class="svg" />
         </Link>
       </ToolTip>
       <ToolTip text="Notifications">
@@ -56,7 +59,17 @@ function Navigation() {
             </Link>
         }
       </ToolTip>
-      <Button size='small' color='info' variant='contained' style={{ fontSize: "0.6rem", borderRadius: 24, marginRight: 10, zIndex: 1, position: "fixed", left: 10 }} onClick={() => chrome.tabs.create({ url: 'https://stickynotespro.m2kdevelopments.com#priceplans' })}><AiFillDollarCircle size={20}/>{" "}Buy More Notes</Button>
+
+      {/* Top Left Section */}
+      <div style={{ display: "flex", marginRight: 10, zIndex: 1, position: "fixed", left: 10, top: 0 }}>
+        <Button title="Home" size="small" color="inherit" variant='contained' as={Link} to="/" style={{ fontSize: "0.6rem", borderRadius: 24 }}>
+          <img style={{ cursor: "pointer" }} alt="Sticky Notes Pro" className="logo" src={logo} width={20} />
+        </Button>
+        <Button size='small' color='secondary' variant='contained' style={{ fontSize: "0.6rem", borderRadius: 24 }} onClick={() => chrome.tabs.create({ url: 'https://stickynotespro.m2kdevelopments.com#priceplans' })}>
+          <AiFillDollarCircle size={20} />{" "}Buy More Notes
+        </Button>
+      </div>
+
     </div>
   )
 }
