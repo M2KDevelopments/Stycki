@@ -12,6 +12,8 @@ const schema = mongoose.Schema({
     minimized: { type: String, default: "#f5f599" },
     x: { type: Number, default: 100 },
     y: { type: Number, default: 40 },
+    trellocardId: { type: String, default: "" },
+    googlesheets: { type: String, default: "" },
 },
     {
         timestamps: true,
