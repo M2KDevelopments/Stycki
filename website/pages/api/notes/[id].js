@@ -1,12 +1,13 @@
 import Note from '../models/note';
 import { connectToDatabase } from '../helpers/mongo';
 import { authenticateUser } from '../helpers/auth.user';
-
+import runCors from '../helpers/cors';
 connectToDatabase();
 
 
 export default async function handler(req, res) {
     try {
+        await runCors(req, res);
         if (req.method.toUpperCase() === 'GET') await get(req, res);
         else if (req.method.toUpperCase() === 'PATCH') await patch(req, res);
         else if (req.method.toUpperCase() === 'DELETE') await remove(req, res);

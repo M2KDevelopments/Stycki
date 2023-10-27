@@ -1,5 +1,6 @@
 import { OAuth2Client } from 'google-auth-library';
 import { connectToDatabase } from '../../../helpers/mongo';
+import { authenticateUserByToken } from '../../../helpers/auth.user';
 import User from '../../../models/user';
 import { getCookie, deleteCookie } from 'cookies-next';
 

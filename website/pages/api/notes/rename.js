@@ -1,13 +1,13 @@
 import Note from '../models/note';
 import { connectToDatabase } from '../helpers/mongo';
 import { authenticateUser } from '../helpers/auth.user';
-
+import runCors from '../helpers/cors';
 connectToDatabase();
 
 
 export default async function handler(req, res) {
     try {
-
+        await runCors(req, res);
         if (req.method.toUpperCase() === 'PUT') await put(req, res);
         else return res.status(404).json({ result: false, message: "Not Found" });
     } catch (e) {
