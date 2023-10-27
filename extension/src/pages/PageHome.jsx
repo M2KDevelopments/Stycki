@@ -1,5 +1,4 @@
 /* global chrome */
-
 import React, { useCallback, useContext } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -36,11 +35,12 @@ function PageHome() {
   const [voiceSelected, setVoiceSelected] = useState("-1");
 
   //Integrations
+  const [loading, setLoading] = useState(false);
   const [integrationsDialogue, setIntegrationsDialogue] = useState(null);
   const [trelloBoards, setTrelloBoards] = useState([]);
-  const [trelloLists, setTrelloLists] = useState([]);
+  const [trelloLists, setTrelloLists] = useState(new Map());
   const [trelloSelectedBoard, setTrelloSelectedBoard] = useState("");
-  const [trelloSelectedList, setTrelloSelectedList] = useState("");
+  const [trelloSelectedList, setTrelloSelectedList] = useState("-1");
   const [googleSheetsUrl, setGoogleSheetsUrl] = useState("");
 
   // Get chrome voices
@@ -63,6 +63,20 @@ function PageHome() {
     });
 
   }, []);
+
+
+  // Get Trello Information
+  useEffect(() => {
+    async function run() {
+      try {
+        const boards = await API.GetAPI('/api/integrations/trello/boards');
+        setTrelloBoards(boards);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    if (user && user.trelloAccessToken) run()
+  }, [user])
 
   const onCopy = (note) => window.navigator.clipboard.writeText(note).then(() => swal('Copied Page Link'));
 
@@ -124,7 +138,7 @@ function PageHome() {
         if (map.get(url)) map.set(url, [...map.get(url), note]);
         else map.set(url, [note]);
       }
-      const res = await API.PutAPI(`/api/notes/rename`, { ids, webname: name });
+      const res = await API.PutAPI(`/api/notes/update`, { ids, webname: name });
       swal(res.message);
       setUrlNoteMap(map);
 
@@ -175,7 +189,7 @@ function PageHome() {
       else map.set(url, [note]);
     }
 
-    const res = await API.PutAPI(`/api/notes/folder`, { ids, folder: id });
+    const res = await API.PutAPI(`/api/notes/update`, { ids, folder: id });
     swal(res.message);
 
     setUrlNoteMap(map);
@@ -207,6 +221,123 @@ function PageHome() {
       console.log(e);
     } finally {
       setVoiceDialogue(null)
+    }
+  }
+
+  const getBoardLists = useCallback(() => {
+    if (trelloLists.get(trelloSelectedBoard)) return trelloLists.get(trelloSelectedBoard)
+    return [];
+  }, [trelloLists, trelloSelectedBoard])
+
+
+  const onCreateTrelloList = async () => {
+
+    if (!trelloSelectedBoard) return swal('Please select a trello board');
+
+    // Get info
+    const webname = notes.find(note => note.url === integrationsDialogue).webname;
+    const board = trelloBoards.find(board => board.id === trelloSelectedBoard);
+
+    const name = await swal({
+      title: `Add New List in ${board.name}`,
+      text: `Enter the name of the new list?`,
+      icon: "info",
+      content: {
+        element: 'input',
+        attributes: {
+          defaultValue: webname,
+        }
+      },
+      buttons: ['NO', 'YES']
+    });
+
+    if (!name) return;
+
+    try {
+      setLoading(true);
+      const ids = notes.filter(note => note.url === integrationsDialogue).map(note => note.id);
+      const res = await API.PostAPI(`/api/integrations/trello/lists/create`, { ids, name, boardId: board.id })
+      swal(`Adding New List in ${board.name}`, res.message, res.result ? 'success' : 'error');
+      if (res.result) chrome.storage.local.set({ notes: res.notes }, () => setNotes(res.notes))
+    } catch (e) {
+      console.log(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const onUseTrelloList = async () => {
+    // Get info
+    const list = trelloLists.find(list => list.id === trelloSelectedList);
+    const result = await swal({
+      title: `Sync Notes`,
+      text: `Are you sure you want to sync notes with '${list.name}'?`,
+      icon: "info",
+      buttons: ['NO', 'YES']
+    });
+    if (!result) return;
+    try {
+      setLoading(true);
+      const ids = notes.filter(note => note.url === integrationsDialogue).map(note => note.id);
+      const res = await API.PostAPI(`/api/integrations/trello/cards/create`, { ids, listId: trelloSelectedList })
+      swal(`Sync Notes`, res.message, res.result ? 'success' : 'error');
+      if (res.result) chrome.storage.local.set({ notes: res.notes }, () => setNotes(res.notes))
+    } catch (e) {
+      console.log(e.message);
+    } finally {
+      setLoading(false);
+    }
+
+  }
+
+  const onGoogleSheets = async (e) => {
+    e.preventDefault();
+
+    
+    // Get info
+    const result = await swal({
+      title: `Sync Notes with Google Sheets`,
+      text: `Are you sure you want to sync notes with Google Sheets?`,
+      icon: "info",
+      buttons: ['NO', 'YES']
+    });
+    if (!result) return;
+    try {
+      setLoading(true);
+      const ids = notes.filter(note => note.url === integrationsDialogue).map(note => note.id);
+      const res = await API.PutAPI(`/api/notes/update`, { ids, googlesheets: googleSheetsUrl })
+      swal(`Sync Notes`, res.message, res.result ? 'success' : 'error');
+      if (res.result) chrome.storage.local.set({ notes: res.notes }, () => setNotes(res.notes))
+    } catch (e) {
+      console.log(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+
+  const onChangeTrelloBoard = async (boardId) => {
+    setTrelloSelectedBoard(boardId);
+    if (!trelloLists.get(boardId)) {
+      try {
+        setLoading(true);
+
+        // Get the list of
+        const lists = await API.GetAPI(`/api/integrations/trello/lists/${boardId}`);
+        if (!lists.result) trelloLists.set(boardId, lists);
+
+        // Create new instance of the map
+        const map = new Map();
+        for (const id of Array.from(trelloLists.keys())) map.set(id, trelloLists.get(id));
+
+        // Update Map List
+        setTrelloLists(map);
+      } catch (err) {
+        console.error(err);
+        setTrelloSelectedList("-1");
+      } finally {
+        setLoading(false);
+      }
     }
   }
 
@@ -291,7 +422,7 @@ function PageHome() {
 
                     {/* <MenuItem onClick={() => setVoiceDialogue(notes[0].url)}>Download Audio</MenuItem> */}
                     <MenuItem onClick={() => setFolderDialogue(notes[0].url)}>Move to Folder</MenuItem>
-                    {user ? <MenuItem onClick={() => setIntegrationsDialogue(notes[0].url)}>Integrations</MenuItem> : null}
+                    {user ? <MenuItem onClick={() => { setIntegrationsDialogue(notes[0].url); setGoogleSheetsUrl(notes[0]?.googlesheets || "") }}>Integrations</MenuItem> : null}
                     <MenuItem onClick={() => { setAnchorEl(null); setOption(null); onRename(notes[0].url) }}>Rename</MenuItem>
 
                     <MenuItem onClick={() => onDel(notes[0].url)}>Remove Notes</MenuItem>
@@ -394,7 +525,7 @@ function PageHome() {
 
                       {/* <MenuItem onClick={() => setVoiceDialogue(notes[0].url)}>Download Audio</MenuItem> */}
                       <MenuItem onClick={() => setFolderDialogue(notes[0].url)}>Move to Folder</MenuItem>
-                      {user ? <MenuItem onClick={() => setIntegrationsDialogue(notes[0].url)}>Integrations</MenuItem> : null}
+                      {user ? <MenuItem onClick={() => { setIntegrationsDialogue(notes[0].url); setGoogleSheetsUrl(notes[0]?.googlesheets || "") }}>Integrations</MenuItem> : null}
 
                       <MenuItem onClick={() => { setAnchorEl(null); setOption(null); onRename(notes[0].url) }}>Rename</MenuItem>
 
@@ -486,43 +617,49 @@ function PageHome() {
         <Modal.Body className="centralise" style={{ padding: 10 }}>
           {
             user && user.googleSheetsAccessToken ?
-              <>
-                <h5><BsFillFileEarmarkSpreadsheetFill size={20} style={{ marginRight: 10 }} color="#0F9D58" />Google Sheets</h5>
-                <hr />
-                <TextField size="sm" style={{ width: "100%" }} value={googleSheetsUrl} onChange={e => setGoogleSheetsUrl(e.target.value)} label={<><BsFillFileEarmarkSpreadsheetFill color="green" style={{ marginRight: 10 }} /> Google Sheets</>} />
-
-              </> : null
+              <form onSubmit={onGoogleSheets}>
+                <TextField type="url" name="googlesheets" error={googleSheetsUrl.replace(/\s/gmi, '') !== '' && !googleSheetsUrl.match(/https:\/\/docs\.google\.com\/spreadsheets\/d\/[a-zA-Z0-9-_]+/)} disabled={loading} size="small" style={{ width: "100%" }} value={googleSheetsUrl} onChange={e => setGoogleSheetsUrl(e.target.value)} label={<><BsFillFileEarmarkSpreadsheetFill color="green" style={{ marginRight: 10 }} /> Google Sheets</>} />
+                <Button type="submit" disabled={loading || (googleSheetsUrl.replace(/\s/gmi, '') !== '' && !googleSheetsUrl.match(/https:\/\/docs\.google\.com\/spreadsheets\/d\/[a-zA-Z0-9-_]+/))} style={{ width: "100%" }} variant='success' size="sm">
+                  {loading ? "Loading..." : "Sync Notes with Google Sheets"}
+                </Button>
+                <br /><br />
+              </form> : null
           }
 
           {
             user && user.trelloAccessToken ?
               <>
-                <h5><BsTrello size={20} style={{ marginRight: 10 }} color="#0084D1" />Trello</h5>
-                <hr />
-                <FormControl sx={{ m: 1, minWidth: 300, maxWidth: 300 }}>
-                  <InputLabel>Boards</InputLabel>
-                  <Select value={trelloSelectedBoard} onChange={(e) => setTrelloSelectedBoard(e.target.value)} label="Boards" >
+                <FormControl sx={{ m: 1, minWidth: 345, maxWidth: 345 }}>
+                  <InputLabel><BsTrello style={{ marginRight: 10 }} color="#0084D1" />Trello Boards</InputLabel>
+                  <Select size="small" value={trelloSelectedBoard} onChange={(e) => onChangeTrelloBoard(e.target.value)} label="        Trello Boards" >
                     {
                       trelloBoards.sort((a, b) => a.name.localeCompare(b.name)).map(t =>
                         <MenuItem key={t.id} value={t.id}>
-                          {t.name.length > 15 ? t.name.substring(0, 12) + "..." : t.name}
+                          {t.name.length > 45 ? t.name.substring(0, 45) + "..." : t.name}
                         </MenuItem>
                       )
                     }
                   </Select>
                 </FormControl>
-                <FormControl sx={{ m: 1, minWidth: 300, maxWidth: 300 }}>
-                  <InputLabel>Lists</InputLabel>
-                  <Select value={trelloSelectedList} onChange={(e) => setTrelloSelectedList(e.target.value)} label="Lists" >
+                <FormControl disabled={loading} sx={{ m: 1, minWidth: 345, maxWidth: 345 }}>
+                  <InputLabel><BsTrello style={{ marginRight: 10 }} color="#0084D1" />Trello {loading ? "Loading..." : "Lists"}</InputLabel>
+                  <Select size="small" disabled={loading} value={trelloSelectedList} onChange={(e) => setTrelloSelectedList(e.target.value)} label="        Trello Lists" >
+                    <MenuItem value="-1">
+                      Create New List
+                    </MenuItem>
                     {
-                      trelloLists.sort((a, b) => a.name.localeCompare(b.name)).map(t =>
+                      getBoardLists().sort((a, b) => a.name.localeCompare(b.name)).map(t =>
                         <MenuItem key={t.id} value={t.id}>
-                          {t.name.length > 15 ? t.name.substring(0, 12) + "..." : t.name}
+                          {t.name.length > 45 ? t.name.substring(0, 45) + "..." : t.name}
                         </MenuItem>
                       )
                     }
                   </Select>
                 </FormControl>
+                {trelloSelectedBoard && trelloSelectedList == "-1" ?
+                  <Button style={{ width: "100%" }} variant='primary' size="sm" onClick={onCreateTrelloList}>Create New List</Button>
+                  : <Button style={{ width: "100%" }} variant='primary' size="sm" onClick={onUseTrelloList}>Sync Notes With Trello</Button>
+                }
               </> : null
           }
 

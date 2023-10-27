@@ -18,7 +18,12 @@ export default async function handler(req, res) {
 
 async function put(req, res) {
     const { uid } = authenticateUser(req, res);
-    const { ids, webname } = req.body;
-    await Note.updateMany({ id: { $in: ids }, user: uid }, { $set: { webname: webname } })
-    return res.status(200).json({ result: true, message: "Notes Rename" });
+    const { ids, googlesheets, webname, folder } = req.body;
+    const update = {};
+    if (googlesheets) update['googlesheets'] = googlesheets;
+    if (webname) update['webname'] = webname;
+    if (folder) update['folder'] = folder;
+
+    await Note.updateMany({ id: { $in: ids }, user: uid }, { $set: update })
+    return res.status(200).json({ result: true, message: "Notes have been updated" });
 }
