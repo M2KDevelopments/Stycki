@@ -105,29 +105,28 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
     'Content-Type': 'application/json; charset=utf-8',
     'Authorization': `Bearer ${token}`,
-    'authorization': `Bearer ${token}`
   }
   if (message.cid === "add-note") {
-    const res = await fetch(`${url}/api/notes`, { method: 'post', headers: headers, body: JSON.stringify(message.note) });
+    const res = await fetch(`${url}/api/notes`, { method: 'POST', headers: headers, body: JSON.stringify(message.note) });
     const json = await res.json();
     chrome.tabs.sendMessage(sender.tab.id, { cid: "alert", ...json })
   } else if (message.cid === "update-note") {
-    const res = await fetch(`${url}/api/notes/${message.note.id}`, { method: 'patch', headers: headers, body: JSON.stringify(message.note) });
-    const json = await res.json();
+    const res = await fetch(`${url}/api/notes/${message.note.id}`, { method: 'PATCH', headers: headers, body: JSON.stringify(message.note) });
+    const json = await res.text();
     console.log(json);
     //chrome.tabs.sendMessage(sender.tab.id, { cid: "alert", ...json })
   } else if (message.cid === "shared-notes") {
     const userid = sender.tab.url.replace(/.*#share=/gmi, '');
     const link = sender.tab.url.replace(/#share=.*/gmi, '');
-    const res = await fetch(`${url}/api/notes/share/${userid}?url=${link}`, { method: 'get', headers: headers});
+    const res = await fetch(`${url}/api/notes/share/${userid}?url=${link}`, { method: 'GET', headers: headers});
     const notes = await res.json();
     chrome.tabs.sendMessage(sender.tab.id, { cid: "shared-notes", notes })
   } else if (message.cid === "delete-note") {
-    const res = await fetch(`${url}/api/notes/${message.note.id}`, { method: 'delete', headers: headers });
+    const res = await fetch(`${url}/api/notes/${message.note.id}`, { method: 'DELETE', headers: headers });
     const json = await res.json();
     chrome.tabs.sendMessage(sender.tab.id, { cid: "alert", ...json })
   } else if (message.cid === "delete-many-notes") {
-    const res = await fetch(`${url}/api/notes/delete`, { method: 'put', headers: headers, body: JSON.stringify(message.ids) });
+    const res = await fetch(`${url}/api/notes/delete`, { method: 'PUT', headers: headers, body: JSON.stringify(message.ids) });
     const json = await res.json();
     chrome.tabs.sendMessage(sender.tab.id, { cid: "alert", ...json })
   }

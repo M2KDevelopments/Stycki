@@ -17,7 +17,7 @@ const schema = mongoose.Schema({
   refreshToken: { type: String, default: '' },
   count:  { type: Number, default: 60 },
   integrations: { type: Boolean, default: false },
-
+  
   // Integrations
   trelloAccessToken: { type: String, default: '' },
   trelloRefreshToken: { type: String, default: '' },
@@ -27,7 +27,7 @@ const schema = mongoose.Schema({
 
   onenoteAccessToken: { type: String, default: '' },
   onenoteRefreshToken: { type: String, default: '' },
-
+ 
   evernoteAccessToken: { type: String, default: '' },
   evernoteRefreshToken: { type: String, default: '' },
  

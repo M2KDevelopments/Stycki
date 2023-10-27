@@ -18,7 +18,7 @@ export default async function handler(req, res) {
 async function post(req, res) {
     const { uid } = authenticateUser(req, res)
     const user = await User.findById(uid);
-    user.googleSheetsToken = "";
+    user.googleSheetsAccessToken = "";
     user.googleSheetsRefreshToken = "";
     await user.save();
     return res.status(200).json({ result: true, message: `${user.name} disconnected from Google sheets successfully` });

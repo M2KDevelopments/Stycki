@@ -8,13 +8,12 @@ import { SiNotion } from 'react-icons/si';
 import * as API from "../utils/api";
 import drive from '../images/drive.png';
 import onenote from '../images/onenote.png';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import swal from 'sweetalert';
 import { useNavigate } from 'react-router-dom';
 import { mkConfig, generateCsv, download } from "export-to-csv";
 import { Box, FormControl, InputLabel, MenuItem, Select, Slider } from '@mui/material';
-
+import { ContextUser, ContextSetUser } from '../App';
 
 
 function PageAPI() {
@@ -24,6 +23,8 @@ function PageAPI() {
     const [voices, setVoices] = useState([]);
     const [voiceSelected, setVoiceSelected] = useState("-1");
     const navigation = useNavigate();
+    const user = useContext(ContextUser);
+    const setUser = useContext(ContextSetUser);
 
     useEffect(() => API.getAccessToken().then((token) => setToken(token)), []);
 
@@ -34,7 +35,7 @@ function PageAPI() {
         chrome.storage.local.get('voiceName', (data) => setVoiceSelected(data?.voiceName || "-1"))
     }, [])
 
-    const onContect = async (platform) => {
+    const onConnect = async (platform) => {
         if (!token) {
             const result = await swal({
                 title: 'Integration',
@@ -49,21 +50,28 @@ function PageAPI() {
         }
     }
 
-    const onGoogleDrive = async () => {
-        onContect('google/drive')
+    const onDisconnect = async (platform) => {
+        try {
+            const res = await API.PostAPI(`/api/integrations/${platform}/disconnect`);
+            const user = await API.GetAPI(`/api/user`);
+            setUser(user);
+            swal('Disconnecting', res.message, res.result ? 'success' : 'error');
+        } catch (e) {
+            console.log(e.message)
+        }
     }
 
-    const onGoogleSheets = async () => {
-        onContect('google/sheets')
-    }
+    const onGoogleDrive = async () => onConnect('google/drive')
 
-    const onOneNote = async () => {
-        onContect('microsoft/onenote')
-    }
+    const onGoogleSheets = async () => await onConnect('google/sheets')
 
-    const onTrello = async () => {
-        onContect('trello')
-    }
+    const onGoogleSheetsDisconnect = async () => await onDisconnect('google/sheets')
+
+    const onOneNote = async () => await onConnect('microsoft/onenote')
+
+    const onTrello = async () => await onConnect('trello')
+
+    const onTrelloDisconnect = async () => await onDisconnect('trello')
 
     const onCSV = async () => {
         const { notes } = await chrome.storage.local.get('notes');
@@ -96,15 +104,15 @@ function PageAPI() {
     }
 
     const onNotion = async () => {
-        onContect('notion')
+        onConnect('notion')
     }
 
     const onEvernote = async () => {
-        onContect('evernote')
+        onConnect('evernote')
     }
 
     const onSlack = async () => {
-        onContect('slack')
+        onConnect('slack')
     }
 
 
@@ -167,15 +175,26 @@ function PageAPI() {
                     </Col>
 
                     <Col>
-                        <Button onClick={onGoogleSheets} size="sm" style={{ width: "100%", marginBottom: 10, textAlign: "left" }} variant="light">
-                            <BsFillFileEarmarkSpreadsheetFill size={20} style={{ marginRight: 10 }} color="#0F9D58" /> Connect with Google Sheets
-                        </Button>
+                        {token && user && user.googleSheetsAccessToken ?
+                            <Button onClick={onGoogleSheetsDisconnect} size="sm" style={{ width: "100%", marginBottom: 10, textAlign: "left" }} variant="success">
+                                <BsFillFileEarmarkSpreadsheetFill size={20} style={{ marginRight: 10 }} /> Connected with Google Sheets
+                            </Button> :
+                            <Button onClick={onGoogleSheets} size="sm" style={{ width: "100%", marginBottom: 10, textAlign: "left" }} variant="light">
+                                <BsFillFileEarmarkSpreadsheetFill size={20} style={{ marginRight: 10 }} color="#0F9D58" /> Connect with Google Sheets
+                            </Button>
+                        }
                     </Col>
 
                     <Col>
-                        <Button onClick={onTrello} size="sm" style={{ width: "100%", marginBottom: 10, textAlign: "left" }} variant="light">
-                            <BsTrello size={20} style={{ marginRight: 10 }} color="#0084D1" /> Connect with Trello
-                        </Button>
+                        {token && user && user.trelloAccessToken ?
+                            <Button onClick={onTrelloDisconnect} size="sm" style={{ width: "100%", marginBottom: 10, textAlign: "left" }} variant="primary">
+                                <BsTrello size={20} style={{ marginRight: 10 }} /> Connected with Trello
+                            </Button>
+                            :
+                            <Button onClick={onTrello} size="sm" style={{ width: "100%", marginBottom: 10, textAlign: "left" }} variant="light">
+                                <BsTrello size={20} style={{ marginRight: 10 }} color="#0084D1" /> Connect with Trello
+                            </Button>
+                        }
                     </Col>
 
                     <Col>
