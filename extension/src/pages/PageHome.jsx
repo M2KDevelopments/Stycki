@@ -177,13 +177,23 @@ function PageHome() {
     if (voiceSelected === "-1") return swal('Please select an AI Voice');
     const text = notes
       .filter(note => note.url === voiceDialogue)
-      .map(note => `${note.title} says ${note.text}`)
+      .map(note => `${note.name} says ${note.text}`)
       .join("\n");
 
-    const voice_id = voiceSelected;
     try {
+      const voice_id = voiceSelected;
       const payload = { voice_id, text };
-      console.log(payload);
+      const buffer = await API.PostAPI(`/api/openai/audio`, payload);
+      const blob = new Blob([buffer], { type: "audio/wav" });
+      const href = URL.createObjectURL(blob);
+      const a = Object.assign(document.createElement("a"), {
+        href,
+        style: "display:none",
+        download: `Sticky Notes Pro Audio.mp3`,
+      });
+      a.click();
+      URL.revokeObjectURL(href);
+      a.remove();
     } catch (e) {
       console.log(e);
     } finally {
@@ -191,6 +201,16 @@ function PageHome() {
     }
   }
 
+  const showNoteDetials = useCallback(() => {
+
+    if (voiceDialogue) {
+      const list = notes.filter(note => note.url === voiceDialogue);
+      return `${list[0].webname} has ${list.length} ${list.length === 1 ? "Note" : "Notes"}`
+    }
+    return "";
+  }, [voiceDialogue, notes]);
+
+  
   const filter = useCallback((notes) => {
     if (search.replace(/\s/gmi, '') === '') return true;
     if (notes[0].webname.toLowerCase().indexOf(search.toLowerCase()) !== -1) return true;
@@ -416,13 +436,14 @@ function PageHome() {
         </Modal.Header>
 
         <Modal.Body className="centralise" style={{ padding: 10 }}>
+          <h6>{showNoteDetials()}</h6>
           <FormControl sx={{ m: 1, minWidth: 300, maxWidth: 300 }}>
             <InputLabel id="voices">AI Voices</InputLabel>
             <Select labelId="voices" id="voices" value={voiceSelected} onChange={(e) => setVoiceSelected(e.target.value)} label="AI Voice" >
               <MenuItem value="-1"><em>NONE</em></MenuItem>
               {
                 aiVoices.sort((a, b) => a.name.localeCompare(b.name)).map(t =>
-                  <MenuItem key={t.id} value={t.voice_id}>
+                  <MenuItem key={t.voice_id} value={t.voice_id}>
                     {t.name.length > 15 ? t.name.substring(0, 12) + "..." : t.name}
                   </MenuItem>
                 )
