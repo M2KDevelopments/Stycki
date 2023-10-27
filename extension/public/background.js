@@ -112,7 +112,7 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     const json = await res.json();
     chrome.tabs.sendMessage(sender.tab.id, { cid: "alert", ...json })
   } else if (message.cid === "update-note") {
-    const res = await fetch(`${url}/api/notes${message.note.id}`, { method: 'patch', headers: headers, body: JSON.stringify(message.note) });
+    const res = await fetch(`${url}/api/notes/${message.note.id}`, { method: 'patch', headers: headers, body: JSON.stringify(message.note) });
     const json = await res.json();
     console.log(json);
     //chrome.tabs.sendMessage(sender.tab.id, { cid: "alert", ...json })
