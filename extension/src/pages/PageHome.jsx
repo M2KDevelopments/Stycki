@@ -9,11 +9,12 @@ import { ContextAIVoices, ContextCount, ContextUser } from '../App';
 import swal from 'sweetalert';
 import { FiMoreVertical } from 'react-icons/fi';
 import { FcFolder } from 'react-icons/fc';
-import { Fade, FormControl, FormHelperText, InputLabel, Menu, MenuItem, Select } from '@mui/material';
+import { Fade, FormControl, FormHelperText, InputLabel, Menu, MenuItem, Select, TextField } from '@mui/material';
 import { FaFolderPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import favourites from '../images/favourite.png';
 import * as API from '../utils/api';
+import { BsFillFileEarmarkSpreadsheetFill, BsTrello } from 'react-icons/bs';
 
 
 function PageHome() {
@@ -33,6 +34,14 @@ function PageHome() {
   const [voiceDialogue, setVoiceDialogue] = useState(false);
   const aiVoices = useContext(ContextAIVoices);
   const [voiceSelected, setVoiceSelected] = useState("-1");
+
+  //Integrations
+  const [integrationsDialogue, setIntegrationsDialogue] = useState(null);
+  const [trelloBoards, setTrelloBoards] = useState([]);
+  const [trelloLists, setTrelloLists] = useState([]);
+  const [trelloSelectedBoard, setTrelloSelectedBoard] = useState("");
+  const [trelloSelectedList, setTrelloSelectedList] = useState("");
+  const [googleSheetsUrl, setGoogleSheetsUrl] = useState("");
 
   // Get chrome voices
   useEffect(() => {
@@ -210,7 +219,7 @@ function PageHome() {
     return "";
   }, [voiceDialogue, notes]);
 
-  
+
   const filter = useCallback((notes) => {
     if (search.replace(/\s/gmi, '') === '') return true;
     if (notes[0].webname.toLowerCase().indexOf(search.toLowerCase()) !== -1) return true;
@@ -276,12 +285,15 @@ function PageHome() {
                     onClose={() => { setAnchorEl(null); setOption(null) }}
                     TransitionComponent={Fade}
                   >
-                    <MenuItem onClick={() => { setAnchorEl(null); setOption(null); onRename(notes[0].url) }}>Rename</MenuItem>
                     <MenuItem onClick={() => onCopy(notes[0].url)}>Copy Page Link</MenuItem>
                     <MenuItem onClick={() => window.navigator.clipboard.writeText(`${notes[0].url}#share=${user._id}`).then(() => swal('Copied Share link'))}>Share</MenuItem>
-                    <MenuItem onClick={() => setVoiceDialogue(notes[0].url)}>Download Audio</MenuItem>
-                    <MenuItem onClick={() => setFolderDialogue(notes[0].url)}>Move to Folder</MenuItem>
                     <MenuItem onClick={() => chrome.tabs.create({ url: notes[0].url })}>Go to Page</MenuItem>
+
+                    {/* <MenuItem onClick={() => setVoiceDialogue(notes[0].url)}>Download Audio</MenuItem> */}
+                    <MenuItem onClick={() => setFolderDialogue(notes[0].url)}>Move to Folder</MenuItem>
+                    {user ? <MenuItem onClick={() => setIntegrationsDialogue(notes[0].url)}>Integrations</MenuItem> : null}
+                    <MenuItem onClick={() => { setAnchorEl(null); setOption(null); onRename(notes[0].url) }}>Rename</MenuItem>
+
                     <MenuItem onClick={() => onDel(notes[0].url)}>Remove Notes</MenuItem>
                   </Menu>
                 </div>
@@ -376,13 +388,16 @@ function PageHome() {
                       onClose={() => { setAnchorEl(null); setOption(null) }}
                       TransitionComponent={Fade}
                     >
-                      <MenuItem onClick={() => { setAnchorEl(null); setOption(null); onRename(notes[0].url) }}>Rename</MenuItem>
                       <MenuItem onClick={() => onCopy(notes[0].url)}>Copy Page Link</MenuItem>
                       <MenuItem onClick={() => window.navigator.clipboard.writeText(`${notes[0].url}#share=${user._id}`).then(() => swal('Copied Share link'))}>Copy Share Link</MenuItem>
-
-                      <MenuItem onClick={() => setVoiceDialogue(notes[0].url)}>Download Audio</MenuItem>
-                      <MenuItem onClick={() => setFolderDialogue(notes[0].url)}>Move to Folder</MenuItem>
                       <MenuItem onClick={() => chrome.tabs.create({ url: notes[0].url })}>Go to Page</MenuItem>
+
+                      {/* <MenuItem onClick={() => setVoiceDialogue(notes[0].url)}>Download Audio</MenuItem> */}
+                      <MenuItem onClick={() => setFolderDialogue(notes[0].url)}>Move to Folder</MenuItem>
+                      {user ? <MenuItem onClick={() => setIntegrationsDialogue(notes[0].url)}>Integrations</MenuItem> : null}
+
+                      <MenuItem onClick={() => { setAnchorEl(null); setOption(null); onRename(notes[0].url) }}>Rename</MenuItem>
+
                       <MenuItem onClick={() => onDel(notes[0].url)}>Remove Notes</MenuItem>
                     </Menu>
                   </div>
@@ -460,6 +475,58 @@ function PageHome() {
             Download Audio
           </Button>
         </Modal.Footer>
+      </Modal>
+
+
+      <Modal size="sm" show={integrationsDialogue} onHide={() => setIntegrationsDialogue(null)} aria-labelledby="modal-title">
+        <Modal.Header closeButton>
+          <Modal.Title>Integrations</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body className="centralise" style={{ padding: 10 }}>
+          {
+            user && user.googleSheetsAccessToken ?
+              <>
+                <h5><BsFillFileEarmarkSpreadsheetFill size={20} style={{ marginRight: 10 }} color="#0F9D58" />Google Sheets</h5>
+                <hr />
+                <TextField size="sm" style={{ width: "100%" }} value={googleSheetsUrl} onChange={e => setGoogleSheetsUrl(e.target.value)} label={<><BsFillFileEarmarkSpreadsheetFill color="green" style={{ marginRight: 10 }} /> Google Sheets</>} />
+
+              </> : null
+          }
+
+          {
+            user && user.trelloAccessToken ?
+              <>
+                <h5><BsTrello size={20} style={{ marginRight: 10 }} color="#0084D1" />Trello</h5>
+                <hr />
+                <FormControl sx={{ m: 1, minWidth: 300, maxWidth: 300 }}>
+                  <InputLabel>Boards</InputLabel>
+                  <Select value={trelloSelectedBoard} onChange={(e) => setTrelloSelectedBoard(e.target.value)} label="Boards" >
+                    {
+                      trelloBoards.sort((a, b) => a.name.localeCompare(b.name)).map(t =>
+                        <MenuItem key={t.id} value={t.id}>
+                          {t.name.length > 15 ? t.name.substring(0, 12) + "..." : t.name}
+                        </MenuItem>
+                      )
+                    }
+                  </Select>
+                </FormControl>
+                <FormControl sx={{ m: 1, minWidth: 300, maxWidth: 300 }}>
+                  <InputLabel>Lists</InputLabel>
+                  <Select value={trelloSelectedList} onChange={(e) => setTrelloSelectedList(e.target.value)} label="Lists" >
+                    {
+                      trelloLists.sort((a, b) => a.name.localeCompare(b.name)).map(t =>
+                        <MenuItem key={t.id} value={t.id}>
+                          {t.name.length > 15 ? t.name.substring(0, 12) + "..." : t.name}
+                        </MenuItem>
+                      )
+                    }
+                  </Select>
+                </FormControl>
+              </> : null
+          }
+
+        </Modal.Body>
       </Modal>
     </AppBar >
   )

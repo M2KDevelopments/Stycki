@@ -224,7 +224,7 @@ function PageAPI() {
                         </Button>
                     </Col>
 
-                    <br /><br />
+                    {/* <br /><br />
                     <h5>Audio Settings</h5>
                     <hr />
                     <FormControl size="small" sx={{ m: 1, maxWidth: "95%" }}>
@@ -265,7 +265,7 @@ function PageAPI() {
                                 <FaSave size={18} style={{ marginRight: 10 }} /> Save
                             </Button>
                         </Col>
-                    </Row>
+                    </Row> */}
 
                     <br /><br />
                 </Row>
