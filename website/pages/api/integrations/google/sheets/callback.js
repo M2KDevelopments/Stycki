@@ -31,6 +31,7 @@ export default async function handler(req, res) {
             } else console.log('User not found', uid)
         } else console.log('No User Id Provided');
 
+        console.log(repsonse.res.data);
         return res.status(200).redirect('/integrations/success')
     } catch (e) {
         return res.status(200).redirect('/integrations/failed')

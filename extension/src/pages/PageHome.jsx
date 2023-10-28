@@ -291,9 +291,8 @@ function PageHome() {
   }
 
   const onGoogleSheets = async (e) => {
-    e.preventDefault();
 
-    
+    e.preventDefault();
     // Get info
     const result = await swal({
       title: `Sync Notes with Google Sheets`,
@@ -307,7 +306,10 @@ function PageHome() {
       const ids = notes.filter(note => note.url === integrationsDialogue).map(note => note.id);
       const res = await API.PutAPI(`/api/notes/update`, { ids, googlesheets: googleSheetsUrl })
       swal(`Sync Notes`, res.message, res.result ? 'success' : 'error');
-      if (res.result) chrome.storage.local.set({ notes: res.notes }, () => setNotes(res.notes))
+      if (res.result) {
+        const data = await API.GetAPI(`/api/notes`);
+        if (!data.result) await chrome.storage.local.set({ notes: data }, () => setNotes(data));
+      }
     } catch (e) {
       console.log(e.message);
     } finally {

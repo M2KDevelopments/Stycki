@@ -2,9 +2,9 @@ import User from '../../../models/user';
 import { connectToDatabase } from '../../../helpers/mongo';
 import { authenticateUser } from '../../../helpers/auth.user';
 import { OAuth } from 'oauth';
-/*
-   OAuth Setup and Functions
-*/
+
+
+/* OAuth Setup and Functions */
 const requestURL = "https://trello.com/1/OAuthGetRequestToken";
 const accessURL = "https://trello.com/1/OAuthGetAccessToken";
 

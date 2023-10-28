@@ -2,6 +2,8 @@ import Note from '../models/note';
 import { connectToDatabase } from '../helpers/mongo';
 import { authenticateUser } from '../helpers/auth.user';
 import runCors from '../helpers/cors';
+import { updateGoogleSheets } from '../helpers/googlesheets';
+
 connectToDatabase();
 
 
@@ -16,6 +18,7 @@ export default async function handler(req, res) {
     }
 }
 
+
 async function put(req, res) {
     const { uid } = authenticateUser(req, res);
     const { ids, googlesheets, webname, folder } = req.body;
@@ -24,6 +27,11 @@ async function put(req, res) {
     if (webname) update['webname'] = webname;
     if (folder) update['folder'] = folder;
 
-    await Note.updateMany({ id: { $in: ids }, user: uid }, { $set: update })
+    await Note.updateMany({ id: { $in: ids }, user: uid }, { $set: update });
+
+    // Update Google Sheets - when change google sheets link
+    if (googlesheets) await updateGoogleSheets(ids, uid, googlesheets)
+
     return res.status(200).json({ result: true, message: "Notes have been updated" });
 }
+
