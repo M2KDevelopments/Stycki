@@ -19,12 +19,12 @@ export default async function handler(req, res) {
 
         // Generate the url that will be used for the consent dialog.
         const authorizeUrl = oAuth2Client.generateAuthUrl({
-            access_type: 'offline',
             scope: [
                 'https://www.googleapis.com/auth/userinfo.email',
                 'https://www.googleapis.com/auth/userinfo.profile',
                 'https://www.googleapis.com/auth/spreadsheets'
             ],
+            access_type: 'offline',
         });
 
         return res.status(200).redirect(authorizeUrl);
