@@ -2,6 +2,9 @@ import Note from '../models/note';
 import { connectToDatabase } from '../helpers/mongo';
 import { authenticateUser } from '../helpers/auth.user';
 import runCors from '../helpers/cors';
+import { updateGoogleSheets } from '../helpers/googlesheets';
+import { updateTrelloNotes } from '../helpers/trello';
+
 connectToDatabase();
 
 
@@ -40,6 +43,13 @@ async function patch(req, res) {
     if (folder != undefined) note.folder = folder;
 
     await note.save();
+
+    // Update Google Sheets - when notes change
+    if (note.googlesheets) await updateGoogleSheets([note.id], uid, note.googlesheets);
+
+    // Update Trello Cards - when notes name or text change
+    if (note.trellocardId && (name != undefined || text != undefined)) await updateTrelloNotes(note);
+
     return res.status(201).json({ result: true, message: "Note updated" });
 }
 

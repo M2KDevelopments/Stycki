@@ -256,9 +256,12 @@ function PageHome() {
     try {
       setLoading(true);
       const ids = notes.filter(note => note.url === integrationsDialogue).map(note => note.id);
-      const res = await API.PostAPI(`/api/integrations/trello/lists/create`, { ids, name, boardId: board.id })
+      const res = await API.PostAPI(`/api/integrations/trello/lists/${board.id}`, { ids, name })
       swal(`Adding New List in ${board.name}`, res.message, res.result ? 'success' : 'error');
-      if (res.result) chrome.storage.local.set({ notes: res.notes }, () => setNotes(res.notes))
+      if (res.result) {
+        const data = await API.GetAPI(`/api/notes`);
+        if (!data.result) await chrome.storage.local.set({ notes: data }, () => setNotes(data));
+      }
     } catch (e) {
       console.log(e.message);
     } finally {
@@ -267,6 +270,7 @@ function PageHome() {
   }
 
   const onUseTrelloList = async () => {
+
     // Get info
     const list = trelloLists.find(list => list.id === trelloSelectedList);
     const result = await swal({
@@ -276,18 +280,47 @@ function PageHome() {
       buttons: ['NO', 'YES']
     });
     if (!result) return;
+
     try {
       setLoading(true);
       const ids = notes.filter(note => note.url === integrationsDialogue).map(note => note.id);
-      const res = await API.PostAPI(`/api/integrations/trello/cards/create`, { ids, listId: trelloSelectedList })
+      const res = await API.PostAPI(`/api/integrations/trello/cards/${trelloSelectedList}`, { ids })
       swal(`Sync Notes`, res.message, res.result ? 'success' : 'error');
-      if (res.result) chrome.storage.local.set({ notes: res.notes }, () => setNotes(res.notes))
+      if (res.result) {
+        const data = await API.GetAPI(`/api/notes`);
+        if (!data.result) await chrome.storage.local.set({ notes: data }, () => setNotes(data));
+      }
     } catch (e) {
       console.log(e.message);
     } finally {
       setLoading(false);
     }
 
+  }
+
+  const onDisableTrello = async (url) => {
+
+    const result = await swal({
+      title: "Disable Notes syncing with Trello",
+      text: `Are you sure you want to Disable Notes syncing with Trello`,
+      icon: "info",
+      buttons: ['NO', 'YES']
+    });
+
+    if (result) {
+      const newNotes = notes.filter(note => note.url !== url);
+      const ids = notes.filter(note => note.url == url).map(note => note.id);
+      const map = new Map();
+      chrome.storage.local.set({ notes: newNotes }, () => setNotes(newNotes));
+      for (const note of newNotes) {
+        const { url } = note;
+        if (map.get(url)) map.set(url, [...map.get(url), note]);
+        else map.set(url, [note]);
+      }
+      const res = await API.PutAPI(`/api/notes/update`, { ids, trellocardId: "" });
+      swal(res.message);
+      setUrlNoteMap(map);
+    }
   }
 
   const onGoogleSheets = async (e) => {
@@ -396,6 +429,8 @@ function PageHome() {
                 <p title={notes[0].url} style={{ textAlign: "left", textOverflow: "ellipsis", width: "80%", color: "grey", fontWeight: 600, fontSize: "0.9rem" }}>
                   <Badge title={notes.length + " Notes"} style={{ marginRight: 10 }} pill bg="info">{notes.length}</Badge>
                   {notes[0].webname}
+                  {notes[0].trellocardId ? <BsTrello style={{ marginRight: 10 }} color="#0084D1" /> : null}
+                  {notes[0].googlesheets ? <BsFillFileEarmarkSpreadsheetFill color="green" style={{ marginRight: 10 }} /> : null}
                 </p>
 
                 <div>
@@ -499,6 +534,8 @@ function PageHome() {
                   <p title={notes[0].url} style={{ textAlign: "left", textOverflow: "ellipsis", width: "80%", color: "grey", fontWeight: 600, fontSize: "0.9rem" }}>
                     <Badge title={notes.length + " Notes"} style={{ marginRight: 10 }} pill bg="warning">{notes.length}</Badge>
                     {notes[0].webname}
+                    {notes[0].trellocardId ? <BsTrello style={{ marginRight: 10 }} color="#0084D1" /> : null}
+                    {notes[0].googlesheets ? <BsFillFileEarmarkSpreadsheetFill color="green" style={{ marginRight: 10 }} /> : null}
                   </p>
 
                   <div>
@@ -662,6 +699,7 @@ function PageHome() {
                   <Button style={{ width: "100%" }} variant='primary' size="sm" onClick={onCreateTrelloList}>Create New List</Button>
                   : <Button style={{ width: "100%" }} variant='primary' size="sm" onClick={onUseTrelloList}>Sync Notes With Trello</Button>
                 }
+                <Button style={{ width: "100%" }} variant='dart' size="sm" onClick={onDisableTrello}>Disconnect Syncing</Button>
               </> : null
           }
 

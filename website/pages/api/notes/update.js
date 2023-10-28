@@ -21,11 +21,12 @@ export default async function handler(req, res) {
 
 async function put(req, res) {
     const { uid } = authenticateUser(req, res);
-    const { ids, googlesheets, webname, folder } = req.body;
+    const { ids, googlesheets, webname, folder, trellocardId } = req.body;
     const update = {};
-    if (googlesheets) update['googlesheets'] = googlesheets;
-    if (webname) update['webname'] = webname;
-    if (folder) update['folder'] = folder;
+    if (googlesheets != undefined) update['googlesheets'] = googlesheets;
+    if (webname != undefined) update['webname'] = webname;
+    if (folder != undefined) update['folder'] = folder;
+    if (trellocardId != undefined) update['trellocardId'] = trellocardId;
 
     await Note.updateMany({ id: { $in: ids }, user: uid }, { $set: update });
 
