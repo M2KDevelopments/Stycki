@@ -44,13 +44,18 @@ async function patch(req, res) {
 
     await note.save();
 
-    // Update Google Sheets - when notes change
-    if (note.googlesheets) await updateGoogleSheets([note.id], uid, note.googlesheets);
 
     // Update Trello Cards - when notes name or text change
     if (note.trellocardId && (name != undefined || text != undefined)) await updateTrelloNotes(note);
 
-    return res.status(201).json({ result: true, message: "Note updated" });
+    // Update Google Sheets - when notes change
+    try {
+        if (note.googlesheets) await updateGoogleSheets([note.id], uid, note.googlesheets);
+    } catch (e) {
+        console.log(e.message);
+    }finally{
+        return res.status(201).json({ result: true, message: "Note updated" });
+    }    
 }
 
 async function remove(req, res) {
