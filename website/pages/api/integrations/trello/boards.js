@@ -39,7 +39,7 @@ async function get(req, res) {
     oauth.getProtectedResource("https://api.trello.com/1/members/me/boards", "GET", trelloAccessToken, trelloRefreshToken, async function (error, data, response) {
         if (error) console.log(error);
         try {
-            res.status(200).json(JSON.parse(data))
+            res.status(200).json(JSON.parse(data).filter(board => !board.closed))
         } catch (e) {
             console.log(e.message);
             res.status(500).json({ result: false, message: e.message });

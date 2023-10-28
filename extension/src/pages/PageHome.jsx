@@ -272,7 +272,7 @@ function PageHome() {
   const onUseTrelloList = async () => {
 
     // Get info
-    const list = trelloLists.find(list => list.id === trelloSelectedList);
+    const list = trelloLists.get(trelloSelectedBoard).find(list => list.id === trelloSelectedList);
     const result = await swal({
       title: `Sync Notes`,
       text: `Are you sure you want to sync notes with '${list.name}'?`,
@@ -428,9 +428,10 @@ function PageHome() {
 
                 <p title={notes[0].url} style={{ textAlign: "left", textOverflow: "ellipsis", width: "80%", color: "grey", fontWeight: 600, fontSize: "0.9rem" }}>
                   <Badge title={notes.length + " Notes"} style={{ marginRight: 10 }} pill bg="info">{notes.length}</Badge>
+                  {notes[0].trellocardId ? <BsTrello style={{ marginRight: 5 }} color="#0084D1" /> : null}
+                  {notes[0].googlesheets ? <BsFillFileEarmarkSpreadsheetFill color="green" style={{ marginRight: 5 }} /> : null}
                   {notes[0].webname}
-                  {notes[0].trellocardId ? <BsTrello style={{ marginRight: 10 }} color="#0084D1" /> : null}
-                  {notes[0].googlesheets ? <BsFillFileEarmarkSpreadsheetFill color="green" style={{ marginRight: 10 }} /> : null}
+
                 </p>
 
                 <div>
@@ -533,9 +534,10 @@ function PageHome() {
 
                   <p title={notes[0].url} style={{ textAlign: "left", textOverflow: "ellipsis", width: "80%", color: "grey", fontWeight: 600, fontSize: "0.9rem" }}>
                     <Badge title={notes.length + " Notes"} style={{ marginRight: 10 }} pill bg="warning">{notes.length}</Badge>
+                    {notes[0].trellocardId ? <BsTrello style={{ marginRight: 5 }} color="#0084D1" /> : null}
+                    {notes[0].googlesheets ? <BsFillFileEarmarkSpreadsheetFill color="green" style={{ marginRight: 5 }} /> : null}
                     {notes[0].webname}
-                    {notes[0].trellocardId ? <BsTrello style={{ marginRight: 10 }} color="#0084D1" /> : null}
-                    {notes[0].googlesheets ? <BsFillFileEarmarkSpreadsheetFill color="green" style={{ marginRight: 10 }} /> : null}
+
                   </p>
 
                   <div>
@@ -699,7 +701,7 @@ function PageHome() {
                   <Button style={{ width: "100%" }} variant='primary' size="sm" onClick={onCreateTrelloList}>Create New List</Button>
                   : <Button style={{ width: "100%" }} variant='primary' size="sm" onClick={onUseTrelloList}>Sync Notes With Trello</Button>
                 }
-                <Button style={{ width: "100%" }} variant='dart' size="sm" onClick={onDisableTrello}>Disconnect Syncing</Button>
+                <Button style={{ width: "100%" }} variant='dark' size="sm" onClick={onDisableTrello}>Disconnect Syncing</Button>
               </> : null
           }
 

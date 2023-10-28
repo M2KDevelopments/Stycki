@@ -1,7 +1,7 @@
 {
   "name": "Sticky Notes Pro",
   "short_name": "Sticky Notes Pro",
-  "version": "1.001",
+  "version": "1.002",
   "description": "📒Effortlessly create, manage, and organize sticky notes📝, ensuring that you never miss important information",
   "manifest_version": 3,
   "minimum_chrome_version": "88",
