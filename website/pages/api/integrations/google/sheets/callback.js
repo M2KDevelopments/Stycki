@@ -25,13 +25,13 @@ export default async function handler(req, res) {
             const user = await User.findById(uid);
             if (user) {
                 user.googleSheetsAccessToken = access_token;
-                user.googleSheetsRefreshToken = refresh_token;
+                user.googleSheetsRefreshToken = refresh_token ? refresh_token : repsonse.tokens.refresh_token;
                 await user.save();
                 console.log('Save Google Sheets Integration')
             } else console.log('User not found', uid)
         } else console.log('No User Id Provided');
 
-        console.log(repsonse.tokens.refresh_token);
+
         return res.status(200).redirect('/integrations/success')
     } catch (e) {
         return res.status(200).redirect('/integrations/failed')
