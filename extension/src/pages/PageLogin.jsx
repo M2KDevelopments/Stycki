@@ -8,6 +8,7 @@ import * as Google from "../utils/google";
 import swal from 'sweetalert';
 import { Link, useNavigate } from 'react-router-dom';
 import { ContextSetUser } from '../App';
+import Logo from '../components/Logo';
 
 function PageLogin() {
 
@@ -74,10 +75,12 @@ function PageLogin() {
     navigation('/');
   }
 
-  
+
 
   return (
     <AppBar>
+      <br /><br />
+      <Logo />
       <Form onSubmit={onSubmit}>
 
         <Row xs={1}>
@@ -116,7 +119,7 @@ function PageLogin() {
 
 
         <ButtonGoogle onClick={onGoogle} />
-        
+
       </Form>
     </AppBar>
   )

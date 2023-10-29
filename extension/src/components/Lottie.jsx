@@ -4,6 +4,7 @@ import  { useLottie } from "lottie-react";
 import * as lottieLoading from '../res/lottie_loading.json';
 import * as lottieNotification from '../res/lottie_notification.json';
 import * as lottieUpgrade from '../res/lottie_upgrade2.json';
+import * as lottieGoogle from '../res/lottie_googleplay.json';
 
 function Lottie(props) {
   
@@ -30,6 +31,8 @@ export const AnimationLoading = (props) => <Animation title={props.title} lottie
 export const AnimationNotifications = (props) => <Animation title={props.title} lottie={lottieNotification} width={props.width} />
 
 export const AnimationUpgrade = (props) => <Animation title={props.title} lottie={lottieUpgrade} width={props.width} />
+
+export const AnimationGooglePlay = (props) => null//<Animation title={props.title} lottie={lottieGoogle} width={props.width} />
 
 
 

@@ -155,7 +155,7 @@ async function initFirebaseNotifications(url) {
       });
 
       //post to register for web push notification on the backend
-      const responseWebpush = await fetch(`${url}/api/notifications`, { method: 'post', headers: headers, body: body });
+      const responseWebpush = await fetch(`${url}/api/notifications/register`, { method: 'POST', headers: headers, body: body });
       const json = await responseWebpush.json();
 
       //save notification in chrome storage

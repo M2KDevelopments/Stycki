@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Button, Col, Form, Row } from 'react-bootstrap'
 import * as API from "../utils/api";
 import swal from 'sweetalert'
+import Logo from '../components/Logo';
 
 
 function PageSignUp() {
@@ -32,6 +33,8 @@ function PageSignUp() {
 
   return (
     <AppBar>
+      <br /><br />
+      <Logo />
       <Form onSubmit={onSubmit}>
         <Row xs={1}>
           <Col>

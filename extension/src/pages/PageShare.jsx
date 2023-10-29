@@ -14,16 +14,19 @@ import {
     EmailShareButton
 } from "react-share";
 import { AiOutlineMail } from 'react-icons/ai'
+import Logo from '../components/Logo'
+import { AnimationGooglePlay } from '../components/Lottie'
 
 
-const url = 'https://chrome.google.com/webstore/detail/hogkcoijhcfikefcdmongnhlhooggfio';
-const description = `Just stumbled upon Sticky Notes Pro, this awesome Chrome extension that keeps your browsing clean and free from profanity and adult content. You've got to check it out!`;
+const url = 'https://chrome.google.com/webstore/detail/gnpgjlgmdekplbmfpokppoajajdkdkdp';
+const description = `Just stumbled upon Sticky Notes Pro, 📒Effortlessly create, manage, and organize sticky notes📝, ensuring that you never miss important information. You've got to check it out!`;
 
 function PageShare() {
 
-
     return (
         <AppBar>
+            <br /><br />
+            <Logo />
             <Container>
                 <Row xs={1} style={{ maxHeight: 280, overflowY: "scroll" }}>
                     <Col>
@@ -86,6 +89,9 @@ function PageShare() {
                                 <AiOutlineMail /> Email
                             </Button>
                         </EmailShareButton>
+                    </Col>
+                    <Col>
+                        <AnimationGooglePlay width={200} />
                     </Col>
                 </Row>
             </Container>

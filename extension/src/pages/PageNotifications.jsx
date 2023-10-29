@@ -46,6 +46,7 @@ function PageNotifications() {
   if (!notifications.length) {
     return (
       <AppBar>
+        <br /><br />
         <Container fluid className='centralise'>
           <AnimationNotifications width={300} title="No Notifications" />
         </Container>
@@ -56,6 +57,7 @@ function PageNotifications() {
   
   return (
     <AppBar>
+      <br /><br />
       <Container fluid style={{ overflowY: "scroll", maxHeight: 260 }}>
         {notifications.map((note, index) =>
           <Slide key={index} cascade delay={(index + 1) * 100}>

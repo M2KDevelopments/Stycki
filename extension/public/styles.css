@@ -92,6 +92,15 @@
     transition: 0.7s all;
 }
 
+.stickynotespro-paper-max {
+    margin: auto 0;
+}
+
+.stickynotespro-paper-max section {
+    width: 80%;
+    height: 600px;
+}
+
 .stickynotespro-paper section:hover {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     opacity: 1;
@@ -112,6 +121,10 @@
     padding-top: 5px;
 }
 
+.stickynotespro-paper-max .appbar{
+    height: 6%;
+}
+
 .stickynotespro-paper p {
     max-width: 58%;
     width: 58%;
@@ -129,9 +142,19 @@
     overflow: hidden;
 }
 
+.stickynotespro-paper-max p{
+    max-width: 100%;
+    width: 100%;
+}
+
 .stickynotespro-paper article {
     width: 245px;
     height: 90%;
+}
+
+.stickynotespro-paper-max article {
+    width: 99%;
+    height: 99%;
 }
 
 .stickynotespro-paper textarea {
@@ -147,6 +170,7 @@
     border-color: lightgrey;
     color: #383838 !important;
 }
+
 
 .stickynotespro-paper textarea::-webkit-scrollbar {
     width: 20px;
@@ -217,13 +241,19 @@
 
 
 /*Collapsable Side Bar*/
-.stickynotespro-sidebar-dialog {
+.stickynotespro-sidebar-dialog,
+.stickynotespro-max-dialog {
     padding: 0;
     margin: 0px;
     min-width: 100vw;
     min-height: 100vh;
     border: none;
     background: #0000005e;
+}
+
+.stickynotespro-max-dialog{
+    display: flex;
+    justify-content: center;
 }
 
 .stickynotespro-sidebar {
@@ -270,7 +300,7 @@
     transition: all 0.6s;
 }
 
-.stickynotespro-sidebar .close-button:hover{
+.stickynotespro-sidebar .close-button:hover {
     background: linear-gradient(45deg, red, darkred);
-    
+
 }

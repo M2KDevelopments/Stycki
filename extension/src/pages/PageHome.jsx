@@ -13,6 +13,7 @@ import { FaFolderPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import * as API from '../utils/api';
 import { BsFillFileEarmarkSpreadsheetFill, BsTrello } from 'react-icons/bs';
+import { AiFillDelete } from 'react-icons/ai';
 
 
 function PageHome() {
@@ -97,7 +98,7 @@ function PageHome() {
       const ids = notes.filter(note => note.url === url).map(note => note.id);
       chrome.storage.local.set({ notes: newNotes }, () => setNotes(newNotes));
       const res = await API.PutAPI(`/api/notes/delete`, { ids });
-      swal(res.message); 
+      swal(res.message);
     }
   }
 
@@ -148,6 +149,32 @@ function PageHome() {
     chrome.storage.local.set({ folders }, () => setFolders([...folders]));
 
   }
+
+  const onDelFolder = async (folderId) => {
+
+    const result = await swal({
+      title: "Remove Folder",
+      text: "Do you want to remove folder",
+      icon: "info",
+      buttons: ["CANCEL", 'REMOVE FOLDER']
+    });
+    if (!result) return;
+
+    const res = await API.DeleteAPI(`/api/folders/${folderId}`);
+    swal(res.message);
+    if (res.result) {
+      const list = folders.filter(f => f.id !== folderId);
+      chrome.storage.local.set({ folders: list }, () => setFolders(list));
+      const data = await API.GetAPI(`/api/notes`);
+      if (!data.result) {
+        await chrome.storage.local.set({ notes: data });
+        setNotes(data)
+        setFolderId("");
+      }
+
+    }
+  }
+
 
   const onMoveToFolder = async () => {
 
@@ -274,6 +301,17 @@ function PageHome() {
 
   }
 
+  const onGoToTrelloCard = async (cardId) => {
+    try {
+      swal('Please wait opening trello card')
+      const res = await API.GetAPI(`/api/integrations/trello/card/${cardId}`);
+      chrome.tabs.create({ url: res.url });
+    } catch (e) {
+      console.log(e.message);
+      swal('Trello Card', 'Could not access trello card', 'warning');
+    }
+  }
+
   const onDisableTrello = async (url) => {
 
     const result = await swal({
@@ -383,10 +421,13 @@ function PageHome() {
         <Form.Control size="sm" style={{ borderRadius: 20, marginTop: 10, marginBottom: 10 }} type="search" placeholder="Search" value={search} onChange={e => setSearch(e.target.value)} />
 
 
-        <Breadcrumb>
-          <Breadcrumb.Item href="#"><Link to="/" onClick={() => setFolderId("")}>Home</Link></Breadcrumb.Item>
-          <Breadcrumb.Item active>{folders.find(f => f.id === folderId).name}</Breadcrumb.Item>
-        </Breadcrumb>
+        <div style={{ display: "flex" }}>
+          <Breadcrumb>
+            <Breadcrumb.Item href="#"><Link to="/" onClick={() => setFolderId("")}>Home</Link></Breadcrumb.Item>
+            <Breadcrumb.Item active>{folders.find(f => f.id === folderId).name}</Breadcrumb.Item>
+          </Breadcrumb>
+          <Button style={{ marginLeft: 10, fontSize: "0.8rem", height: "fit-content" }} size="sm" variant='outline-dark' onClick={() => onDelFolder(folderId)}><AiFillDelete style={{ marginRight: 10 }} />Remove Folder</Button>
+        </div>
 
 
         <div fluid style={{ width: "100%", height: 300, overflowY: "scroll" }}>
@@ -396,7 +437,7 @@ function PageHome() {
 
                 <p title={notes[0].url} style={{ textAlign: "left", textOverflow: "ellipsis", width: "80%", color: "grey", fontWeight: 600, fontSize: "0.9rem" }}>
                   <Badge title={notes.length + " Notes"} style={{ marginRight: 10 }} pill bg="info">{notes.length}</Badge>
-                  {notes[0].trellocardId ? <BsTrello style={{ marginRight: 5 }} color="#0084D1" /> : null}
+                  {notes[0].trellocardId ? <BsTrello title="Go to trello card" onClick={() => onGoToTrelloCard(notes[0].trellocardId)} style={{ marginRight: 5, cursor: "pointer" }} color="#0084D1" /> : null}
                   {notes[0].googlesheets ? <BsFillFileEarmarkSpreadsheetFill color="green" style={{ marginRight: 5 }} /> : null}
                   {notes[0].webname}
 
@@ -472,7 +513,7 @@ function PageHome() {
                   <br />
                   Add
                 </Button>
-              </Col> 
+              </Col>
               {
                 folders.sort((a, b) => a.name.localeCompare(b.name)).filter(filterFolder).map(folder =>
                   <Col key={folder.id}>
@@ -495,7 +536,7 @@ function PageHome() {
 
                   <p title={notes[0].url} style={{ textAlign: "left", textOverflow: "ellipsis", width: "80%", color: "grey", fontWeight: 600, fontSize: "0.9rem" }}>
                     <Badge title={notes.length + " Notes"} style={{ marginRight: 10 }} pill bg="warning">{notes.length}</Badge>
-                    {notes[0].trellocardId ? <BsTrello style={{ marginRight: 5 }} color="#0084D1" /> : null}
+                    {notes[0].trellocardId ? <BsTrello title="Go to trello card" onClick={() => onGoToTrelloCard(notes[0].trellocardId)} style={{ marginRight: 5, cursor: "pointer" }} color="#0084D1" /> : null}
                     {notes[0].googlesheets ? <BsFillFileEarmarkSpreadsheetFill color="green" style={{ marginRight: 5 }} /> : null}
                     {notes[0].webname}
 

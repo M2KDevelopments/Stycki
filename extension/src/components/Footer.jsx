@@ -16,8 +16,11 @@ function Footer() {
     useEffect(() => chrome.storage.local.get('active', data => setActive(data.active ? data.active : false)), [])
 
     const onToggle = () => chrome.storage.local.set({ active: !active }, () => setActive(!active));
- 
-    const onWebsite = (route, type = "panel") => chrome.windows.create({ url: `https://stickynotespro.com/${route}?utm_source=chrome&utm_medium=extension&utm_campaign=promo`, type });
+
+    const onWebsite = (route) => chrome.tabs.create({ url: `https://stickynotespro.m2kdevelopments.com/${route}` });
+
+    const onUrl = (url) => chrome.tabs.create({ url });
+
 
     return (
         <div className='footer'>
@@ -41,17 +44,11 @@ function Footer() {
                     </Link>
                 </ToolTip>
 
-                <ToolTip text="Support">
-                    <Link to="/#" onClick={() => onWebsite('/support')}>
+                <ToolTip text="Support Desk">
+                    <Link to="/#" onClick={() => onUrl('https://support.m2kdevelopments.com')}>
                         <FaHandsHelping size={20} className="svg" />
                     </Link>
                 </ToolTip>
-
-                <ToolTip text="Check for Updates">
-                    <Link to="/#" onClick={() => onWebsite('/extension/updates')}>
-                        <AiFillChrome size={20} className="svg" />
-                    </Link>
-                </ToolTip> 
 
                 <ToolTip text="Learn How to Use">
                     <Link to="/#" onClick={() => onWebsite('/extension/help')}>

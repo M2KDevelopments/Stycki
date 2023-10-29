@@ -285,6 +285,69 @@ async function createNote(id, defaultNote = null, disabled = false) {
 
         div.querySelector('button[title="Maximize"]').onclick = () => {
 
+            // Create Side Bar and Button
+            const dialog = document.createElement('dialog');
+            dialog.classList.add('stickynotespro-max-dialog');
+            dialog.classList.add('stickynotespro-paper');
+            dialog.classList.add('stickynotespro-paper-max');
+            dialog.innerHTML = `<section style="background:${color}">
+                <div class="appbar">
+                    <p id="name-${id}" title="Double click to rename note">${title}</p>
+                    <nav>
+                        <input type="color" value="${color}" title="Sticky Note Color"/>
+                        <button disabled></button>
+                        <button disabled></button>
+                        <button title="Close"></button>
+                    </nav>
+                </div>
+                <article>
+                    <textarea>${text}</textarea>
+                </article>
+            </section>`;
+            document.body.appendChild(dialog);
+            dialog.showModal();
+
+            // Close Note
+            dialog.querySelector('button[title="Close"]').onclick = () =>  dialog.close();
+            dialog.onclose = () => dialog.remove();
+
+            // Change Color
+            dialog.querySelector('input[type="color"]').onchange = async (e) => {
+                div.querySelector('section').style.background = e.target.value;
+                dialog.querySelector('section').style.background = e.target.value;
+                const { notes } = await chrome.storage.local.get('notes');
+                const index = notes.findIndex(n => n.id === id);
+                notes[index].color = e.target.value;
+                chrome.storage.local.set({ notes: notes });
+                await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
+            }
+
+            // Rename Note
+            dialog.querySelector('p').ondblclick = async (e) => {
+                const { notes } = await chrome.storage.local.get('notes');
+                const index = notes.findIndex(n => n.id === id);
+                const name = window.prompt('Rename Note', div.querySelector('p').textContent);
+                if (name) {
+                    div.querySelector('p').textContent = name;
+                    div.querySelector('p').setAttribute('title', `Double click to rename note: ${name}`);
+                    dialog.querySelector('p').textContent = name;
+                    dialog.querySelector('p').setAttribute('title', `Double click to rename note: ${name}`);
+                    notes[index].name = name;
+                    chrome.storage.local.set({ notes: notes });
+                    await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
+                }
+            }
+
+            // Change text
+            dialog.querySelector('textarea').onchange = async (e) => {
+                const { notes } = await chrome.storage.local.get('notes');
+                const index = notes.findIndex(n => id === n.id);
+                notes[index].text = e.target.value;
+                div.querySelector('textarea').value = e.target.value;
+                await chrome.storage.local.set({ notes: notes });
+                await showNotesOnSideBar();
+                await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
+            }
         }
 
 

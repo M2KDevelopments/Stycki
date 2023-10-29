@@ -5,7 +5,7 @@ import serviceAccount from '../utils/firebase.json';
 
 if (!admin.apps.length) admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    
+
 });
 
 connectToDatabase();

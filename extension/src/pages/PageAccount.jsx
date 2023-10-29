@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Container } from 'react-bootstrap';
 import { FaUserCircle } from 'react-icons/fa';
 import { AiOutlinePoweroff } from 'react-icons/ai';
+import { AnimationGooglePlay } from '../components/Lottie';
 
 function PageAccount() {
 
@@ -33,6 +34,7 @@ function PageAccount() {
 
   return (
     <AppBar>
+      <br /><br />
       <Container className="centralise">
         
         <FaUserCircle color="grey" size={50} class="svg" />
@@ -40,7 +42,8 @@ function PageAccount() {
         <h5>{user.name}</h5>
         <h6>{user.email}</h6>
         
-        <br /><br /><br />
+        <AnimationGooglePlay width={200}/>
+                <br /><br /><br />
 
         <Button variant="dark" className="round hover dropShadow" onClick={onLogout}>
           <AiOutlinePoweroff /> Logout

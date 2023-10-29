@@ -25,7 +25,7 @@ export function openOAuthWindow(url, platform) {
                     chrome.windows.onRemoved.removeListener(removeListneer);
                     console.log('User Oauth Login Succesfully');
                     resolve({ result: true, message: `Log in successful` });
-                }else if(request.cid === 'integrations'){
+                } else if (request.cid === 'integrations') {
                     chrome.runtime.onMessage.removeListener(listener);
                     chrome.windows.remove(win.id);
                     chrome.windows.onRemoved.removeListener(removeListneer);

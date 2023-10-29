@@ -6,7 +6,6 @@ import PageHome from "./pages/PageHome";
 import PageLogin from "./pages/PageLogin";
 import PageNotifications from "./pages/PageNotifications";
 import PageSignUp from "./pages/PageSignUp";
-import PageVerifyAccount from "./pages/PageVerifyAccount";
 import * as API from "./utils/api";
 import PageShare from "./pages/PageShare";
 import PageAPI from "./pages/PageAPI";
@@ -85,7 +84,7 @@ function App({ fullScreen }) {
 
   // Get AI Voices
   useEffect(() => {
-    API.GetAPI('/api/openai/voices').then(voices => setAIVoices(!voices.result ? voices : []))
+    API.GetAPI('/api/openai/voices').then(voices => setAIVoices(!voices.result && typeof voices !== 'string' ? voices : []))
   }, []);
 
 
@@ -103,7 +102,6 @@ function App({ fullScreen }) {
                     <Route path="/login" element={<PageLogin />} />
                     <Route path="/signup" element={<PageSignUp />} />
                     <Route path="/account" element={<PageAccount />} />
-                    <Route path="/verify" element={<PageVerifyAccount />} />
                     <Route path="/notifications" element={<PageNotifications />} />
                     <Route path="/share" element={<PageShare />} />
                     <Route path="/api" element={<PageAPI />} />

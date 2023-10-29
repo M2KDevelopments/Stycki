@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { mkConfig, generateCsv, download } from "export-to-csv";
 import { Box, FormControl, InputLabel, MenuItem, Select, Slider } from '@mui/material';
 import { ContextUser, ContextSetUser } from '../App';
-
+import { openOAuthWindow } from '../utils/oauth_window';
 
 function PageAPI() {
 
@@ -46,7 +46,9 @@ function PageAPI() {
 
             if (result) navigation('/login')
         } else {
-            chrome.windows.create({ url: `https://stickynotespro.m2kdevelopments.com/api/integrations/${platform}/oauth?t=${token}`, type: "panel" });
+            const result = await openOAuthWindow(`https://stickynotespro.m2kdevelopments.com/api/integrations/${platform}/oauth?t=${token}`)
+            if (result.result) swal('API Integration', 'Connection was successfully', 'success');
+            // chrome.windows.create({ url: `https://stickynotespro.m2kdevelopments.com/api/integrations/${platform}/oauth?t=${token}`, type: "panel" });
         }
     }
 

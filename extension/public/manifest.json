@@ -43,7 +43,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://stickynotespro.m2kdevelopments.com/api/google/*"
+        "https://stickynotespro.m2kdevelopments.com/extension/*",
+        "https://stickynotespro.com/extension/*"
       ],
       "js": [
         "./content/oauth.js"
@@ -54,7 +55,9 @@
     {
       "matches": [
         "https://stickynotespro.m2kdevelopments.com/api/integrations/*",
-        "https://stickynotespro.m2kdevelopments.com/integrations/*"
+        "https://stickynotespro.m2kdevelopments.com/integrations/*",
+        "https://stickynotespro.com/api/integrations/*",
+        "https://stickynotespro.com/integrations/*"
       ],
       "js": [
         "./content/integrations.js"

@@ -36,7 +36,7 @@ function Navigation() {
     <div className='navigation'>
       {/* Top Right Section */}
       {
-        notifications ? <Badge style={{ position: "absolute", top: 10, left: -12 }} pill bg='warning'>{notifications}</Badge> : null
+        notifications ? <Badge style={{ position: "absolute", top: -30, left: 10 }} pill bg='warning'>{notifications}</Badge> : null
       }
       <ToolTip text="Settings">
         <Link to="/api">
