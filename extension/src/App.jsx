@@ -72,7 +72,7 @@ function App({ fullScreen }) {
           }
         }
         if (folders) {
-          const res = await API.PutAPI(`/api/folders`, { folders: [...folders, { name: "Favorites", id: "favourites" }] });
+          const res = await API.PutAPI(`/api/folders`, { folders: [...folders] });
           if (res.result) {
             const data = await API.GetAPI(`/api/folders`);
             if (!data.result) await chrome.storage.local.set({ folders: data });

@@ -11,7 +11,6 @@ import { FcFolder } from 'react-icons/fc';
 import { Fade, FormControl, FormHelperText, InputLabel, Menu, MenuItem, Select, TextField } from '@mui/material';
 import { FaFolderPlus } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import favourites from '../images/favourite.png';
 import * as API from '../utils/api';
 import { BsFillFileEarmarkSpreadsheetFill, BsTrello } from 'react-icons/bs';
 
@@ -50,19 +49,22 @@ function PageHome() {
       setFolders(folders ? folders : [])
 
       const { notes } = data;
-      if (notes) {
-        const map = new Map();
-        setNotes(notes);
-        for (const note of notes) {
-          const { url } = note;
-          if (map.get(url)) map.set(url, [...map.get(url), note]);
-          else map.set(url, [note]);
-        }
-        setUrlNoteMap(map);
-      }
+      if (notes) setNotes(notes);
     });
 
   }, []);
+
+
+  // Auto update notes
+  useEffect(() => {
+    const map = new Map();
+    for (const note of notes) {
+      const { url } = note;
+      if (map.get(url)) map.set(url, [...map.get(url), note]);
+      else map.set(url, [note]);
+    }
+    setUrlNoteMap(map);
+  }, [notes])
 
 
   // Get Trello Information
@@ -80,8 +82,6 @@ function PageHome() {
 
   const onCopy = (note) => window.navigator.clipboard.writeText(note).then(() => swal('Copied Page Link'));
 
-
-
   const onDel = async (url) => {
 
     const result = await swal({
@@ -94,17 +94,10 @@ function PageHome() {
 
     if (result) {
       const newNotes = notes.filter(note => note.url !== url);
-      const ids = notes.filter(note => note.url == url).map(note => note.id);
-      const map = new Map();
+      const ids = notes.filter(note => note.url === url).map(note => note.id);
       chrome.storage.local.set({ notes: newNotes }, () => setNotes(newNotes));
-      for (const note of newNotes) {
-        const { url } = note;
-        if (map.get(url)) map.set(url, [...map.get(url), note]);
-        else map.set(url, [note]);
-      }
       const res = await API.PutAPI(`/api/notes/delete`, { ids });
-      swal(res.message);
-      setUrlNoteMap(map);
+      swal(res.message); 
     }
   }
 
@@ -130,17 +123,9 @@ function PageHome() {
           notes[index].webname = name;
         }
       }
-
-      const map = new Map();
       chrome.storage.local.set({ notes: notes }, () => setNotes([...notes]));
-      for (const note of notes) {
-        const { url } = note;
-        if (map.get(url)) map.set(url, [...map.get(url), note]);
-        else map.set(url, [note]);
-      }
       const res = await API.PutAPI(`/api/notes/update`, { ids, webname: name });
       swal(res.message);
-      setUrlNoteMap(map);
 
     }
   }
@@ -180,19 +165,9 @@ function PageHome() {
       }
     }
 
-
-    const map = new Map();
     chrome.storage.local.set({ notes: notes }, () => setNotes([...notes]));
-    for (const note of notes) {
-      const { url } = note;
-      if (map.get(url)) map.set(url, [...map.get(url), note]);
-      else map.set(url, [note]);
-    }
-
     const res = await API.PutAPI(`/api/notes/update`, { ids, folder: id });
     swal(res.message);
-
-    setUrlNoteMap(map);
     setFolderId(id);
   }
 
@@ -223,6 +198,7 @@ function PageHome() {
       setVoiceDialogue(null)
     }
   }
+
 
   const getBoardLists = useCallback(() => {
     if (trelloLists.get(trelloSelectedBoard)) return trelloLists.get(trelloSelectedBoard)
@@ -309,17 +285,10 @@ function PageHome() {
 
     if (result) {
       const newNotes = notes.filter(note => note.url !== url);
-      const ids = notes.filter(note => note.url == url).map(note => note.id);
-      const map = new Map();
+      const ids = notes.filter(note => note.url === url).map(note => note.id);
       chrome.storage.local.set({ notes: newNotes }, () => setNotes(newNotes));
-      for (const note of newNotes) {
-        const { url } = note;
-        if (map.get(url)) map.set(url, [...map.get(url), note]);
-        else map.set(url, [note]);
-      }
       const res = await API.PutAPI(`/api/notes/update`, { ids, trellocardId: "" });
       swal(res.message);
-      setUrlNoteMap(map);
     }
   }
 
@@ -400,7 +369,6 @@ function PageHome() {
     if (search.replace(/\s/gmi, '') === '') return true;
     if (folder.name.toLowerCase().indexOf(search.toLowerCase()) !== -1) return true;
   }, [search])
-
 
   if (folderId) {
     return (
@@ -504,14 +472,7 @@ function PageHome() {
                   <br />
                   Add
                 </Button>
-              </Col>
-              <Col>
-                <Button style={{ width: "100%", fontSize: "0.8rem" }} size="sm" onClick={() => setFolderId("favourites")} variant="light">
-                  <img src={favourites} width={50} alt="fav" />
-                  <br />
-                  Favorites
-                </Button>
-              </Col>
+              </Col> 
               {
                 folders.sort((a, b) => a.name.localeCompare(b.name)).filter(filterFolder).map(folder =>
                   <Col key={folder.id}>
@@ -591,10 +552,6 @@ function PageHome() {
             <InputLabel id="folder">Folders</InputLabel>
             <Select labelId="folder" id="folder" value={folderSelected} onChange={(e) => setFolderSelected(e.target.value)} label="Folders" >
               <MenuItem value="-1"><em>NONE</em></MenuItem>
-              <MenuItem value="favourites">
-                <img src={favourites} width={18} alt="fav" style={{ marginRight: 10 }} />
-                Favorites
-              </MenuItem>
               {
                 folders.sort((a, b) => a.name.localeCompare(b.name)).map(t =>
                   <MenuItem key={t.id} value={t.id}>
