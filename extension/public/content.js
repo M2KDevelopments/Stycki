@@ -377,6 +377,7 @@ async function showNotesOnSideBar() {
             div.remove();
             await showNotesOnSideBar();
             await chrome.runtime.sendMessage({ cid: "update-note", note: notes[index] });
+            createNote(notes[index].id, notes[index]);
         }
 
         div.querySelector('button[title="Close"]').onclick = async () => {

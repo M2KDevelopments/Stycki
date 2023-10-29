@@ -9,7 +9,7 @@ const schema = mongoose.Schema({
     url: { type: String, default: "" },
     text: { type: String, default: "" },
     color: { type: String, default: "#f5f599" },
-    minimized: { type: String, default: "#f5f599" },
+    minimized: { type: Boolean, default: false },
     x: { type: Number, default: 100 },
     y: { type: Number, default: 40 },
     trellocardId: { type: String, default: "" },
