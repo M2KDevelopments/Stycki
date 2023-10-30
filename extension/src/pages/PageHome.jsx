@@ -104,11 +104,17 @@ function PageHome() {
 
 
   const onRename = async (url) => {
+    const note = notes.find(note => note.url === url);
     const name = await swal({
       title: "Rename Notes",
       text: `Are you sure you want to rename this list?`,
       icon: "info",
-      content: 'input',
+      content: {
+        element: 'input',
+        attributes: {
+          defaultValue: note.webname,
+        }
+      },
       buttons: ['NO', 'YES']
     });
 
@@ -119,7 +125,7 @@ function PageHome() {
       const ids = [];
       for (const index in notes) {
         const note = notes[index];
-        if (note.url == url) {
+        if (note.url === url) {
           ids.push(note.id);
           notes[index].webname = name;
         }
@@ -163,13 +169,14 @@ function PageHome() {
     const res = await API.DeleteAPI(`/api/folders/${folderId}`);
     swal(res.message);
     if (res.result) {
+      setFolderId("");
       const list = folders.filter(f => f.id !== folderId);
       chrome.storage.local.set({ folders: list }, () => setFolders(list));
       const data = await API.GetAPI(`/api/notes`);
       if (!data.result) {
         await chrome.storage.local.set({ notes: data });
         setNotes(data)
-        setFolderId("");
+
       }
 
     }
@@ -699,7 +706,7 @@ function PageHome() {
                   <Button style={{ width: "100%" }} variant='primary' size="sm" onClick={onCreateTrelloList}>Create New List</Button>
                   : <Button style={{ width: "100%" }} variant='primary' size="sm" onClick={onUseTrelloList}>Sync Notes With Trello</Button>
                 }
-                <Button style={{ width: "100%" }} variant='dark' size="sm" onClick={onDisableTrello}>Disconnect Syncing</Button>
+                <Button style={{ width: "100%" }} variant='dark' size="sm" onClick={() => onDisableTrello(integrationsDialogue)}>Disconnect Syncing</Button>
               </> : null
           }
 
