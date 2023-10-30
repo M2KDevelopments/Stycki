@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { FaApplePay, FaGooglePay } from 'react-icons/fa';
 import { AnimationPayment } from '../../components/Lotties';
 import FEATURES from '../../utils/features.json';
+import swal from 'sweetalert';
+import ReactConfetti from 'react-confetti';
 
 
 // Default Next Js Function
@@ -21,7 +23,9 @@ export async function getServerSideProps({ req, res }) {
 
 function PaypalCheckout({ paypalsdk, clientId, prices }) {
 
-    const { id } = useRouter().query;
+    const router = useRouter();
+    const { id } = router.query;
+
 
     // Checkout Information
     const [features, setFeatures] = useState([]);
@@ -29,6 +33,7 @@ function PaypalCheckout({ paypalsdk, clientId, prices }) {
     const [moreNotes, setMoreNotes] = useState(40);
     const [price, setPrice] = useState(0);
     const [integration, setIntegration] = useState(false);
+    const [showPayment, setShowPayments] = useState(false)
 
     useEffect(() => {
         if (!window.paypal) {
@@ -36,8 +41,9 @@ function PaypalCheckout({ paypalsdk, clientId, prices }) {
             const script = document.createElement('script');
             script.src = paypalsdk;
             script.type = 'text/javascript';
-            script.async = true;
+            // script.async = true;
             document.body.appendChild(script);
+            console.log('Loaded Paypal Script')
         }
     }, [paypalsdk]);
 
@@ -81,15 +87,18 @@ function PaypalCheckout({ paypalsdk, clientId, prices }) {
             body: JSON.stringify({ orderID: data.orderID, id: id })
         })
             .then((response) => response.json())
-            .then((orderData) => {
+            .then(async (orderData) => {
                 // Successful capture! For dev/demo purposes:
                 console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                const transaction = orderData.purchase_units[0].payments.captures[0];
-                alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+                //const transaction = orderData.purchase_units[0].payments.captures[0];
+                //alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
                 // When ready to go live, remove the alert and show a success message within this page. For example:
                 // const element = document.getElementById('paypal-button-container');
                 // element.innerHTML = '<h3>Thank you for your payment!</h3>';
                 // Or go to another URL:  window.location.href = 'thank_you.html';
+                setShowPayments(true);
+                await swal('Paypal', 'Purchase was successful. Check your email and confirm.', 'success');
+                router.push('/');
             });
     }
 
@@ -99,15 +108,17 @@ function PaypalCheckout({ paypalsdk, clientId, prices }) {
 
     // If an error prevents buyer checkout, alert the user that an error has occurred with the buttons using the onError callback:
     function onError(err) {
+        console.log(err);
+        swal('Paypal', 'Something went wrong', 'warning');
         // For example, redirect to a specific error page
-        window.location.href = "/checkout/error";
+        //window.location.href = "/checkout/error";
     }
 
-    function onGooglePlay(){
-        
+    function onGooglePlay() {
+
     }
 
-    function onApplePlay(){
+    function onApplePlay() {
 
     }
 
@@ -134,6 +145,7 @@ function PaypalCheckout({ paypalsdk, clientId, prices }) {
                 <meta name="pinterest-rich-pin" content="true" />
             </Head>
 
+
             <main className="mx-auto my-8 grid mobile:grid-cols-1 laptop:grid-cols-2">
                 <div className='mx-auto my-14'>
                     <Image src="/logoText.png" alt="Sticky Notes Pro" width={240} height={240} className='my-10 mx-auto text-center' />
@@ -158,8 +170,8 @@ function PaypalCheckout({ paypalsdk, clientId, prices }) {
 
                     <AnimationPayment width={250} title="Sticky Notes Pro Checkout" />
 
-                    <button onClick={onGooglePlay} className="my-2 flex justify-center w-full py-1 px-12 text-center bg-slate-50 hover:bg-slate-400 duration-500 cursor-pointer text-slate-800 text-lg rounded border-none"><FaGooglePay size={45} /></button>
-                    <button onClick={onApplePlay} className='my-2 flex justify-center w-full py-1 px-12 text-center bg-black hover:bg-gray-800 duration-500 cursor-pointer text-white text-lg rounded border-none'><FaApplePay size={45} /></button>
+                    <button disabled={true} onClick={onGooglePlay} className="my-2 flex justify-center w-full py-1 px-12 text-center bg-slate-50 hover:bg-slate-400 duration-500 cursor-pointer text-slate-800 text-lg rounded border-none"><FaGooglePay size={45} /> Coming Soon</button>
+                    <button disabled={true} onClick={onApplePlay} className='my-2 flex justify-center w-full py-1 px-12 text-center bg-black hover:bg-gray-800 duration-500 cursor-pointer text-white text-lg rounded border-none'><FaApplePay size={45} /> Coming Soon</button>
 
                     <PayPalScriptProvider options={{ clientId: clientId }}>
                         <PayPalButtons
@@ -171,6 +183,8 @@ function PaypalCheckout({ paypalsdk, clientId, prices }) {
                     </PayPalScriptProvider>
                 </div>
             </main>
+
+            {showPayment ? <ReactConfetti style={{ margin: "0 auto" }} width={500} height={800} /> : null}
 
         </div>
     )

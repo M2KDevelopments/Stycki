@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 const schema = mongoose.Schema({
     id: { type: String, required: true },
     status: { type: String, required: true },
-    priceplan: { type: String, required: true },
+    priceplan: { type: String, default: "" },
     purchase_units: { type: Array, default: [] },
     links: { type: Array, default: [] },
     payment_source: {

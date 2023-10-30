@@ -1,6 +1,7 @@
 // PayPal NodeJs Documenations - https://developer.paypal.com/docs/checkout/standard/integrate/
 import axios from 'axios';
 import PRICES from '../utils/prices.json'
+import { connectToDatabase } from '../helpers/mongo';
 const instance = axios.create();
 
 // Pay Pal Credientials
@@ -10,6 +11,8 @@ const PAYPAL_APP_SECRET = !dev ? process.env.PAYPAL_APP_SECRET : process.env.PAY
 
 // Pay Pal Backend URL
 const baseURL = { url: dev ? "https://api-m.sandbox.paypal.com" : "https://api-m.paypal.com" };
+
+connectToDatabase();
 
 // use the orders api to create an order
 export default async function handler(req, res) {
@@ -25,7 +28,7 @@ export default async function handler(req, res) {
             purchase_units: [{
                 amount: {
                     currency_code: "USD",
-                    value: `${priceplan.price * 100}`, //in cents
+                    value: `${priceplan.price}`, //in cents
                 },
             }]
         }
