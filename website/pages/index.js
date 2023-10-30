@@ -1,9 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Parallax } from "react-parallax";
 import { TypeAnimation } from 'react-type-animation';
-import { Slide, Fade, } from "react-awesome-reveal";
+import { Slide } from "react-awesome-reveal";
 import YouTube from 'react-youtube';
 import Footer from '../components/Footer';
 import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel } from 'react-accessible-accordion';

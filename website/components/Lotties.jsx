@@ -5,6 +5,7 @@ import * as integrations from '../anim/integrations.json';
 import * as success from '../anim/integration.json';
 import * as failed from '../anim/failed.json';
 import * as login from '../anim/login.json';
+import * as payment from '../anim/payment.json';
  
 function Lotties({ file, title, description, width }) {
 
@@ -38,5 +39,7 @@ export const AnimationIntegrationSuccess = (props) => <Lotties {...props} file={
 export const AnimationIntegrationFailed = (props) => <Lotties {...props} file={failed} />
 
 export const AnimationLogin = (props) => <Lotties {...props} file={login} />
+
+export const AnimationPayment = (props) => <Lotties {...props} file={payment} />
 
 export default Lotties

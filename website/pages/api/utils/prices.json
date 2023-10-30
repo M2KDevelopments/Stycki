@@ -1,5 +1,7 @@
 [
     {
+        "_id":0,
+        "id":0,
         "name": "Basic",
         "price": 6,
         "activate": {
@@ -26,6 +28,8 @@
         ]
     },
     {
+        "_id":1,
+        "id":1,
         "name": "Premium",
         "price": 11,
         "activate": {
