@@ -5,7 +5,7 @@
   "description": "📒Effortlessly create, manage, and organize sticky notes📝, ensuring that you never miss important information",
   "manifest_version": 3,
   "minimum_chrome_version": "88",
-  "homepage_url": "https://stickynotespro.m2kdevelopments.com",
+  "homepage_url": "https://stickynotespro.com",
   "action": {
     "default_popup": "index.html",
     "default_title": "Sticky Notes Pro",
