@@ -65,7 +65,7 @@ export default async function oauth(req, res) {
             `
             // email user account
             await user.save();
-            await send([email], 'Reset Your Password', html);
+            await send([email], 'First Time? Welcome!', html);
 
         }
 

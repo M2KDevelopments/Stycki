@@ -142,7 +142,7 @@ export default async function signUp(req, res) {
             console.log(err.message);
         }
 
-        return res.status(201).json({ result: true, message: `Thank you for signing up to Sticky Notes Pro. Your Awesome!` })
+        return res.status(201).json({ result: true, message: `Thank you for signing up to Sticky Notes Pro. Your Awesome! Check your email for the password.` })
     } catch (e) {
         console.log(e.message);
         return res.status(500).json({ result: false, message: e.message });

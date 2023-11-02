@@ -34,7 +34,7 @@ async function patch(req, res) {
     const note = await Folder.findOne({ id, user: uid });
     if (name != undefined) note.name = name;
     await note.save();
-    return res.status(200).json({ result: true, message: "Note updated" });
+    return res.status(200).json({ result: true, message: "Folder updated" });
 }
 
 
@@ -43,5 +43,5 @@ async function remove(req, res) {
     const { id } = req.query;
     await Folder.deleteOne({ id, user: uid });
     await Note.updateMany({ folder: id }, { $set: { folder: "" } })
-    return res.status(200).json({ result: true, message: "Note deleted" });
+    return res.status(200).json({ result: true, message: "Folder deleted" });
 }
