@@ -10,13 +10,13 @@ chrome.runtime.onInstalled.addListener(async function (details) {
 
   const INSTALL = "install", UPDATE = "update", CHROME_UPDATE = "chrome_update", SHARED_UPDATE = "shared_module_update";
 
-  if (details.reason === INSTALL) chrome.tabs.create({ url: "https://stickynotespro.m2kdevelopments.com/installed" })
+  if (details.reason === INSTALL) chrome.tabs.create({ url: "https://stickynotespro.com/installed" })
 
   if (details.reason === INSTALL || details.reason === UPDATE || details.reason === CHROME_UPDATE || details.reason === SHARED_UPDATE) {
     // Initialize Firebase Notifications
     initFirebaseNotifications('https://stickynotespro.m2kdevelopments.com');
     countNotifications();
-    chrome.runtime.setUninstallURL(`https://stickynotespro.m2kdevelopments.com/uninstalled`);
+    chrome.runtime.setUninstallURL(`https://stickynotespro.com/uninstalled`);
   }
 
 });
