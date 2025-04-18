@@ -4,6 +4,7 @@ import nodemailer from 'nodemailer';
 const transporter = nodemailer.createTransport({
     service: process.env.NODEMAILER_EMAIL_SERVICE,
     secure: true,
+    host: process.env.NODEMAILER_HOST,
     auth: {
         user: process.env.NODEMAILER_EMAIL,
         pass: process.env.NODEMAILER_EMAIL_AUTH_PASSCODE,
