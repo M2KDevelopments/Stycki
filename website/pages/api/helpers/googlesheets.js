@@ -53,7 +53,7 @@ export async function updateGoogleSheets(ids, uid, googlesheets) {
     // Load Headers
     await sheet.setHeaderRow(Object.keys(note));
 
-    // Add notes
+    // Load Rows
     const rows = await sheet.getRows();
 
     //update rows

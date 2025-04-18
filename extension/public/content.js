@@ -17,7 +17,7 @@ chrome.storage.local.get('active', data => {
         Toastify({
             text: "Loading shared notes",
             duration: 3000,
-            destination: "https://stickynotespro.m2kdevelopments.com",
+            destination: "https://stickynotespro.vercel.app",
             newWindow: true,
             close: true,
             gravity: "top", // `top` or `bottom`
@@ -106,7 +106,7 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         Toastify({
             text: message.message,
             duration: 3000,
-            destination: "https://stickynotespro.m2kdevelopments.com",
+            destination: "https://stickynotespro.vercel.app",
             newWindow: true,
             close: true,
             gravity: "top", // `top` or `bottom`

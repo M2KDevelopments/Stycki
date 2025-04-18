@@ -10,13 +10,13 @@ chrome.runtime.onInstalled.addListener(async function (details) {
 
   const INSTALL = "install", UPDATE = "update", CHROME_UPDATE = "chrome_update", SHARED_UPDATE = "shared_module_update";
 
-  if (details.reason === INSTALL) chrome.tabs.create({ url: "https://stickynotespro.com/installed" })
+  if (details.reason === INSTALL) chrome.tabs.create({ url: "https://stickynotespro.vercel.app/installed" })
 
   if (details.reason === INSTALL || details.reason === UPDATE || details.reason === CHROME_UPDATE || details.reason === SHARED_UPDATE) {
     // Initialize Firebase Notifications
-    initFirebaseNotifications('https://stickynotespro.m2kdevelopments.com');
+    initFirebaseNotifications('https://stickynotespro.vercel.app');
     countNotifications();
-    chrome.runtime.setUninstallURL(`https://stickynotespro.com/uninstalled`);
+    chrome.runtime.setUninstallURL(`https://stickynotespro.vercel.app/uninstalled`);
   }
 
 });
@@ -100,7 +100,7 @@ chrome.gcm.onMessage.addListener((message) => {
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 
   const token = await getAccessToken();
-  const url = 'https://stickynotespro.m2kdevelopments.com';
+  const url = 'https://stickynotespro.vercel.app';
   const headers = {
     'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
     'Content-Type': 'application/json; charset=utf-8',

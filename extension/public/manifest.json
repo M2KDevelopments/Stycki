@@ -5,7 +5,7 @@
   "description": "📒Effortlessly create, manage, and organize sticky notes📝, ensuring that you never miss important information",
   "manifest_version": 3,
   "minimum_chrome_version": "88",
-  "homepage_url": "https://stickynotespro.com",
+  "homepage_url": "https://stickynotespro.vercel.app",
   "action": {
     "default_popup": "index.html",
     "default_title": "Sticky Notes Pro",
@@ -43,8 +43,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://stickynotespro.m2kdevelopments.com/extension/*",
-        "https://stickynotespro.com/extension/*"
+        "https://stickynotespro.vercel.app/extension/*",
+        "https://stickynotespro.vercel.app/extension/*"
       ],
       "js": [
         "./content/oauth.js"
@@ -54,10 +54,10 @@
     },
     {
       "matches": [
-        "https://stickynotespro.m2kdevelopments.com/api/integrations/*",
-        "https://stickynotespro.m2kdevelopments.com/integrations/*",
-        "https://stickynotespro.com/api/integrations/*",
-        "https://stickynotespro.com/integrations/*"
+        "https://stickynotespro.vercel.app/api/integrations/*",
+        "https://stickynotespro.vercel.app/integrations/*",
+        "https://stickynotespro.vercel.app/api/integrations/*",
+        "https://stickynotespro.vercel.app/integrations/*"
       ],
       "js": [
         "./content/integrations.js"
@@ -67,8 +67,8 @@
     },
     {
       "matches": [
-        "https://stickynotespro.m2kdevelopments.com/",
-        "https://stickynotespro.com/"
+        "https://stickynotespro.vercel.app/",
+        "https://stickynotespro.vercel.app/"
       ],
       "js": [
         "./content/website.js"

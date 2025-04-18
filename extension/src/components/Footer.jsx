@@ -17,7 +17,7 @@ function Footer() {
 
     const onToggle = () => chrome.storage.local.set({ active: !active }, () => setActive(!active));
 
-    const onWebsite = (route) => chrome.tabs.create({ url: `https://stickynotespro.m2kdevelopments.com/${route}` });
+    const onWebsite = (route) => chrome.tabs.create({ url: `https://stickynotespro.vercel.app/${route}` });
 
     const onUrl = (url) => chrome.tabs.create({ url });
 

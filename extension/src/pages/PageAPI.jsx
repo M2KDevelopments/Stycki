@@ -46,9 +46,9 @@ function PageAPI() {
 
             if (result) navigation('/login')
         } else {
-            const result = await openOAuthWindow(`https://stickynotespro.m2kdevelopments.com/api/integrations/${platform}/oauth?t=${token}`)
+            const result = await openOAuthWindow(`https://stickynotespro.vercel.app/api/integrations/${platform}/oauth?t=${token}`)
             if (result.result) swal('API Integration', 'Connection was successfully', 'success');
-            // chrome.windows.create({ url: `https://stickynotespro.m2kdevelopments.com/api/integrations/${platform}/oauth?t=${token}`, type: "panel" });
+            // chrome.windows.create({ url: `https://stickynotespro.vercel.app/api/integrations/${platform}/oauth?t=${token}`, type: "panel" });
         }
     }
 

@@ -65,7 +65,7 @@ function Navigation() {
         <Button title="Home" size="small" color="inherit" variant='contained' as={Link} to="/" style={{ fontSize: "0.6rem", borderRadius: 24 }}>
           <img style={{ cursor: "pointer" }} alt="Sticky Notes Pro" className="logo" src={logo} width={20} />
         </Button>
-        <Button size='small' color='secondary' variant='contained' style={{ fontSize: "0.6rem", borderRadius: 24 }} onClick={() => chrome.tabs.create({ url: 'https://stickynotespro.m2kdevelopments.com#priceplans' })}>
+        <Button size='small' color='secondary' variant='contained' style={{ fontSize: "0.6rem", borderRadius: 24 }} onClick={() => chrome.tabs.create({ url: 'https://stickynotespro.vercel.app#priceplans' })}>
           <AiFillDollarCircle size={20} />{" "}Buy More Notes
         </Button>
       </div>
