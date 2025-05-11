@@ -1,0 +1,66 @@
+{
+  "name": "Sticky Notes Pro",
+  "short_name": "Sticky Notes Pro",
+  "version": "1.003",
+  "description": "📒Effortlessly create, manage, and organize sticky notes📝, ensuring that you never miss important information",
+  "manifest_version": 3,
+  "minimum_chrome_version": "88",
+  "homepage_url": "https://m2kdevelopments.com",
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Sticky Notes Pro",
+    "default_icon": {
+      "16": "logo192.png",
+      "32": "logo192.png",
+      "48": "logo192.png"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "icons": {
+    "16": "logo192.png",
+    "32": "logo192.png",
+    "48": "logo192.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "content_scripts": [
+   
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "./libs/toastr.js",
+        "./libs/toastify.js",
+        "./libs/sweetalert.js",
+        "./libs/jquery-3.7.0.min.js",
+        "./content.js"
+      ],
+      "css": [
+        "./libs/toastify.css",
+        "./libs/toastr.css",
+        "./libs/bootstrap.css",
+        "./styles.css"
+      ],
+      "run_at": "document_end",
+      "all_frames": false
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "/icons/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}
