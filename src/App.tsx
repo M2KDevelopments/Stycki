@@ -1,6 +1,6 @@
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
-import { ActionIcon, Badge, MantineProvider, Stack, TextInput, Tooltip } from '@mantine/core';
+import { ActionIcon, Badge, MantineProvider, Stack, Switch, TextInput, Tooltip } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { notifications } from '@mantine/notifications';
 import { useCallback, useEffect, useState } from 'react';
@@ -173,6 +173,8 @@ const App = () => {
 											<span onClick={() => chrome.tabs.create({ url: notes[0].url })} className='font-thin text-xs line-clamp-1 cursor-pointer hover:text-amber-600 hover:font-bold duration-200'>{notes[0].url}</span>
 										</div>
 										<div className='flex gap-3 justify-end'>
+
+											<Switch size="xl" onLabel="ON" offLabel="OFF" />
 
 											<Tooltip label="Copy web url">
 												<ActionIcon color='lightgray'
