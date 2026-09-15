@@ -49,7 +49,7 @@ const App = () => {
 		setUrlNoteMap(map);
 	}, [notes]);
 
-	const onToggle = (e: any) => chrome.storage.local.set({ active: !active }, () => setActive(!active));
+	const onToggle = () => chrome.storage.local.set({ active: !active }, () => setActive(!active));
 
 	const filter = useCallback((notes: any[]) => {
 		if (search.replace(/\s/gmi, '') === '') return true;
@@ -133,7 +133,7 @@ const App = () => {
 					<span className='text-2xl font-bold text-white'>Stycki</span>
 					<div className='w-full flex justify-end pr-4 gap-4'>
 
-						<Switch checked={active} onChange={(event) => onToggle(event)} size="xl" onLabel="ON" offLabel="OFF" />
+						<Switch checked={active} onChange={() => onToggle()} size="xl" onLabel="ON" offLabel="OFF" />
 
 						<Tooltip label="Check out Github">
 							<ActionIcon color='grape' onClick={() => chrome.tabs.create({ url: "https://github.com/M2kDevelopments/Stycki" })}>
@@ -181,8 +181,6 @@ const App = () => {
 											<span onClick={() => chrome.tabs.create({ url: notes[0].url })} className='font-thin text-xs line-clamp-1 cursor-pointer hover:text-amber-600 hover:font-bold duration-200'>{notes[0].url}</span>
 										</div>
 										<div className='flex gap-3 justify-end'>
-
-											<Switch size="xl" onLabel="ON" offLabel="OFF" />
 
 											<Tooltip label="Copy web url">
 												<ActionIcon color='lightgray'
