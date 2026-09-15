@@ -133,7 +133,7 @@ const App = () => {
 					<span className='text-2xl font-bold text-white'>Stycki</span>
 					<div className='w-full flex justify-end pr-4 gap-4'>
 
-						<Switch checked={active} onChange={() => onToggle()} size="xl" onLabel="ON" offLabel="OFF" />
+						<Switch checked={active} onChange={() => onToggle()} size="lg" color='grape' onLabel="ON" offLabel="OFF" />
 
 						<Tooltip label="Check out Github">
 							<ActionIcon color='grape' onClick={() => chrome.tabs.create({ url: "https://github.com/M2kDevelopments/Stycki" })}>
