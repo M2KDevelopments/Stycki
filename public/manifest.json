@@ -1,14 +1,13 @@
 {
-  "name": "Sticky Notes Pro",
-  "short_name": "Sticky Notes Pro",
-  "version": "1.003",
+  "name": "Stycki",
+  "short_name": "Stycki",
+  "version": "2.0.0",
   "description": "📒Effortlessly create, manage, and organize sticky notes📝, ensuring that you never miss important information",
   "manifest_version": 3,
   "minimum_chrome_version": "88",
-  "homepage_url": "https://m2kdevelopments.com",
+  "homepage_url": "https://dev.m2kdevelopments.com",
   "action": {
-    "default_popup": "index.html",
-    "default_title": "Sticky Notes Pro",
+    "default_title": "Stycki",
     "default_icon": {
       "16": "logo192.png",
       "32": "logo192.png",
@@ -17,7 +16,8 @@
   },
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "sidePanel"
   ],
   "icons": {
     "16": "logo192.png",
@@ -31,7 +31,6 @@
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
   "content_scripts": [
-   
     {
       "matches": [
         "<all_urls>"

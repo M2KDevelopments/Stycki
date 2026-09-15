@@ -1,17 +1,12 @@
 /*global chrome */
 /* eslint-disable no-undef */
 
-/**
- * author: Martin Kululanga
- * github: https://github.com/m2kdevelopments
- */
-
 let offsetX = 0, offsetY = 0, isDragging = false, movableDiv = null;
 
 chrome.storage.sync.get('active', data => {
     if (!data.active) return;
 
-    console.log('Running Sticky Notes Pro')
+    console.log('Running Stycki')
 
     // Create start button
     const buttonStart = document.createElement("button");
@@ -289,7 +284,7 @@ async function createNote(id, defaultNote = null, disabled = false) {
             dialog.showModal();
 
             // Close Note
-            dialog.querySelector('button[title="Close"]').onclick = () =>  dialog.close();
+            dialog.querySelector('button[title="Close"]').onclick = () => dialog.close();
             dialog.onclose = () => dialog.remove();
 
             // Change Color
