@@ -26,7 +26,8 @@ const App = () => {
 	const [search, setSearch] = useState("");
 	const [active, setActive] = useState(false);
 
-    useEffect(() => chrome.storage.local.get('active', data => setActive(data.active ? data.active : false)), [])
+	// toggle activity
+	useEffect(() => chrome.storage.local.get('active', (data: any) => setActive(data.active ? data.active : false)), [])
 
 	// Get chrome notes
 	useEffect(() => {
@@ -48,7 +49,7 @@ const App = () => {
 		setUrlNoteMap(map);
 	}, [notes]);
 
-	const onToggle = () => chrome.storage.local.set({ active: !active }, () => setActive(!active));
+	const onToggle = (e: any) => chrome.storage.local.set({ active: !active }, () => setActive(!active));
 
 	const filter = useCallback((notes: any[]) => {
 		if (search.replace(/\s/gmi, '') === '') return true;
@@ -131,6 +132,8 @@ const App = () => {
 					</div>
 					<span className='text-2xl font-bold text-white'>Stycki</span>
 					<div className='w-full flex justify-end pr-4 gap-4'>
+
+						<Switch checked={active} onChange={(event) => onToggle(event)} size="xl" onLabel="ON" offLabel="OFF" />
 
 						<Tooltip label="Check out Github">
 							<ActionIcon color='grape' onClick={() => chrome.tabs.create({ url: "https://github.com/M2kDevelopments/Stycki" })}>
