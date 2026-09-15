@@ -24,6 +24,9 @@ const App = () => {
 	const [notes, setNotes] = useState<INote[]>([]);
 	const [urlNoteMap, setUrlNoteMap] = useState(new Map());
 	const [search, setSearch] = useState("");
+	const [active, setActive] = useState(false);
+
+    useEffect(() => chrome.storage.local.get('active', data => setActive(data.active ? data.active : false)), [])
 
 	// Get chrome notes
 	useEffect(() => {
@@ -43,7 +46,9 @@ const App = () => {
 			else map.set(url, [note]);
 		}
 		setUrlNoteMap(map);
-	}, [notes])
+	}, [notes]);
+
+	const onToggle = () => chrome.storage.local.set({ active: !active }, () => setActive(!active));
 
 	const filter = useCallback((notes: any[]) => {
 		if (search.replace(/\s/gmi, '') === '') return true;
