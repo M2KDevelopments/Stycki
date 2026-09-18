@@ -1,7 +1,7 @@
 {
   "name": "Stycki",
   "short_name": "Stycki",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "📒Effortlessly create, manage, and organize sticky notes📝, ensuring that you never miss important information",
   "manifest_version": 3,
   "minimum_chrome_version": "88",

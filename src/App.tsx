@@ -27,7 +27,10 @@ const App = () => {
 	const [active, setActive] = useState(false);
 
 	// toggle activity
-	useEffect(() => chrome.storage.local.get('active', (data: any) => setActive(data.active ? data.active : false)), [])
+	useEffect(() => chrome.storage.sync.get('active', (data: any) => setActive(data.active ? data.active : false)), []);
+	useEffect(() => {
+		chrome.storage.sync.set({ active: active });
+	}, [active]);
 
 	// Get chrome notes
 	useEffect(() => {
