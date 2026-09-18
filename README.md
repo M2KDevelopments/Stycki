@@ -16,3 +16,4 @@ Stycki, a powerful Chrome extension designed to revolutionize your web browsing 
 - 1. Effortless Sticky Notes: Create and customize sticky notes instantly on any webpage.
 - 2. Color Coding: Organize your notes with a variety of colors for easy identification.
 - 3. Drag-and-Drop: Move and resize notes to fit your workflow perfectly.
+- 4. Sync Across Devices: Access your notes from any device with Chrome installed, ensuring your productivity is never bound to a single workstation.
