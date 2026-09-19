@@ -184,7 +184,7 @@ async function createNote(id, defaultNote = null, disabled = false) {
     div.innerHTML = disabled ? `
     <section style="background:${color}">
         <div class="appbar">
-            <p id="name-${id}" title="${title}">${title}</p>
+            <p id="name-${id}" title="${title}"><span>${title}</span></p>
             <nav>
                 <input disabled type="color" value="${color}" title="Sticky Note Color"/>
                 <button disabled title="Minimize"></button>
@@ -200,7 +200,7 @@ async function createNote(id, defaultNote = null, disabled = false) {
         : `
     <section style="background:${color}">
         <div class="appbar">
-            <p id="name-${id}" title="Double click to rename note">${title}</p>
+            <p id="name-${id}" title="Double click to rename note"><span>${title}</span></p>
             <nav>
                 <input type="color" value="${color}" title="Sticky Note Color"/>
                 <button title="Minimize"></button>
@@ -268,7 +268,7 @@ async function createNote(id, defaultNote = null, disabled = false) {
             dialog.classList.add('stickynotespro-paper-max');
             dialog.innerHTML = `<section style="background:${color}">
                 <div class="appbar">
-                    <p id="name-${id}" title="Double click to rename note">${title}</p>
+                    <p id="name-${id}" title="Double click to rename note"><span>${title}</span></p>
                     <nav>
                         <input type="color" value="${color}" title="Sticky Note Color"/>
                         <button disabled></button>
@@ -393,7 +393,7 @@ async function showNotesOnSideBar() {
         div.innerHTML = `
         <section style="background:${color}">
             <div class="appbar">
-                <p id="name-${id}" title="Double click to rename note">${name}</p>
+                <p id="name-${id}" title="Double click to rename note"><span>${name}</span></p>
                 <nav>
                     <input type="color" value="${color}" title="Sticky Note Color"/>
                     <button disabled title="Minimize (Disabled)"></button>
@@ -463,6 +463,10 @@ async function showNotesOnSideBar() {
         for (const note of filtered) document.getElementById(note.id).style.display = 'none';
     }
 
-    sidebar.prepend(searchTexxArea);
-    sidebar.append(closeButton);
+    // sidebar appbar
+    const divAppBar = document.createElement("nav");
+    divAppBar.classList.add("sidebar-nav");
+    sidebar.prepend(divAppBar);
+    divAppBar.append(searchTexxArea)
+    divAppBar.append(closeButton);
 }

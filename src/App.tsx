@@ -39,6 +39,17 @@ const App = () => {
 			if (notes) setNotes(notes);
 		});
 
+		const listener = (_changes: { [key: string]: chrome.storage.StorageChange }, _areaName: chrome.storage.AreaName) => {
+			chrome.storage.sync.get('notes', async (data: any) => {
+				const { notes } = data;
+				if (notes) setNotes(notes);
+			});
+		}
+
+		chrome.storage.onChanged.addListener(listener);
+
+		return () => chrome.storage.onChanged.removeListener(listener);
+
 	}, []);
 
 	// Auto update notes

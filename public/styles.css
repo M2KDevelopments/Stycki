@@ -124,8 +124,12 @@
     padding-top: 5px;
 }
 
-.stickynotespro-paper-max .appbar{
+.stickynotespro-paper-max .appbar {
     height: 6%;
+}
+
+.stickynotespro-paper .appbar p span {
+    cursor: pointer;
 }
 
 .stickynotespro-paper p {
@@ -145,10 +149,11 @@
     overflow: hidden;
 }
 
-.stickynotespro-paper-max p{
+.stickynotespro-paper-max p {
     max-width: 100%;
     width: 100%;
 }
+
 
 .stickynotespro-paper article {
     width: 245px;
@@ -206,7 +211,7 @@
     height: 14px;
     cursor: pointer;
     transition: 0.6s all;
-    border: none;
+    border: 1px solid white;
     border-radius: 50%;
     margin: 3px 3px;
 }
@@ -219,7 +224,8 @@
 }
 
 .stickynotespro-paper button[title="Close"] {
-    background: radial-gradient(circle at center, #ff2c2c, #cf3131);
+    background: #cf3131;
+    /*radial-gradient(circle at center, #ff2c2c, #cf3131);*/
 }
 
 .stickynotespro-paper button[title="Close"]:hover {
@@ -227,19 +233,21 @@
 }
 
 .stickynotespro-paper button[title="Minimize"] {
-    background: radial-gradient(circle at center, #ffff34, #c0c002);
+    background: #c08702;
+    /*radial-gradient(circle at center, #ffff34, #c0c002);*/
 }
 
 .stickynotespro-paper button[title="Minimize"]:hover {
-    background: #797900;
+    background: #cece04;
 }
 
 .stickynotespro-paper button[title="Maximize"] {
-    background: radial-gradient(circle at center, #40ff40, green);
+    background: #22a250;
+    /*radial-gradient(circle at center, #40ff40, green);*/
 }
 
 .stickynotespro-paper button[title="Maximize"]:hover {
-    background: #014601;
+    background: #006200;
 }
 
 
@@ -254,7 +262,7 @@
     background: #0000005e;
 }
 
-.stickynotespro-max-dialog{
+.stickynotespro-max-dialog {
     display: flex;
     justify-content: center;
 }
@@ -270,30 +278,40 @@
     border-bottom-left-radius: 5px;
     right: 0px;
     top: 10%;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    background: #f2f2f2aa;
+    background: #313131ab;
+    box-shadow: #2c2c3633 0px 7px 29px 0px;
     overflow-y: scroll;
     align-items: center;
-    padding: 20px;
+    padding: 5px;
     max-height: 60%;
+}
+
+.stickynotespro-sidebar nav.sidebar-nav {
+    width: 95%;
+    display: flex;
+    gap: 4px;
+    padding: 5px;
+    background: #1f1f21;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
 }
 
 .stickynotespro-sidebar input[type="search"] {
     width: 94%;
     margin: 6px;
-    border-radius: 20px;
+    border-radius: 5px;
     padding: 0px 10px;
+    padding: 6px 6px;
+    font-family: cursive;
 }
 
 .stickynotespro-sidebar .close-button {
-    position: absolute;
-    top: 0px;
-    right: 0px;
     font-size: 1.0rem;
     font-weight: 900;
     color: white;
     border: none;
-    border-radius: 17px;
+    border-radius: 5px;
     background: linear-gradient(45deg, red, transparent);
     cursor: pointer;
     padding: 0px;
